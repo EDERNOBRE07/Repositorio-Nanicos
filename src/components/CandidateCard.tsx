@@ -52,11 +52,11 @@ export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelec
             <img 
               src={candidate.photoUrl} 
               alt={candidate.name} 
-              className="w-16 h-16 rounded-none object-cover border-2 border-[#1A1A1B] flex-shrink-0"
+              className="w-[60px] h-[80px] rounded-none object-cover border-2 border-[#1A1A1B] flex-shrink-0"
               referrerPolicy="no-referrer"
             />
           ) : (
-            <div className={`w-16 h-16 rounded-none flex flex-col items-center justify-center font-black text-lg flex-shrink-0 border-2 border-[#1A1A1B] ${
+            <div className={`w-[60px] h-[80px] rounded-none flex flex-col items-center justify-center font-black text-lg flex-shrink-0 border-2 border-[#1A1A1B] ${
               isPsdb ? "bg-[#004488]/10 text-[#004488]" : "bg-amber-50 text-amber-700"
             }`}>
               {candidate.name.substring(0, 2).toUpperCase()}

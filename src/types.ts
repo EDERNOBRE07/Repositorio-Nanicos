@@ -30,6 +30,9 @@ export interface CandidatePublication {
   rejectReason?: string;
   postUrl?: string;
   lastUpdated: string;
+  postType?: "Reels" | "Feed" | "Dark Post" | string;
+  area?: string;
+  cities?: string[];
 }
 
 export interface KeyContact {

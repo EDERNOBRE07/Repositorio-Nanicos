@@ -7,6 +7,20 @@ import {
 } from "lucide-react";
 import { SANTA_CATARINA_REGIONS } from "../data/regionsData";
 
+const MONTHS_PT = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
+
+const DAYS_PT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+const getStartOfWeek = (d: Date) => {
+  const date = new Date(d);
+  const day = date.getDay();
+  const diff = date.getDate() - day;
+  return new Date(date.setDate(diff));
+};
+
 interface FichaAcompanhamentoProps {
   candidate: Candidate;
   onBack: () => void;
@@ -26,6 +40,13 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
   const [pubSearchQuery, setPubSearchQuery] = useState("");
   const [pubPlatformFilter, setPubPlatformFilter] = useState("TODAS");
   const [pubStatusFilter, setPubStatusFilter] = useState("TODOS");
+  const [pubFormatFilter, setPubFormatFilter] = useState("TODOS");
+  const [pubPostTypeFilter, setPubPostTypeFilter] = useState("TODOS");
+  const [pubAreaFilter, setPubAreaFilter] = useState("TODOS");
+  const [planningViewMode, setPlanningViewMode] = useState<"diario" | "semanal" | "mensal">("mensal");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date(2026, 6, 10)); // July 10, 2026
+  const [currentMonth, setCurrentMonth] = useState<number>(6); // July
+  const [currentYear, setCurrentYear] = useState<number>(2026);
   const [editingPubId, setEditingPubId] = useState<string | null>(null);
   const [pubEditForm, setPubEditForm] = useState<Partial<CandidatePublication>>({});
   const [showNewPubModal, setShowNewPubModal] = useState(false);
@@ -345,21 +366,24 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
         });
         const resData = await response.json();
         if (resData.success) {
-          setFormData(prev => ({
-            ...prev,
-            publications: (prev.publications || []).map(p => {
-              if (p.id === pubId) {
-                return {
-                  ...p,
-                  status: "Enviado",
-                  fileName: file.name,
-                  fileSize: sizeStr,
-                  lastUpdated: new Date().toISOString()
-                };
-              }
-              return p;
-            })
-          }));
+          const updatedPublications = (formData.publications || []).map(p => {
+            if (p.id === pubId) {
+              return {
+                ...p,
+                status: "Enviado" as PublicationStatusType,
+                fileName: file.name,
+                fileSize: sizeStr,
+                lastUpdated: new Date().toISOString()
+              };
+            }
+            return p;
+          });
+          const nextData = {
+            ...formData,
+            publications: updatedPublications
+          };
+          setFormData(nextData);
+          await onSaveCandidate(nextData);
           setSaveStatus("salvo");
         } else {
           setSaveStatus("erro");
@@ -394,14 +418,19 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
         });
         const resData = await response.json();
         if (resData.success) {
-          setFormData(prev => ({
-            ...prev,
+          const nextData = {
+            ...formData,
             photoUrl: resData.candidate.photoUrl
-          }));
+          };
+          setFormData(nextData);
+          await onSaveCandidate(nextData);
           setSaveStatus("salvo");
+        } else {
+          setSaveStatus("erro");
         }
       } catch (error) {
         console.error("Photo upload failed:", error);
+        setSaveStatus("erro");
       } finally {
         setPhotoUploading(false);
       }
@@ -1586,7 +1615,9 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                     date: new Date().toISOString().split("T")[0],
                     time: "12:00",
                     platforms: ["Instagram"],
-                    format: "Card",
+                    format: "Vertical",
+                    postType: "Feed",
+                    area: "Geral",
                     caption: "",
                     status: "Rascunho"
                   });
@@ -1599,6 +1630,97 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
               </button>
             </div>
 
+            {/* Filter controls row 2 - Advanced Filters & Visualization Toggles */}
+            <div className="flex flex-wrap items-center gap-4 mb-6 bg-slate-50 p-4 border-2 border-[#1A1A1B] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <div className="flex items-center gap-1.5 text-xs font-black uppercase text-gray-700">
+                <Filter size={14} className="text-[#004488]" />
+                Filtros Avançados:
+              </div>
+
+              {/* Format Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-extrabold uppercase text-gray-500">Formato:</span>
+                <select
+                  value={pubFormatFilter}
+                  onChange={(e) => setPubFormatFilter(e.target.value)}
+                  className="px-2 py-1 bg-white border border-[#1A1A1B] text-xs font-black uppercase focus:outline-hidden cursor-pointer"
+                >
+                  <option value="TODOS">TODOS</option>
+                  <option value="Vertical">Vertical</option>
+                  <option value="Horizontal">Horizontal</option>
+                </select>
+              </div>
+
+              {/* Post Type Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-extrabold uppercase text-gray-500">Tipo:</span>
+                <select
+                  value={pubPostTypeFilter}
+                  onChange={(e) => setPubPostTypeFilter(e.target.value)}
+                  className="px-2 py-1 bg-white border border-[#1A1A1B] text-xs font-black uppercase focus:outline-hidden cursor-pointer"
+                >
+                  <option value="TODOS">TODOS</option>
+                  <option value="Feed">Feed</option>
+                  <option value="Reels">Reels</option>
+                  <option value="Dark Post">Dark Post</option>
+                </select>
+              </div>
+
+              {/* Area Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-extrabold uppercase text-gray-500">Área:</span>
+                <select
+                  value={pubAreaFilter}
+                  onChange={(e) => setPubAreaFilter(e.target.value)}
+                  className="px-2 py-1 bg-white border border-[#1A1A1B] text-xs font-black uppercase focus:outline-hidden cursor-pointer"
+                >
+                  <option value="TODOS">TODAS AS ÁREAS</option>
+                  <option value="Geral">Geral (Toda SC)</option>
+                  {Array.from(new Set([
+                    ...SANTA_CATARINA_REGIONS.map(r => r.region),
+                    ...((formData.mappings || []).filter(m => m.atuacao).map(m => m.cityName)),
+                    ...((formData.publications || []).map(p => p.area).filter(Boolean) as string[])
+                  ])).map(area => (
+                    <option key={area} value={area}>{area}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Visualizer Mode Toggle */}
+              <div className="md:ml-auto flex items-center bg-gray-200 border-2 border-[#1A1A1B] p-0.5 rounded-none shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                <button
+                  onClick={() => setPlanningViewMode("diario")}
+                  className={`px-3 py-1 text-[10px] font-black uppercase transition cursor-pointer whitespace-nowrap ${
+                    planningViewMode === "diario" 
+                      ? "bg-[#004488] text-white" 
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Diário
+                </button>
+                <button
+                  onClick={() => setPlanningViewMode("semanal")}
+                  className={`px-3 py-1 text-[10px] font-black uppercase transition cursor-pointer whitespace-nowrap ${
+                    planningViewMode === "semanal" 
+                      ? "bg-[#004488] text-white" 
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Semanal
+                </button>
+                <button
+                  onClick={() => setPlanningViewMode("mensal")}
+                  className={`px-3 py-1 text-[10px] font-black uppercase transition cursor-pointer whitespace-nowrap ${
+                    planningViewMode === "mensal" 
+                      ? "bg-[#004488] text-white" 
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Mensal
+                </button>
+              </div>
+            </div>
+
             {/* List of Publications */}
             {(() => {
               const filteredPubs = (formData.publications || []).filter(p => {
@@ -1607,7 +1729,10 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                   (p.caption && p.caption.toLowerCase().includes(pubSearchQuery.toLowerCase()));
                 const matchesPlatform = pubPlatformFilter === "TODAS" || p.platforms.includes(pubPlatformFilter as any);
                 const matchesStatus = pubStatusFilter === "TODOS" || p.status === pubStatusFilter;
-                return matchesSearch && matchesPlatform && matchesStatus;
+                const matchesFormat = pubFormatFilter === "TODOS" || p.format === pubFormatFilter;
+                const matchesPostType = pubPostTypeFilter === "TODOS" || p.postType === pubPostTypeFilter;
+                const matchesArea = pubAreaFilter === "TODOS" || p.area === pubAreaFilter;
+                return matchesSearch && matchesPlatform && matchesStatus && matchesFormat && matchesPostType && matchesArea;
               });
 
               if (filteredPubs.length === 0) {
@@ -1719,6 +1844,100 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                               </div>
                             </div>
 
+                            {/* Área de Publicação (Regional) Select */}
+                            <div>
+                              <label className="block text-[10px] font-black uppercase text-gray-700 mb-1">Área de Publicação (Regional)</label>
+                              <select
+                                value={pubEditForm.area || ""}
+                                onChange={(e) => {
+                                  const nextArea = e.target.value;
+                                  setPubEditForm(prev => ({
+                                    ...prev,
+                                    area: nextArea,
+                                    cities: []
+                                  }));
+                                }}
+                                className="w-full p-2 border-2 border-[#1A1A1B] text-xs font-black uppercase focus:outline-hidden"
+                              >
+                                <option value="">-- SELECIONE UMA REGIONAL --</option>
+                                <option value="Geral">GERAL (TODA SC)</option>
+                                {SANTA_CATARINA_REGIONS.map(r => (
+                                  <option key={r.region} value={r.region}>{r.region}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            {/* Novo Campo de Cidades da Regional */}
+                            {pubEditForm.area && pubEditForm.area !== "Geral" && (
+                              <div>
+                                <div className="flex items-center justify-between mb-1.5">
+                                  <label className="block text-[10px] font-black uppercase text-gray-700">
+                                    Cidades Vinculadas à Regional para Publicação
+                                  </label>
+                                  <div className="flex gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const allRegCities = SANTA_CATARINA_REGIONS.find(r => r.region === pubEditForm.area)?.cities.map(c => c.name) || [];
+                                        setPubEditForm(prev => ({ ...prev, cities: allRegCities }));
+                                      }}
+                                      className="text-[9px] font-black text-emerald-700 hover:underline uppercase cursor-pointer"
+                                    >
+                                      [ Selecionar Todas ]
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setPubEditForm(prev => ({ ...prev, cities: [] }));
+                                      }}
+                                      className="text-[9px] font-black text-rose-700 hover:underline uppercase cursor-pointer"
+                                    >
+                                      [ Limpar Seleção ]
+                                    </button>
+                                  </div>
+                                </div>
+                                
+                                {(() => {
+                                  const regData = SANTA_CATARINA_REGIONS.find(r => r.region === pubEditForm.area);
+                                  if (!regData || regData.cities.length === 0) {
+                                    return <p className="text-[10px] text-gray-400 uppercase font-bold">Nenhuma cidade encontrada para esta regional.</p>;
+                                  }
+                                  return (
+                                    <div className="grid grid-cols-2 gap-2 border-2 border-[#1A1A1B] p-2 bg-gray-50 max-h-40 overflow-y-auto">
+                                      {regData.cities.map(city => {
+                                        const isSelected = (pubEditForm.cities || []).includes(city.name);
+                                        return (
+                                          <div
+                                            key={city.name}
+                                            onClick={() => {
+                                              const current = pubEditForm.cities || [];
+                                              const next = current.includes(city.name)
+                                                ? current.filter(c => c !== city.name)
+                                                : [...current, city.name];
+                                              setPubEditForm(prev => ({ ...prev, cities: next }));
+                                            }}
+                                            className={`p-2 border-2 text-[11px] font-bold uppercase transition cursor-pointer flex items-center justify-between rounded-none ${
+                                              isSelected
+                                                ? "bg-blue-50 border-[#004488] text-[#004488] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                                                : "bg-white border-gray-300 hover:border-[#1A1A1B] text-gray-700"
+                                            }`}
+                                          >
+                                            <span className="truncate pr-1">{city.name}</span>
+                                            <input 
+                                              type="checkbox"
+                                              checked={isSelected}
+                                              readOnly
+                                              className="h-3 w-3 accent-[#004488] pointer-events-none flex-shrink-0"
+                                            />
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  );
+                                })()}
+                              </div>
+                            )}
+
                             {/* Caption area */}
                             <div>
                               <label className="block text-[10px] font-black uppercase text-gray-700 mb-1">Legenda Recomendada / Roteiro</label>
@@ -1813,6 +2032,36 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                                   Formato: <strong className="text-gray-700">{pub.format}</strong>
                                 </span>
                               </div>
+
+                              {/* Regional & Selected Cities */}
+                              {pub.area && (
+                                <div className="mb-3 text-xs">
+                                  <span className="text-[9px] font-black uppercase text-gray-500 block mb-1">
+                                    📍 Regional / Cidades:
+                                  </span>
+                                  <div className="bg-slate-50 border border-gray-200 p-2 rounded-none space-y-1">
+                                    <div className="text-[11px] font-black text-[#004488] uppercase">
+                                      {pub.area}
+                                    </div>
+                                    {pub.cities && pub.cities.length > 0 ? (
+                                      <div className="flex flex-wrap gap-1 mt-1">
+                                        {pub.cities.map(city => (
+                                          <span 
+                                            key={city} 
+                                            className="px-1 py-0.5 bg-white border border-gray-300 text-[9px] font-bold text-gray-700 uppercase"
+                                          >
+                                            {city}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <span className="text-[9px] font-bold text-gray-400 uppercase block italic">
+                                        (Toda a regional selecionada)
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
 
                               {/* Platforms Pillets */}
                               <div className="flex flex-wrap gap-1 mb-3">
@@ -2054,6 +2303,100 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                   <option value="Live">TRANSMISSÃO AO VIVO</option>
                 </select>
               </div>
+
+              {/* Área de Publicação (Regional) Select */}
+              <div>
+                <label className="block text-[10px] font-black uppercase text-gray-700 mb-1">Área de Publicação (Regional)</label>
+                <select
+                  value={pubEditForm.area || ""}
+                  onChange={(e) => {
+                    const nextArea = e.target.value;
+                    setPubEditForm(prev => ({
+                      ...prev,
+                      area: nextArea,
+                      cities: []
+                    }));
+                  }}
+                  className="w-full p-2 border-2 border-[#1A1A1B] text-xs font-black uppercase focus:outline-hidden"
+                >
+                  <option value="">-- SELECIONE UMA REGIONAL --</option>
+                  <option value="Geral">GERAL (TODA SC)</option>
+                  {SANTA_CATARINA_REGIONS.map(r => (
+                    <option key={r.region} value={r.region}>{r.region}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Novo Campo de Cidades da Regional */}
+              {pubEditForm.area && pubEditForm.area !== "Geral" && (
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-[10px] font-black uppercase text-gray-700">
+                      Cidades Vinculadas à Regional para Publicação
+                    </label>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const allRegCities = SANTA_CATARINA_REGIONS.find(r => r.region === pubEditForm.area)?.cities.map(c => c.name) || [];
+                          setPubEditForm(prev => ({ ...prev, cities: allRegCities }));
+                        }}
+                        className="text-[9px] font-black text-emerald-700 hover:underline uppercase cursor-pointer"
+                      >
+                        [ Selecionar Todas ]
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPubEditForm(prev => ({ ...prev, cities: [] }));
+                        }}
+                        className="text-[9px] font-black text-rose-700 hover:underline uppercase cursor-pointer"
+                      >
+                        [ Limpar Seleção ]
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {(() => {
+                    const regData = SANTA_CATARINA_REGIONS.find(r => r.region === pubEditForm.area);
+                    if (!regData || regData.cities.length === 0) {
+                      return <p className="text-[10px] text-gray-400 uppercase font-bold">Nenhuma cidade encontrada para esta regional.</p>;
+                    }
+                    return (
+                      <div className="grid grid-cols-2 gap-2 border-2 border-[#1A1A1B] p-2 bg-gray-50 max-h-40 overflow-y-auto">
+                        {regData.cities.map(city => {
+                          const isSelected = (pubEditForm.cities || []).includes(city.name);
+                          return (
+                            <div
+                              key={city.name}
+                              onClick={() => {
+                                const current = pubEditForm.cities || [];
+                                const next = current.includes(city.name)
+                                  ? current.filter(c => c !== city.name)
+                                  : [...current, city.name];
+                                setPubEditForm(prev => ({ ...prev, cities: next }));
+                              }}
+                              className={`p-2 border-2 text-[11px] font-bold uppercase transition cursor-pointer flex items-center justify-between rounded-none ${
+                                isSelected
+                                  ? "bg-blue-50 border-[#004488] text-[#004488] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                                  : "bg-white border-gray-300 hover:border-[#1A1A1B] text-gray-700"
+                              }`}
+                            >
+                              <span className="truncate pr-1">{city.name}</span>
+                              <input 
+                                type="checkbox"
+                                checked={isSelected}
+                                readOnly
+                                className="h-3 w-3 accent-[#004488] pointer-events-none flex-shrink-0"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
 
               {/* Caption input */}
               <div>
@@ -2329,7 +2672,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
           </tr>
           <tr>
             <td className="label">Email Oficial:</td>
-            <td colspan={3}><span className="input-line">{formData.email}</span></td>
+            <td colSpan={3}><span className="input-line">{formData.email}</span></td>
           </tr>
         </table>
 
@@ -2349,11 +2692,11 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
         <table className="form-grid">
           <tr>
             <td className="label" style={{ width: "15%" }}>Atuação Profissional:</td>
-            <td colspan={5}><span className="input-line">{formData.professionalBackground}</span></td>
+            <td colSpan={5}><span className="input-line">{formData.professionalBackground}</span></td>
           </tr>
           <tr>
             <td className="label">Áreas de Interesse:</td>
-            <td colspan={5}><span className="input-line">{formData.areasOfInterest}</span></td>
+            <td colSpan={5}><span className="input-line">{formData.areasOfInterest}</span></td>
           </tr>
           <tr>
             <td className="label" style={{ width: "8%" }}>Equipes:</td>

@@ -4,6 +4,8 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { initializeApp } from "firebase/app";
+import { getFirestore, initializeFirestore, doc, getDoc, getDocs, setDoc, deleteDoc, collection } from "firebase/firestore";
 
 dotenv.config();
 
@@ -11,6 +13,13 @@ const app = express();
 const PORT = 3000;
 const DATA_FILE = path.join(process.cwd(), "data.json");
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+
+// Initialize Firebase using the configuration file
+const firebaseConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), "firebase-applet-config.json"), "utf8"));
+const firebaseApp = initializeApp(firebaseConfig);
+const firestoreDb = initializeFirestore(firebaseApp, {
+  ignoreUndefinedProperties: true
+}, firebaseConfig.firestoreDatabaseId || "(default)");
 
 // Ensure uploads folder exists
 if (!fs.existsSync(UPLOADS_DIR)) {
@@ -276,51 +285,74 @@ const DEFAULT_REPORTS = [
   }
 ];
 
-// Seed databases if they don't exist
-if (!fs.existsSync(DATA_FILE)) {
-  const seedData = {
-    candidates: getSeedCandidates(),
-    deadlines: DEFAULT_DEADLINES,
-    reports: DEFAULT_REPORTS
-  };
-  fs.writeFileSync(DATA_FILE, JSON.stringify(seedData, null, 2), "utf-8");
-} else {
-  // Let's make sure the file is valid JSON and has all keys, otherwise seed
+// Seed databases in Firestore if they don't exist
+async function seedFirestoreIfNeeded() {
   try {
-    const raw = fs.readFileSync(DATA_FILE, "utf-8");
-    const parsed = JSON.parse(raw);
-    if (!parsed.candidates || !parsed.deadlines || !parsed.reports) {
-      throw new Error("Missing keys");
+    const snapshot = await getDocs(collection(firestoreDb, "candidates"));
+    if (snapshot.empty) {
+      console.log("Firestore is empty. Seeding database with default candidates, deadlines, and reports...");
+      
+      const seedCandidates = getSeedCandidates();
+      for (const candidate of seedCandidates) {
+        await setDoc(doc(firestoreDb, "candidates", candidate.id), candidate);
+      }
+      
+      for (const deadline of DEFAULT_DEADLINES) {
+        await setDoc(doc(firestoreDb, "deadlines", deadline.id), deadline);
+      }
+      
+      for (const report of DEFAULT_REPORTS) {
+        await setDoc(doc(firestoreDb, "reports", report.id), report);
+      }
+      console.log("Firestore seeding completed successfully!");
+    } else {
+      console.log("Firestore already contains data. Skipping seeding.");
     }
-  } catch (e) {
-    const seedData = {
-      candidates: getSeedCandidates(),
-      deadlines: DEFAULT_DEADLINES,
-      reports: DEFAULT_REPORTS
-    };
-    fs.writeFileSync(DATA_FILE, JSON.stringify(seedData, null, 2), "utf-8");
+  } catch (error) {
+    console.error("Error during Firestore seeding:", error);
   }
 }
 
-// Read database utility
-function readDB() {
+// Read database utilities
+async function getCandidatesFromFirestore(): Promise<any[]> {
   try {
-    const raw = fs.readFileSync(DATA_FILE, "utf-8");
-    return JSON.parse(raw);
+    const snapshot = await getDocs(collection(firestoreDb, "candidates"));
+    const list: any[] = [];
+    snapshot.forEach(doc => {
+      list.push(doc.data());
+    });
+    return list.sort((a, b) => a.id.localeCompare(b.id));
   } catch (error) {
-    console.error("Error reading db:", error);
-    return { candidates: [], deadlines: [], reports: [] };
+    console.error("Error fetching candidates from Firestore:", error);
+    return [];
   }
 }
 
-// Write database utility
-function writeDB(data: any) {
+async function getDeadlinesFromFirestore(): Promise<any[]> {
   try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
-    return true;
+    const snapshot = await getDocs(collection(firestoreDb, "deadlines"));
+    const list: any[] = [];
+    snapshot.forEach(doc => {
+      list.push(doc.data());
+    });
+    return list;
   } catch (error) {
-    console.error("Error writing db:", error);
-    return false;
+    console.error("Error fetching deadlines from Firestore:", error);
+    return [];
+  }
+}
+
+async function getReportsFromFirestore(): Promise<any[]> {
+  try {
+    const snapshot = await getDocs(collection(firestoreDb, "reports"));
+    const list: any[] = [];
+    snapshot.forEach(doc => {
+      list.push(doc.data());
+    });
+    return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  } catch (error) {
+    console.error("Error fetching reports from Firestore:", error);
+    return [];
   }
 }
 
@@ -372,21 +404,32 @@ app.use(express.json({ limit: "50mb" })); // Support base64 image and files uplo
 // API ENDPOINTS
 
 // 1. GET ALL DATA
-app.get("/api/dashboard", (req, res) => {
-  const db = readDB();
-  db.deadlines = updateDaysRemaining(db.deadlines);
-  res.json(db);
+app.get("/api/dashboard", async (req, res) => {
+  try {
+    const candidates = await getCandidatesFromFirestore();
+    const rawDeadlines = await getDeadlinesFromFirestore();
+    const reports = await getReportsFromFirestore();
+    const deadlines = updateDaysRemaining(rawDeadlines);
+    res.json({ candidates, deadlines, reports });
+  } catch (error) {
+    console.error("Error fetching dashboard:", error);
+    res.status(500).json({ error: "Erro ao obter dados do painel." });
+  }
 });
 
 // 2. CANDIDATES
-app.get("/api/candidates", (req, res) => {
-  const db = readDB();
-  res.json(db.candidates);
+app.get("/api/candidates", async (req, res) => {
+  try {
+    const candidates = await getCandidatesFromFirestore();
+    res.json(candidates);
+  } catch (error) {
+    console.error("Error fetching candidates:", error);
+    res.status(500).json({ error: "Erro ao obter candidatos." });
+  }
 });
 
 // Add or update candidate (Auto-save)
-app.post("/api/candidates", (req, res) => {
-  const db = readDB();
+app.post("/api/candidates", async (req, res) => {
   const candidate = req.body;
   
   if (!candidate.id) {
@@ -406,130 +449,144 @@ app.post("/api/candidates", (req, res) => {
   
   candidate.lastSaved = new Date().toISOString();
   
-  const index = db.candidates.findIndex((c: any) => c.id === candidate.id);
-  if (index !== -1) {
-    // Preserve any manual file names if the update payload doesn't contain them
-    const existing = db.candidates[index];
-    candidate.publications = candidate.publications.map((newPub: any) => {
-      const oldPub = (existing.publications || []).find((p: any) => p.id === newPub.id);
-      return {
-        ...newPub,
-        fileName: newPub.fileName || (oldPub ? oldPub.fileName : undefined),
-        fileSize: newPub.fileSize || (oldPub ? oldPub.fileSize : undefined),
-        status: newPub.status || (oldPub ? oldPub.status : "Rascunho")
-      };
-    });
-    db.candidates[index] = candidate;
-  } else {
-    db.candidates.push(candidate);
+  try {
+    const docRef = doc(firestoreDb, "candidates", candidate.id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      // Preserve any manual file names if the update payload doesn't contain them
+      const existing = docSnap.data();
+      candidate.publications = candidate.publications.map((newPub: any) => {
+        const oldPub = (existing.publications || []).find((p: any) => p.id === newPub.id);
+        return {
+          ...newPub,
+          fileName: newPub.fileName || (oldPub ? oldPub.fileName : undefined),
+          fileSize: newPub.fileSize || (oldPub ? oldPub.fileSize : undefined),
+          status: newPub.status || (oldPub ? oldPub.status : "Rascunho")
+        };
+      });
+    }
+    
+    await setDoc(docRef, candidate);
+    res.json({ success: true, candidate });
+  } catch (error) {
+    console.error("Error saving candidate to Firestore:", error);
+    res.status(500).json({ error: "Erro ao salvar candidato." });
   }
-  
-  writeDB(db);
-  res.json({ success: true, candidate });
 });
 
 // Delete candidate
-app.delete("/api/candidates/:id", (req, res) => {
-  const db = readDB();
+app.delete("/api/candidates/:id", async (req, res) => {
   const id = req.params.id;
-  db.candidates = db.candidates.filter((c: any) => c.id !== id);
-  writeDB(db);
-  res.json({ success: true, message: "Candidato removido com sucesso." });
+  try {
+    await deleteDoc(doc(firestoreDb, "candidates", id));
+    res.json({ success: true, message: "Candidato removido com sucesso." });
+  } catch (error) {
+    console.error("Error deleting candidate:", error);
+    res.status(500).json({ error: "Erro ao remover candidato." });
+  }
 });
 
 // Handle simulated file upload
-app.post("/api/candidates/:id/upload", (req, res) => {
-  const db = readDB();
+app.post("/api/candidates/:id/upload", async (req, res) => {
   const { id } = req.params;
   const { docId, pubId, fileName, fileSize, base64 } = req.body;
   const targetId = pubId || docId;
   
-  const candIndex = db.candidates.findIndex((c: any) => c.id === id);
-  if (candIndex === -1) {
-    return res.status(404).json({ error: "Candidato não encontrado" });
-  }
-  
-  const candidate = db.candidates[candIndex];
-  
-  // Update photoUrl if docId/targetId is 'photo'
-  if (targetId === "photo") {
-    // Write image to disk
-    if (base64) {
-      const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
-      const safeName = `cand_${id}_profile_${path.basename(fileName)}`;
-      const filePath = path.join(UPLOADS_DIR, safeName);
-      fs.writeFileSync(filePath, fileBuffer);
-      candidate.photoUrl = `/uploads/${safeName}`;
-    } else {
-      candidate.photoUrl = "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80";
+  try {
+    const docRef = doc(firestoreDb, "candidates", id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      return res.status(404).json({ error: "Candidato não encontrado" });
     }
-  } else {
-    // Update publication file in the schedule
+    
+    const candidate = docSnap.data();
+    
+    // Update photoUrl if docId/targetId is 'photo'
+    if (targetId === "photo") {
+      // Write image to disk
+      if (base64) {
+        const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
+        const safeName = `cand_${id}_profile_${path.basename(fileName)}`;
+        const filePath = path.join(UPLOADS_DIR, safeName);
+        fs.writeFileSync(filePath, fileBuffer);
+        candidate.photoUrl = `/uploads/${safeName}`;
+      } else {
+        candidate.photoUrl = "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80";
+      }
+    } else {
+      // Update publication file in the schedule
+      if (!candidate.publications) {
+        candidate.publications = [];
+      }
+      candidate.publications = candidate.publications.map((p: any) => {
+        if (p.id === targetId) {
+          // If file buffer is provided, save it
+          if (base64) {
+            const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
+            const safeName = `cand_${id}_pub_${targetId}_${path.basename(fileName)}`;
+            const filePath = path.join(UPLOADS_DIR, safeName);
+            fs.writeFileSync(filePath, fileBuffer);
+          }
+          return {
+            ...p,
+            status: "Enviado",
+            fileName: fileName,
+            fileSize: fileSize || "Incalculável",
+            lastUpdated: new Date().toISOString()
+          };
+        }
+        return p;
+      });
+    }
+    
+    candidate.lastSaved = new Date().toISOString();
+    await setDoc(docRef, candidate);
+    
+    res.json({ success: true, candidate });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    res.status(500).json({ error: "Erro ao salvar arquivo de upload." });
+  }
+});
+
+// Update Publication Status manually (Aprovado/Rejeitado/Postado)
+const handleStatusUpdate = async (req: any, res: any) => {
+  const { id } = req.params;
+  const { pubId, docId, status, rejectReason, postUrl } = req.body;
+  const targetId = pubId || docId;
+  
+  try {
+    const docRef = doc(firestoreDb, "candidates", id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      return res.status(404).json({ error: "Candidato não encontrado" });
+    }
+    
+    const candidate = docSnap.data();
     if (!candidate.publications) {
       candidate.publications = [];
     }
     candidate.publications = candidate.publications.map((p: any) => {
       if (p.id === targetId) {
-        // If file buffer is provided, save it
-        if (base64) {
-          const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
-          const safeName = `cand_${id}_pub_${targetId}_${path.basename(fileName)}`;
-          const filePath = path.join(UPLOADS_DIR, safeName);
-          fs.writeFileSync(filePath, fileBuffer);
-        }
         return {
           ...p,
-          status: "Enviado",
-          fileName: fileName,
-          fileSize: fileSize || "Incalculável",
+          status,
+          rejectReason: status === "Rejeitado" ? rejectReason : undefined,
+          postUrl: status === "Postado" ? postUrl || p.postUrl : p.postUrl,
           lastUpdated: new Date().toISOString()
         };
       }
       return p;
     });
+    
+    candidate.lastSaved = new Date().toISOString();
+    await setDoc(docRef, candidate);
+    
+    res.json({ success: true, candidate });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    res.status(500).json({ error: "Erro ao atualizar status do candidato." });
   }
-  
-  candidate.lastSaved = new Date().toISOString();
-  db.candidates[candIndex] = candidate;
-  writeDB(db);
-  
-  res.json({ success: true, candidate });
-});
-
-// Update Publication Status manually (Aprovado/Rejeitado/Postado)
-const handleStatusUpdate = (req: any, res: any) => {
-  const db = readDB();
-  const { id } = req.params;
-  const { pubId, docId, status, rejectReason, postUrl } = req.body;
-  const targetId = pubId || docId;
-  
-  const candIndex = db.candidates.findIndex((c: any) => c.id === id);
-  if (candIndex === -1) {
-    return res.status(404).json({ error: "Candidato não encontrado" });
-  }
-  
-  const candidate = db.candidates[candIndex];
-  if (!candidate.publications) {
-    candidate.publications = [];
-  }
-  candidate.publications = candidate.publications.map((p: any) => {
-    if (p.id === targetId) {
-      return {
-        ...p,
-        status,
-        rejectReason: status === "Rejeitado" ? rejectReason : undefined,
-        postUrl: status === "Postado" ? postUrl || p.postUrl : p.postUrl,
-        lastUpdated: new Date().toISOString()
-      };
-    }
-    return p;
-  });
-  
-  candidate.lastSaved = new Date().toISOString();
-  db.candidates[candIndex] = candidate;
-  writeDB(db);
-  
-  res.json({ success: true, candidate });
 };
 
 app.post("/api/candidates/:id/publication-status", handleStatusUpdate);
@@ -539,133 +596,149 @@ app.post("/api/candidates/:id/document-status", handleStatusUpdate);
 app.use("/uploads", express.static(UPLOADS_DIR));
 
 // 3. DEADLINES
-app.get("/api/deadlines", (req, res) => {
-  const db = readDB();
-  res.json(updateDaysRemaining(db.deadlines));
+app.get("/api/deadlines", async (req, res) => {
+  try {
+    const rawDeadlines = await getDeadlinesFromFirestore();
+    res.json(updateDaysRemaining(rawDeadlines));
+  } catch (error) {
+    console.error("Error getting deadlines:", error);
+    res.status(500).json({ error: "Erro ao carregar prazos." });
+  }
 });
 
-app.post("/api/deadlines", (req, res) => {
-  const db = readDB();
+app.post("/api/deadlines", async (req, res) => {
   const deadline = req.body;
   if (!deadline.id) {
     deadline.id = "dl-" + Date.now();
   }
   
-  const idx = db.deadlines.findIndex((d: any) => d.id === deadline.id);
-  if (idx !== -1) {
-    db.deadlines[idx] = deadline;
-  } else {
-    db.deadlines.push(deadline);
+  try {
+    await setDoc(doc(firestoreDb, "deadlines", deadline.id), deadline);
+    res.json({ success: true, deadline });
+  } catch (error) {
+    console.error("Error saving deadline:", error);
+    res.status(500).json({ error: "Erro ao salvar prazo eleitoral." });
   }
-  
-  writeDB(db);
-  res.json({ success: true, deadline });
 });
 
 // 4. AUTOMATED REPORTS (AI GENERATOR)
-app.get("/api/reports", (req, res) => {
-  const db = readDB();
-  res.json(db.reports);
+app.get("/api/reports", async (req, res) => {
+  try {
+    const reports = await getReportsFromFirestore();
+    res.json(reports);
+  } catch (error) {
+    console.error("Error getting reports:", error);
+    res.status(500).json({ error: "Erro ao carregar relatórios." });
+  }
 });
 
 app.post("/api/reports/generate", async (req, res) => {
   const { candidateId, type } = req.body;
-  const db = readDB();
-  
-  const candidate = db.candidates.find((c: any) => c.id === candidateId);
-  if (!candidate) {
-    return res.status(404).json({ error: "Candidato não encontrado" });
-  }
-  
-  // Prepare status summaries for prompt
-  const publications = candidate.publications || [];
-  const approvedPubs = publications.filter((p: any) => p.status === "Aprovado" || p.status === "Postado").length;
-  const totalPubs = publications.length;
-  const pubPercentage = totalPubs > 0 ? Math.round((approvedPubs / totalPubs) * 100) : 0;
-  
-  // Mapping summary
-  const filledMappings = candidate.mappings.filter((m: any) => m.lideranca || m.meta2026 || m.situacao);
-  const totalTargetVotes = candidate.mappings.reduce((acc: number, cur: any) => acc + (parseInt(cur.meta2026) || 0), 0);
-  const totalHistoricVotes = candidate.mappings.reduce((acc: number, cur: any) => acc + (parseInt(cur.historicoVotos) || 0), 0);
-  
-  let prompt = `Aja como um analista político estrategista sênior da Federação PSDB-Cidadania em Santa Catarina.
-  Gere um relatório estruturado focado no tipo: "${type}" para o candidato(a) abaixo:
-  
-  - Nome de Urna: ${candidate.urnName} (${candidate.party})
-  - Número de Campanha: ${candidate.number}
-  - Histórico de Atuação: ${candidate.professionalBackground}
-  - Áreas de Interesse: ${candidate.areasOfInterest}
-  - Bandeiras Políticas: ${candidate.politicalFlags}
-  - Breve Trajetória: ${candidate.trajectory}
-  
-  --- Planejamento de Mídias e Agenda de Publicações ---
-  - Status Geral da Campanha: ${candidate.status}
-  - Publicações Aprovadas/Postadas: ${approvedPubs} de ${totalPubs} (${pubPercentage}% concluídos)
-  - Conteúdos Pendentes de Produção/Envio: ${publications.filter((p: any) => p.status === "Rascunho" || p.status === "Em Produção" || p.status === "Rejeitado").map((p: any) => p.title).join(", ") || "Nenhum"}
-  
-  --- Planejamento Geográfico (Mapeamento de Cidades) ---
-  - Cidades Mapeadas Ativas: ${filledMappings.length} cidades.
-  - Histórico de Votação Anterior Somado nestas Cidades: ${totalHistoricVotes} votos.
-  - Meta de Votação Geral Pactuada para 2026: ${totalTargetVotes} votos.
-  - Detalhamento de Cidades Principais:
-  ${filledMappings.map((m: any) => `  * Município: ${m.cityName} | Liderança Local: ${m.lideranca || "Não informada"} | Histórico: ${m.historicoVotos || "0"} | Meta 2026: ${m.meta2026 || "0"} | Situação Crucial: ${m.situacao || "Nenhuma registrada"}`).join("\n")}
-  
-  Por favor, escreva um relatório de 3 a 4 parágrafos bem densos, com tom formal, profissional, pragmático e estratégico. 
-  Divida em seções com títulos curtos (ex: DIAGNÓSTICO DE MÍDIAS, ALINHAMENTO GEOGRÁFICO, DIRETRIZES DE COMUNICAÇÃO).
-  
-  Foque em como otimizar o cronograma de publicações para engajar as bases eleitorais nos municípios-chave, alinhar as bandeiras políticas com a linha editorial de comunicação, e onde a coordenação da Federação deve intervir ou apoiar o candidato para impulsionar sua imagem digital.`;
-
-  let reportText = "";
   
   try {
-    if (geminiAI) {
-      const response = await geminiAI.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: prompt,
-        config: {
-          systemInstruction: "Você é o Coordenador Geral de Comunicação e Análise Estratégica da Federação PSDB-Cidadania. Escreva em português elegante do Brasil, voltado para decisões de imagem e comunicação partidária."
-        }
-      });
-      reportText = response.text || "Erro ao obter resposta da inteligência artificial.";
-    } else {
-      // Fallback response if GEMINI_API_KEY is not configured
-      reportText = `### PLANEJAMENTO ESTRATÉGICO DE MÍDIAS (${type.toUpperCase()})
-      
-      **Candidato(a):** ${candidate.urnName} | **Partido:** ${candidate.party} | **Número:** ${candidate.number}
-      
-      #### 1. Diagnóstico do Cronograma de Comunicação Digital
-      O candidato apresenta um índice de **${pubPercentage}%** de conformidade e engajamento em sua Agenda de Publicações, contando com ${approvedPubs} postagens validadas e postadas de um total de ${totalPubs} pautas programadas. Há necessidade de acelerar a produção de conteúdos voltados às propostas de ${candidate.areasOfInterest || "desenvolvimento estadual"} para suprir os eixos ainda classificados como pendentes ou em produção.
-      
-      #### 2. Articulação Geográfica e Campanha Multi-Plataforma
-      Com base ativa em ${filledMappings.length} municípios mapeados de Santa Catarina e meta global pactuada de **${totalTargetVotes} votos**, a presença digital do candidato precisa ser calibrada de acordo com as especificidades regionais. Municípios do Oeste e Sul demandam postagens específicas valorizando parcerias locais e as bandeiras de atuação prática do candidato (${candidate.politicalFlags}).
-      
-      #### 3. Diretrizes de Comunicação e Suporte Partidário
-      A coordenação estadual de mídias, sob liderança de ${candidate.mediaCoordinatorName || "equipe local de mídias"}, deve prover suporte para as campanhas de impulsionamento georreferenciado e assegurar que as postagens agendadas reflitam as diretrizes de mobilização da Federação. Sugere-se intensificar a produção de formatos interativos (Reels/Vídeos de rua) para humanizar a candidatura perante os eleitores catarinenses.`;
+    const candRef = doc(firestoreDb, "candidates", candidateId);
+    const candSnap = await getDoc(candRef);
+    if (!candSnap.exists()) {
+      return res.status(404).json({ error: "Candidato não encontrado" });
     }
-  } catch (error: any) {
-    console.error("Gemini API Error:", error);
-    reportText = `Erro na geração de IA: ${error.message || error}. Por favor, verifique a chave GEMINI_API_KEY.`;
+    
+    const candidate = candSnap.data();
+    
+    // Prepare status summaries for prompt
+    const publications = candidate.publications || [];
+    const approvedPubs = publications.filter((p: any) => p.status === "Aprovado" || p.status === "Postado").length;
+    const totalPubs = publications.length;
+    const pubPercentage = totalPubs > 0 ? Math.round((approvedPubs / totalPubs) * 100) : 0;
+    
+    // Mapping summary
+    const filledMappings = (candidate.mappings || []).filter((m: any) => m.lideranca || m.meta2026 || m.situacao);
+    const totalTargetVotes = (candidate.mappings || []).reduce((acc: number, cur: any) => acc + (parseInt(cur.meta2026) || 0), 0);
+    const totalHistoricVotes = (candidate.mappings || []).reduce((acc: number, cur: any) => acc + (parseInt(cur.historicoVotos) || 0), 0);
+    
+    let prompt = `Aja como um analista político estrategista sênior da Federação PSDB-Cidadania em Santa Catarina.
+    Gere um relatório estruturado focado no tipo: "${type}" para o candidato(a) abaixo:
+    
+    - Nome de Urna: ${candidate.urnName} (${candidate.party})
+    - Número de Campanha: ${candidate.number}
+    - Histórico de Atuação: ${candidate.professionalBackground}
+    - Áreas de Interesse: ${candidate.areasOfInterest}
+    - Bandeiras Políticas: ${candidate.politicalFlags}
+    - Breve Trajetória: ${candidate.trajectory}
+    
+    --- Planejamento de Mídias e Agenda de Publicações ---
+    - Status Geral da Campanha: ${candidate.status}
+    - Publicações Aprovadas/Postadas: ${approvedPubs} de ${totalPubs} (${pubPercentage}% concluídos)
+    - Conteúdos Pendentes de Produção/Envio: ${publications.filter((p: any) => p.status === "Rascunho" || p.status === "Em Produção" || p.status === "Rejeitado").map((p: any) => p.title).join(", ") || "Nenhum"}
+    
+    --- Planejamento Geográfico (Mapeamento de Cidades) ---
+    - Cidades Mapeadas Ativas: ${filledMappings.length} cidades.
+    - Histórico de Votação Anterior Somado nestas Cidades: ${totalHistoricVotes} votos.
+    - Meta de Votação Geral Pactuada para 2026: ${totalTargetVotes} votos.
+    - Detalhamento de Cidades Principais:
+    ${filledMappings.map((m: any) => `  * Município: ${m.cityName} | Liderança Local: ${m.lideranca || "Não informada"} | Histórico: ${m.historicoVotos || "0"} | Meta 2026: ${m.meta2026 || "0"} | Situação Crucial: ${m.situacao || "Nenhuma registrada"}`).join("\n")}
+    
+    Por favor, escreva um relatório de 3 a 4 parágrafos bem densos, com tom formal, profissional, pragmático e estratégico. 
+    Divida em seções com títulos curtos (ex: DIAGNÓSTICO DE MÍDIAS, ALINHAMENTO GEOGRÁFICO, DIRETRIZES DE COMUNICAÇÃO).
+    
+    Foque em como otimizar o cronograma de publicações para engajar as bases eleitorais nos municípios-chave, alinhar as bandeiras políticas com a linha editorial de comunicação, e onde a coordenação da Federação deve intervir ou apoiar o candidato para impulsionar sua imagem digital.`;
+
+    let reportText = "";
+    
+    try {
+      if (geminiAI) {
+        const response = await geminiAI.models.generateContent({
+          model: "gemini-3.5-flash",
+          contents: prompt,
+          config: {
+            systemInstruction: "Você é o Coordenador Geral de Comunicação e Análise Estratégica da Federação PSDB-Cidadania. Escreva em português elegante do Brasil, voltado para decisões de imagem e comunicação partidária."
+          }
+        });
+        reportText = response.text || "Erro ao obter resposta da inteligência artificial.";
+      } else {
+        // Fallback response if GEMINI_API_KEY is not configured
+        reportText = `### PLANEJAMENTO ESTRATÉGICO DE MÍDIAS (${type.toUpperCase()})
+        
+        **Candidato(a):** ${candidate.urnName} | **Partido:** **${candidate.party}** | **Número:** ${candidate.number}
+        
+        #### 1. Diagnóstico do Cronograma de Comunicação Digital
+        O candidato apresenta um índice de **${pubPercentage}%** de conformidade e engajamento em sua Agenda de Publicações, contando com ${approvedPubs} postagens validadas e postadas de um total de ${totalPubs} pautas programadas. Há necessidade de acelerar a produção de conteúdos voltados às propostas de ${candidate.areasOfInterest || "desenvolvimento estadual"} para suprir os eixos ainda classificados como pendentes ou em produção.
+        
+        #### 2. Articulação Geográfica e Campanha Multi-Plataforma
+        Com base ativa em ${filledMappings.length} municípios mapeados de Santa Catarina e meta global pactuada de **${totalTargetVotes} votos**, a presença digital do candidato precisa ser calibrada de acordo com as especificidades regionais. Municípios do Oeste e Sul demandam postagens específicas valorizando parcerias locais e as bandeiras de atuação prática do candidato (${candidate.politicalFlags}).
+        
+        #### 3. Diretrizes de Comunicação e Suporte Partidário
+        A coordenação estadual de mídias, sob liderança de ${candidate.mediaCoordinatorName || "equipe local de mídias"}, deve prover suporte para as campanhas de impulsionamento georreferenciado e assegurar que as postagens agendadas reflitam as diretrizes de mobilização da Federação. Sugere-se intensificar a produção de formatos interativos (Reels/Vídeos de rua) para humanizar a candidatura perante os eleitores catarinenses.`;
+      }
+    } catch (error: any) {
+      console.error("Gemini API Error:", error);
+      reportText = `Erro na geração de IA: ${error.message || error}. Por favor, verifique a chave GEMINI_API_KEY.`;
+    }
+    
+    const newReport = {
+      id: "rep-" + Date.now(),
+      title: `Relatório ${type} - ${candidate.urnName}`,
+      createdAt: new Date().toISOString(),
+      content: reportText,
+      author: "Analista Inteligência Federação",
+      candidateId,
+      candidateName: candidate.urnName,
+      type
+    };
+    
+    await setDoc(doc(firestoreDb, "reports", newReport.id), newReport);
+    
+    res.json({ success: true, report: newReport });
+  } catch (error) {
+    console.error("Error generating report:", error);
+    res.status(500).json({ error: "Erro ao gerar relatório." });
   }
-  
-  const newReport = {
-    id: "rep-" + Date.now(),
-    title: `Relatório ${type} - ${candidate.urnName}`,
-    createdAt: new Date().toISOString(),
-    content: reportText,
-    author: "Analista Inteligência Federação",
-    candidateId,
-    candidateName: candidate.urnName,
-    type
-  };
-  
-  db.reports.unshift(newReport);
-  writeDB(db);
-  
-  res.json({ success: true, report: newReport });
 });
 
 // Build / Hot Module Replacement & SPA Static setup
 async function startServer() {
+  // Seed Firestore if empty
+  await seedFirestoreIfNeeded();
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },

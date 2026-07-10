@@ -6,6 +6,8 @@ import FichaAcompanhamento from "./components/FichaAcompanhamento";
 import DeadlinesTracker from "./components/DeadlinesTracker";
 import ReportGenerator from "./components/ReportGenerator";
 import PublicationsScheduleGlobal from "./components/PublicationsScheduleGlobal";
+import RegionalVision from "./components/RegionalVision";
+import UrgentDeadlinesWidget from "./components/UrgentDeadlinesWidget";
 import { 
   Plus, Search, Filter, Shield, Calendar, FileText, Users, 
   MapPin, AlertCircle, RefreshCw, Layers, Globe
@@ -18,7 +20,7 @@ export default function App() {
   const [reports, setReports] = useState<PartyReport[]>([]);
   
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
-  const [currentTab, setCurrentTab] = useState<"painel" | "calendario" | "relatorios" | "postagens">("painel");
+  const [currentTab, setCurrentTab] = useState<"painel" | "calendario" | "relatorios" | "postagens" | "regional">("painel");
   const [fichaInitialTab, setFichaInitialTab] = useState<"ficha" | "agenda">("ficha");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -285,6 +287,15 @@ export default function App() {
             Candidatos
           </button>
           <button 
+            onClick={() => { setSelectedCandidate(null); setCurrentTab("regional"); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-none text-xs font-black transition cursor-pointer border ${
+              currentTab === "regional" ? "bg-[#FFD700] text-gray-900 border-[#1A1A1B]" : "text-blue-100 border-transparent hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Globe size={15} />
+            Visão Regional
+          </button>
+          <button 
             onClick={() => { setSelectedCandidate(null); setCurrentTab("calendario"); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-none text-xs font-black transition cursor-pointer border ${
               currentTab === "calendario" ? "bg-[#FFD700] text-gray-900 border-[#1A1A1B]" : "text-blue-100 border-transparent hover:text-white hover:bg-white/5"
@@ -321,41 +332,50 @@ export default function App() {
       </header>
 
       {/* MOBILE NAV (Visible on mobile only) */}
-      <div className="bg-white border-b-2 border-[#1A1A1B] p-2 grid grid-cols-4 gap-1 md:hidden no-print">
+      <div className="bg-white border-b-2 border-[#1A1A1B] p-2 grid grid-cols-5 gap-0.5 md:hidden no-print">
         <button 
           onClick={() => { setSelectedCandidate(null); setCurrentTab("painel"); }}
-          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[10px] font-black uppercase transition ${
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
             currentTab === "painel" && !selectedCandidate ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
           }`}
         >
-          <Users size={16} />
+          <Users size={14} />
           Painel
         </button>
         <button 
+          onClick={() => { setSelectedCandidate(null); setCurrentTab("regional"); }}
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
+            currentTab === "regional" ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
+          }`}
+        >
+          <Globe size={14} />
+          Regional
+        </button>
+        <button 
           onClick={() => { setSelectedCandidate(null); setCurrentTab("calendario"); }}
-          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[10px] font-black uppercase transition ${
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
             currentTab === "calendario" ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
           }`}
         >
-          <Calendar size={16} />
+          <Calendar size={14} />
           Prazos
         </button>
         <button 
           onClick={() => { setSelectedCandidate(null); setCurrentTab("postagens"); }}
-          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[10px] font-black uppercase transition ${
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
             currentTab === "postagens" ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
           }`}
         >
-          <Globe size={16} />
+          <Globe size={14} />
           Mídias
         </button>
         <button 
           onClick={() => { setSelectedCandidate(null); setCurrentTab("relatorios"); }}
-          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[10px] font-black uppercase transition ${
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
             currentTab === "relatorios" ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
           }`}
         >
-          <FileText size={16} />
+          <FileText size={14} />
           IA Relat.
         </button>
       </div>
@@ -391,11 +411,17 @@ export default function App() {
             
             {/* Top stats header (Active only on candidates view) */}
             {currentTab === "painel" && (
-              <DashboardStats 
-                candidates={candidates} 
-                deadlines={deadlines} 
-                onSelectCandidate={handleSelectCandidateForFicha}
-              />
+              <div className="space-y-6">
+                <DashboardStats 
+                  candidates={candidates} 
+                  deadlines={deadlines} 
+                  onSelectCandidate={handleSelectCandidateForFicha}
+                />
+                <UrgentDeadlinesWidget 
+                  deadlines={deadlines}
+                  onViewAll={() => setCurrentTab("calendario")}
+                />
+              </div>
             )}
 
             {/* PAGE TAB: CANDIDATES LISTING */}
@@ -515,6 +541,11 @@ export default function App() {
                 candidates={candidates}
                 onSelectCandidate={(cand) => handleSelectCandidateForFicha(cand, "agenda")}
               />
+            )}
+
+            {/* PAGE TAB: CONSOLIDATED REGIONAL VISION */}
+            {currentTab === "regional" && (
+              <RegionalVision candidates={candidates} />
             )}
           </div>
         )}
