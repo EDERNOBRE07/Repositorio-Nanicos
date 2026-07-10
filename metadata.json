@@ -1,0 +1,6 @@
+{
+  "name": "Gerenciador Eleitoral PSDB-Cidadania SC",
+  "description": "Gestor estratégico de candidatos, controle de documentação, prazos eleitorais em tempo real e relatórios de coordenação partidária da Federação PSDB-Cidadania Santa Catarina.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

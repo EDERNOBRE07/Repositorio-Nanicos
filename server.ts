@@ -1,0 +1,688 @@
+import express from "express";
+import path from "path";
+import fs from "fs";
+import { createServer as createViteServer } from "vite";
+import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const app = express();
+const PORT = 3000;
+const DATA_FILE = path.join(process.cwd(), "data.json");
+const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+
+// Ensure uploads folder exists
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+// Ensure database file exists with initial mock data
+const INITIAL_REGIONS = [
+  { region: "GRANDE FLORIANÓPOLIS", cities: ["Florianópolis", "São José", "Palhoça", "Biguaçu", "Santo Amaro da Imperatriz"] },
+  { region: "VALE DO ITAJAÍ", cities: ["Balneário Camboriú", "Itajaí", "Camboriú", "Ilhota", "Brusque"] },
+  { region: "NORTE CATARINENSE", cities: ["Joinville", "Jaraguá do Sul", "Araquari", "Garuva", "São Francisco do Sul"] },
+  { region: "SUL CATARINENSE", cities: ["Araranguá", "Turvo", "Ermo", "Praia Grande", "Sombrio"] },
+  { region: "OESTE CATARINENSE", cities: ["Chapecó", "Concórdia", "Xanxerê", "Maravilha", "São Miguel do Oeste"] },
+  { region: "SERRA CATARINENSE", cities: ["Lages", "Urubici", "São Joaquim", "Urupema", "Bom Retiro"] }
+];
+
+const DEFAULT_PUBLICATIONS = [
+  {
+    id: "pub-1",
+    title: "Lançamento da Pré-Candidatura",
+    date: "2026-07-01",
+    time: "10:00",
+    platforms: ["Instagram", "Facebook"],
+    format: "Card",
+    caption: "Com muita alegria e compromisso com o futuro de Santa Catarina, anuncio o lançamento da nossa pré-candidatura! Conto com o apoio de cada um de vocês nessa jornada de muito trabalho e dedicação pelo nosso povo. 🇧🇷✨ #SantaCatarina #Compromisso",
+    status: "Postado" as const,
+    fileName: "lancamento_pre_candidatura.png",
+    fileSize: "1.5 MB",
+    postUrl: "https://instagram.com/p/C7abc123",
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: "pub-2",
+    title: "Bandeira da Saúde: Propostas regionais",
+    date: "2026-07-06",
+    time: "14:00",
+    platforms: ["Instagram", "Facebook", "YouTube"],
+    format: "Vídeo",
+    caption: "A saúde pública de qualidade é nossa prioridade absoluta. Hoje falo sobre nossos projetos para zerar as filas de exames especializados e cirurgias eletivas em todas as regiões do estado. Assista e compartilhe suas ideias! 🏥💪 #SaudeSC #TrabalhoSério",
+    status: "Postado" as const,
+    fileName: "video_saude_propostas.mp4",
+    fileSize: "18.4 MB",
+    postUrl: "https://instagram.com/p/C7xyz456",
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: "pub-3",
+    title: "Entrevista de Rádio - Desenvolvimento Regional",
+    date: "2026-07-12",
+    time: "08:30",
+    platforms: ["YouTube", "WhatsApp"],
+    format: "Vídeo",
+    caption: "Sintonize amanhã na Rádio Aliança para acompanhar nossa entrevista sobre as necessidades de infraestrutura, pavimentação e fomento ao agronegócio no Oeste catarinense. Estaremos ao vivo a partir das 08:30! 📻🌾 #DesenvolvimentoSC #OesteSC",
+    status: "Aprovado" as const,
+    fileName: "roteiro_entrevista_radio.pdf",
+    fileSize: "320 KB",
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: "pub-4",
+    title: "Apoio às APAEs e Inclusão",
+    date: "2026-07-16",
+    time: "12:00",
+    platforms: ["Instagram", "Facebook", "TikTok"],
+    format: "Reels",
+    caption: "Nosso mandato sempre esteve e sempre estará ao lado da inclusão social e do suporte integral às APAEs e entidades beneficentes do nosso estado. Garantir dignidade e inclusão para pessoas com deficiência é um dever de todos. 💙🤝 #Inclusao #APAEs #AmorAoProximo",
+    status: "Em Produção" as const,
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: "pub-5",
+    title: "Encontro com Lideranças do Vale",
+    date: "2026-07-20",
+    time: "19:00",
+    platforms: ["Instagram", "X"],
+    format: "Foto",
+    caption: "Hoje realizamos uma reunião produtiva com prefeitos, vereadores e lideranças do Vale do Itajaí. Discutimos novas frentes de investimento e como a nossa federação pode potencializar os convênios municipais. 📈🗺️ #Liderancas #TrabalhoForte #Municipalismo",
+    status: "Agendado" as const,
+    fileName: "arte_encontro_liderancas.png",
+    fileSize: "2.1 MB",
+    lastUpdated: new Date().toISOString()
+  },
+  {
+    id: "pub-6",
+    title: "Dica de Utilidade Pública: Cadastro Eleitoral",
+    date: "2026-07-25",
+    time: "09:00",
+    platforms: ["Instagram", "Facebook", "WhatsApp"],
+    format: "Carrossel",
+    caption: "Atenção eleitor! O prazo para regularização do título de eleitor está chegando. Preparamos esse carrossel informativo passo a passo para você não perder a oportunidade de exercer sua cidadania nestas eleições! 🗳️📲 #Eleicoes2026 #Cidadania #UtilidadePublica",
+    status: "Enviado" as const,
+    fileName: "carrossel_utilidade_cadastro.pdf",
+    fileSize: "4.8 MB",
+    lastUpdated: new Date().toISOString()
+  }
+];
+
+const generateBlankMapping = () => {
+  const mapping: any[] = [];
+  INITIAL_REGIONS.forEach(reg => {
+    reg.cities.forEach(city => {
+      mapping.push({
+        cityId: city.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-"),
+        cityName: city,
+        region: reg.region,
+        lideranca: "",
+        historicoVotos: "",
+        meta2026: "",
+        situacao: ""
+      });
+    });
+  });
+  return mapping;
+};
+
+const getSeedCandidates = () => [
+  {
+    id: "cand-1",
+    name: "Geovania de Sá",
+    number: "23023",
+    urnName: "GEOVANIA DE SÁ",
+    whatsapp: "(48) 99912-3456",
+    instagram: "@geovaniadesa",
+    facebook: "GeovaniaDeSaOficial",
+    email: "geovania.sa@cidadania23.org.br",
+    party: "Cidadania" as const,
+    status: "Em Campanha" as const,
+    photoUrl: "",
+    mediaCoordinatorName: "Thiago Goulart",
+    mediaCoordinatorWhatsApp: "(48) 99122-8765",
+    professionalBackground: "Assistente Social de carreira, Deputada Federal, ex-secretária municipal de Assistência Social e de Saúde de Criciúma.",
+    areasOfInterest: "Assistência Social, Saúde Pública, Defesa dos Direitos da Mulher e Emprego.",
+    teams: "Coordenação Sul, Mídias Sociais, Mobilização Criciúma",
+    family: "Apoio familiar integral no Sul Catarinense",
+    groups: "Entidades filantrópicas, Associações de Bairro, Igrejas, Lideranças de Assistência",
+    trajectory: "Com sólida trajetória na área social, Geovania iniciou sua vida pública na gestão local em Criciúma. Eleita deputada, obteve destaque pela destinação recorde de emendas para a saúde catarinense.",
+    politicalFlags: "Saúde com dignidade, proteção integral à infância, valorização das entidades filantrópicas e assistência aos municípios.",
+    keyContacts: [
+      { ladoAName: "Prefeito Clésio Salvaro", ladoAWhatsApp: "(48) 99144-1122", ladoBName: "Vereadora Geovana", ladoBWhatsApp: "(48) 99822-3344" },
+      { ladoAName: "Acélio Casagrande", ladoAWhatsApp: "(48) 99933-2211", ladoBName: "Pastor Emerson", ladoBWhatsApp: "(48) 99111-5544" },
+      { ladoAName: "Liderança Júlio (Araranguá)", ladoAWhatsApp: "(48) 99655-4433", ladoBName: "Coordenador Alisson", ladoBWhatsApp: "(48) 99201-4455" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" }
+    ],
+    publications: DEFAULT_PUBLICATIONS.map(pub => ({ ...pub })),
+    mappings: generateBlankMapping().map(m => {
+      if (m.cityName === "Florianópolis") {
+        return { ...m, lideranca: "Roberto Souza (Suplente)", historicoVotos: "1.250", meta2026: "3.500", situacao: "Demanda por ampliação da rede de assistência na Grande Florianópolis." };
+      }
+      if (m.cityName === "Araranguá") {
+        return { ...m, lideranca: "Júlio César", historicoVotos: "2.800", meta2026: "5.000", situacao: "Visita de campanha agendada; forte apoio das igrejas locais." };
+      }
+      return m;
+    }),
+    lastSaved: new Date().toISOString()
+  },
+  {
+    id: "cand-2",
+    name: "Marcos Vieira",
+    number: "45045",
+    urnName: "MARCOS VIEIRA",
+    whatsapp: "(48) 99888-4545",
+    instagram: "@marcosvieiradeputado",
+    facebook: "marcosvieira45",
+    email: "deputadomarcosvieira@psdb.org.br",
+    party: "PSDB" as const,
+    status: "Em Campanha" as const,
+    photoUrl: "",
+    mediaCoordinatorName: "Juliano de Souza",
+    mediaCoordinatorWhatsApp: "(48) 99981-2245",
+    professionalBackground: "Bacharel em Direito, Deputado Estadual com larga experiência administrativa, ex-Secretário de Estado da Administração.",
+    areasOfInterest: "Infraestrutura Municipal, Orçamento do Estado, Apoio ao Agronegócio, Municipalismo.",
+    teams: "Escritório Central Fpolis, Equipe Oeste (Chapecó), Equipe Serra",
+    family: "Larga rede familiar e política ativa em SC",
+    groups: "Prefeitos e Vice-Prefeitos de SC, Secretarias Municipais de Infraestrutura, Cooperativas Agrícolas",
+    trajectory: "Líder histórico do PSDB em Santa Catarina, Marcos Vieira construiu sua reputação no municipalismo, sendo o deputado que mais garantiu recursos diretos para convênios com prefeituras.",
+    politicalFlags: "Fortalecimento dos municípios, descentralização do orçamento, pavimentação asfáltica de estradas rurais e crédito ao pequeno produtor.",
+    keyContacts: [
+      { ladoAName: "Prefeito João Rodrigues (Apoio)", ladoAWhatsApp: "(49) 99981-1122", ladoBName: "Prefeita de Cunha Porã", ladoBWhatsApp: "(49) 99812-4523" },
+      { ladoAName: "Vice-Prefeito de São José", ladoAWhatsApp: "(48) 99112-2345", ladoBName: "Presidente Regional PSDB", ladoBWhatsApp: "(48) 99651-1212" },
+      { ladoAName: "Secretário de Obras", ladoAWhatsApp: "(48) 99823-1122", ladoBName: "Assessor Regional Oeste", ladoBWhatsApp: "(49) 99932-1244" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" }
+    ],
+    publications: DEFAULT_PUBLICATIONS.map(pub => ({ ...pub })),
+    mappings: generateBlankMapping().map(m => {
+      if (m.cityName === "Chapecó") {
+        return { ...m, lideranca: "Coordenador Regional Valdir", historicoVotos: "5.400", meta2026: "8.000", situacao: "Encontro estratégico agendado com sindicatos de produtores rurais." };
+      }
+      if (m.cityName === "São José") {
+        return { ...m, lideranca: "Ademir de Souza", historicoVotos: "3.100", meta2026: "5.000", situacao: "Demanda crucial de asfalto em bairros periféricos de divisa." };
+      }
+      return m;
+    }),
+    lastSaved: new Date().toISOString()
+  },
+  {
+    id: "cand-3",
+    name: "Dr. Vicente Caropreso",
+    number: "45111",
+    urnName: "DR. VICENTE CAROPRESO",
+    whatsapp: "(47) 99122-1111",
+    instagram: "@drvicentecaropreso",
+    facebook: "VicenteCaropreso",
+    email: "dr.vicente@psdb.org.br",
+    party: "PSDB" as const,
+    status: "Em Campanha" as const,
+    photoUrl: "",
+    mediaCoordinatorName: "Daniela Althoff",
+    mediaCoordinatorWhatsApp: "(47) 99211-5463",
+    professionalBackground: "Médico Neurologista, ex-Secretário de Estado da Saúde de Santa Catarina, Deputado Estadual atuante na saúde pública.",
+    areasOfInterest: "Saúde, Direitos das Pessoas com Deficiência, Inclusão de Autistas, Educação Especial.",
+    teams: "Escritório Jaraguá do Sul, Equipe de Saúde Norte, Voluntariado APAEs",
+    family: "Lideranças da comunidade alemã no Vale do Itapocu",
+    groups: "Diretoria das APAEs de Santa Catarina, Associação Catarinense de Medicina, Rede de Autismo",
+    trajectory: "Dr. Vicente é reconhecido pelo trabalho incansável nas pautas de saúde pública e acessibilidade, sendo o autor de legislações estaduais pioneiras no suporte ao transtorno do espectro autista.",
+    politicalFlags: "Zerar filas do SUS, financiamento integral para as APAEs e AMAs, diagnóstico precoce de neuropatias infantis e hospitais filantrópicos estruturados.",
+    keyContacts: [
+      { ladoAName: "Presidente Estadual das APAEs", ladoAWhatsApp: "(48) 99111-2244", ladoBName: "Prefeito de Jaraguá do Sul", ladoBWhatsApp: "(47) 99882-1212" },
+      { ladoAName: "Dr. Marcelo (CRM-SC)", ladoAWhatsApp: "(48) 99934-5566", ladoBName: "Coordenadora AMA Norte", ladoBWhatsApp: "(47) 99211-3344" },
+      { ladoAName: "Líder Comunitário Blumenau", ladoAWhatsApp: "(47) 99611-2233", ladoBName: "Assessor Jurídico Campanha", ladoBWhatsApp: "(47) 99144-8899" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" },
+      { ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" }
+    ],
+    publications: DEFAULT_PUBLICATIONS.map((pub, idx) => ({ 
+      ...pub, 
+      status: idx < 2 ? ("Postado" as const) : idx < 4 ? ("Aprovado" as const) : ("Em Produção" as const)
+    })),
+    mappings: generateBlankMapping().map(m => {
+      if (m.cityName === "Jaraguá do Sul") {
+        return { ...m, lideranca: "Diretoria Local", historicoVotos: "18.200", meta2026: "25.000", situacao: "Forte base consolidada. Pauta: liberação de recursos para o Hospital São José." };
+      }
+      if (m.cityName === "Joinville") {
+        return { ...m, lideranca: "Dr. Luiz (Médico parceiro)", historicoVotos: "4.200", meta2026: "7.000", situacao: "Demanda de ampliação dos leitos de retaguarda pediátricos." };
+      }
+      return m;
+    }),
+    lastSaved: new Date().toISOString()
+  }
+];
+
+const DEFAULT_DEADLINES = [
+  { id: "dl-1", title: "Janela Partidária (Desfiliação/Filiação)", date: "2026-04-03", description: "Período para detentores de mandato mudarem de partido sem perda do mandato cargo.", daysRemaining: 0, status: "Concluído" as const, category: "Convenção" as const },
+  { id: "dl-2", title: "Fechamento do Cadastro Eleitoral", date: "2026-05-06", description: "Data limite para alistamento eleitoral, transferência de domicílio e regularização do título.", daysRemaining: 0, status: "Concluído" as const, category: "Registro" as const },
+  { id: "dl-3", title: "Início das Convenções Partidárias", date: "2026-07-20", description: "Início do período em que partidos e federações realizam reuniões para escolher candidatos.", daysRemaining: 12, status: "Pendente" as const, category: "Convenção" as const },
+  { id: "dl-4", title: "Término das Convenções Partidárias", date: "2026-08-05", description: "Prazo final de deliberação sobre coligações, federações e definição dos candidatos oficiais.", daysRemaining: 28, status: "Pendente" as const, category: "Convenção" as const },
+  { id: "dl-5", title: "Prazo Limite para Registro de Candidaturas", date: "2026-08-15", description: "Último dia para que os partidos apresentem no TRE o requerimento de registro de candidatos.", daysRemaining: 38, status: "Crítico" as const, category: "Registro" as const },
+  { id: "dl-6", title: "Início da Propaganda Eleitoral Geral", date: "2026-08-16", description: "Dia a partir do qual é permitida a propaganda eleitoral pública, na internet e nas ruas.", daysRemaining: 39, status: "Pendente" as const, category: "Propaganda" as const },
+  { id: "dl-7", title: "Envio de Relatórios de Contas Parcial", date: "2026-09-15", description: "Apresentação da prestação de contas parcial com discriminação dos recursos recebidos e gastos.", daysRemaining: 69, status: "Pendente" as const, category: "Prestação de Contas" as const },
+  { id: "dl-8", title: "Eleições 2026 - Primeiro Turno", date: "2026-10-04", description: "Dia oficial da votação em todo o país em primeiro turno das eleições gerais de 2026.", daysRemaining: 88, status: "Pendente" as const, category: "Outro" as const }
+];
+
+const DEFAULT_REPORTS = [
+  {
+    id: "rep-1",
+    title: "Análise Preliminar de Registro - Dr. Vicente Caropreso",
+    createdAt: new Date().toISOString(),
+    content: "O candidato Dr. Vicente Caropreso possui 75% da documentação entregue e validada. Falta apenas o Comprovante de Escolaridade e a Certidão de Filiação Partidária. A situação jurídica está estável, sem impedimentos decorrentes de antecedentes criminais nas justiças federal e estadual.",
+    author: "Assessoria Jurídica Federação",
+    candidateId: "cand-3",
+    candidateName: "Dr. Vicente Caropreso",
+    type: "Jurídico" as const
+  }
+];
+
+// Seed databases if they don't exist
+if (!fs.existsSync(DATA_FILE)) {
+  const seedData = {
+    candidates: getSeedCandidates(),
+    deadlines: DEFAULT_DEADLINES,
+    reports: DEFAULT_REPORTS
+  };
+  fs.writeFileSync(DATA_FILE, JSON.stringify(seedData, null, 2), "utf-8");
+} else {
+  // Let's make sure the file is valid JSON and has all keys, otherwise seed
+  try {
+    const raw = fs.readFileSync(DATA_FILE, "utf-8");
+    const parsed = JSON.parse(raw);
+    if (!parsed.candidates || !parsed.deadlines || !parsed.reports) {
+      throw new Error("Missing keys");
+    }
+  } catch (e) {
+    const seedData = {
+      candidates: getSeedCandidates(),
+      deadlines: DEFAULT_DEADLINES,
+      reports: DEFAULT_REPORTS
+    };
+    fs.writeFileSync(DATA_FILE, JSON.stringify(seedData, null, 2), "utf-8");
+  }
+}
+
+// Read database utility
+function readDB() {
+  try {
+    const raw = fs.readFileSync(DATA_FILE, "utf-8");
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error("Error reading db:", error);
+    return { candidates: [], deadlines: [], reports: [] };
+  }
+}
+
+// Write database utility
+function writeDB(data: any) {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
+    return true;
+  } catch (error) {
+    console.error("Error writing db:", error);
+    return false;
+  }
+}
+
+// Calculate dynamic electoral deadlines remaining days relative to 2026-07-08T11:16:28-07:00 (represented by current time)
+function updateDaysRemaining(deadlines: any[]) {
+  const currentDate = new Date("2026-07-08T11:16:28-07:00");
+  return deadlines.map(dl => {
+    const targetDate = new Date(dl.date + "T23:59:59");
+    const diffTime = targetDate.getTime() - currentDate.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    let updatedStatus = dl.status;
+    let daysRemaining = diffDays < 0 ? 0 : diffDays;
+    
+    if (daysRemaining === 0) {
+      updatedStatus = "Concluído";
+    } else if (daysRemaining <= 15) {
+      updatedStatus = "Crítico";
+    } else if (daysRemaining <= 30) {
+      updatedStatus = "Crítico"; // Or Pendente
+    } else {
+      updatedStatus = "Pendente";
+    }
+    
+    return {
+      ...dl,
+      daysRemaining,
+      status: dl.status === "Concluído" ? "Concluído" : updatedStatus
+    };
+  });
+}
+
+// Initialize Gemini Client
+let geminiAI: GoogleGenAI | null = null;
+if (process.env.GEMINI_API_KEY) {
+  geminiAI = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    httpOptions: {
+      headers: {
+        'User-Agent': 'aistudio-build',
+      }
+    }
+  });
+}
+
+// MIDDLEWARES
+app.use(express.json({ limit: "50mb" })); // Support base64 image and files upload
+
+// API ENDPOINTS
+
+// 1. GET ALL DATA
+app.get("/api/dashboard", (req, res) => {
+  const db = readDB();
+  db.deadlines = updateDaysRemaining(db.deadlines);
+  res.json(db);
+});
+
+// 2. CANDIDATES
+app.get("/api/candidates", (req, res) => {
+  const db = readDB();
+  res.json(db.candidates);
+});
+
+// Add or update candidate (Auto-save)
+app.post("/api/candidates", (req, res) => {
+  const db = readDB();
+  const candidate = req.body;
+  
+  if (!candidate.id) {
+    candidate.id = "cand-" + Date.now();
+  }
+  
+  // Enforce types, structure, defaults if needed
+  if (!candidate.keyContacts || candidate.keyContacts.length === 0) {
+    candidate.keyContacts = Array(5).fill({ ladoAName: "", ladoAWhatsApp: "", ladoBName: "", ladoBWhatsApp: "" });
+  }
+  if (!candidate.mappings || candidate.mappings.length === 0) {
+    candidate.mappings = generateBlankMapping();
+  }
+  if (!candidate.publications || candidate.publications.length === 0) {
+    candidate.publications = DEFAULT_PUBLICATIONS.map(pub => ({ ...pub }));
+  }
+  
+  candidate.lastSaved = new Date().toISOString();
+  
+  const index = db.candidates.findIndex((c: any) => c.id === candidate.id);
+  if (index !== -1) {
+    // Preserve any manual file names if the update payload doesn't contain them
+    const existing = db.candidates[index];
+    candidate.publications = candidate.publications.map((newPub: any) => {
+      const oldPub = (existing.publications || []).find((p: any) => p.id === newPub.id);
+      return {
+        ...newPub,
+        fileName: newPub.fileName || (oldPub ? oldPub.fileName : undefined),
+        fileSize: newPub.fileSize || (oldPub ? oldPub.fileSize : undefined),
+        status: newPub.status || (oldPub ? oldPub.status : "Rascunho")
+      };
+    });
+    db.candidates[index] = candidate;
+  } else {
+    db.candidates.push(candidate);
+  }
+  
+  writeDB(db);
+  res.json({ success: true, candidate });
+});
+
+// Delete candidate
+app.delete("/api/candidates/:id", (req, res) => {
+  const db = readDB();
+  const id = req.params.id;
+  db.candidates = db.candidates.filter((c: any) => c.id !== id);
+  writeDB(db);
+  res.json({ success: true, message: "Candidato removido com sucesso." });
+});
+
+// Handle simulated file upload
+app.post("/api/candidates/:id/upload", (req, res) => {
+  const db = readDB();
+  const { id } = req.params;
+  const { docId, pubId, fileName, fileSize, base64 } = req.body;
+  const targetId = pubId || docId;
+  
+  const candIndex = db.candidates.findIndex((c: any) => c.id === id);
+  if (candIndex === -1) {
+    return res.status(404).json({ error: "Candidato não encontrado" });
+  }
+  
+  const candidate = db.candidates[candIndex];
+  
+  // Update photoUrl if docId/targetId is 'photo'
+  if (targetId === "photo") {
+    // Write image to disk
+    if (base64) {
+      const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
+      const safeName = `cand_${id}_profile_${path.basename(fileName)}`;
+      const filePath = path.join(UPLOADS_DIR, safeName);
+      fs.writeFileSync(filePath, fileBuffer);
+      candidate.photoUrl = `/uploads/${safeName}`;
+    } else {
+      candidate.photoUrl = "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80";
+    }
+  } else {
+    // Update publication file in the schedule
+    if (!candidate.publications) {
+      candidate.publications = [];
+    }
+    candidate.publications = candidate.publications.map((p: any) => {
+      if (p.id === targetId) {
+        // If file buffer is provided, save it
+        if (base64) {
+          const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
+          const safeName = `cand_${id}_pub_${targetId}_${path.basename(fileName)}`;
+          const filePath = path.join(UPLOADS_DIR, safeName);
+          fs.writeFileSync(filePath, fileBuffer);
+        }
+        return {
+          ...p,
+          status: "Enviado",
+          fileName: fileName,
+          fileSize: fileSize || "Incalculável",
+          lastUpdated: new Date().toISOString()
+        };
+      }
+      return p;
+    });
+  }
+  
+  candidate.lastSaved = new Date().toISOString();
+  db.candidates[candIndex] = candidate;
+  writeDB(db);
+  
+  res.json({ success: true, candidate });
+});
+
+// Update Publication Status manually (Aprovado/Rejeitado/Postado)
+const handleStatusUpdate = (req: any, res: any) => {
+  const db = readDB();
+  const { id } = req.params;
+  const { pubId, docId, status, rejectReason, postUrl } = req.body;
+  const targetId = pubId || docId;
+  
+  const candIndex = db.candidates.findIndex((c: any) => c.id === id);
+  if (candIndex === -1) {
+    return res.status(404).json({ error: "Candidato não encontrado" });
+  }
+  
+  const candidate = db.candidates[candIndex];
+  if (!candidate.publications) {
+    candidate.publications = [];
+  }
+  candidate.publications = candidate.publications.map((p: any) => {
+    if (p.id === targetId) {
+      return {
+        ...p,
+        status,
+        rejectReason: status === "Rejeitado" ? rejectReason : undefined,
+        postUrl: status === "Postado" ? postUrl || p.postUrl : p.postUrl,
+        lastUpdated: new Date().toISOString()
+      };
+    }
+    return p;
+  });
+  
+  candidate.lastSaved = new Date().toISOString();
+  db.candidates[candIndex] = candidate;
+  writeDB(db);
+  
+  res.json({ success: true, candidate });
+};
+
+app.post("/api/candidates/:id/publication-status", handleStatusUpdate);
+app.post("/api/candidates/:id/document-status", handleStatusUpdate);
+
+// Serve uploaded files static route
+app.use("/uploads", express.static(UPLOADS_DIR));
+
+// 3. DEADLINES
+app.get("/api/deadlines", (req, res) => {
+  const db = readDB();
+  res.json(updateDaysRemaining(db.deadlines));
+});
+
+app.post("/api/deadlines", (req, res) => {
+  const db = readDB();
+  const deadline = req.body;
+  if (!deadline.id) {
+    deadline.id = "dl-" + Date.now();
+  }
+  
+  const idx = db.deadlines.findIndex((d: any) => d.id === deadline.id);
+  if (idx !== -1) {
+    db.deadlines[idx] = deadline;
+  } else {
+    db.deadlines.push(deadline);
+  }
+  
+  writeDB(db);
+  res.json({ success: true, deadline });
+});
+
+// 4. AUTOMATED REPORTS (AI GENERATOR)
+app.get("/api/reports", (req, res) => {
+  const db = readDB();
+  res.json(db.reports);
+});
+
+app.post("/api/reports/generate", async (req, res) => {
+  const { candidateId, type } = req.body;
+  const db = readDB();
+  
+  const candidate = db.candidates.find((c: any) => c.id === candidateId);
+  if (!candidate) {
+    return res.status(404).json({ error: "Candidato não encontrado" });
+  }
+  
+  // Prepare status summaries for prompt
+  const publications = candidate.publications || [];
+  const approvedPubs = publications.filter((p: any) => p.status === "Aprovado" || p.status === "Postado").length;
+  const totalPubs = publications.length;
+  const pubPercentage = totalPubs > 0 ? Math.round((approvedPubs / totalPubs) * 100) : 0;
+  
+  // Mapping summary
+  const filledMappings = candidate.mappings.filter((m: any) => m.lideranca || m.meta2026 || m.situacao);
+  const totalTargetVotes = candidate.mappings.reduce((acc: number, cur: any) => acc + (parseInt(cur.meta2026) || 0), 0);
+  const totalHistoricVotes = candidate.mappings.reduce((acc: number, cur: any) => acc + (parseInt(cur.historicoVotos) || 0), 0);
+  
+  let prompt = `Aja como um analista político estrategista sênior da Federação PSDB-Cidadania em Santa Catarina.
+  Gere um relatório estruturado focado no tipo: "${type}" para o candidato(a) abaixo:
+  
+  - Nome de Urna: ${candidate.urnName} (${candidate.party})
+  - Número de Campanha: ${candidate.number}
+  - Histórico de Atuação: ${candidate.professionalBackground}
+  - Áreas de Interesse: ${candidate.areasOfInterest}
+  - Bandeiras Políticas: ${candidate.politicalFlags}
+  - Breve Trajetória: ${candidate.trajectory}
+  
+  --- Planejamento de Mídias e Agenda de Publicações ---
+  - Status Geral da Campanha: ${candidate.status}
+  - Publicações Aprovadas/Postadas: ${approvedPubs} de ${totalPubs} (${pubPercentage}% concluídos)
+  - Conteúdos Pendentes de Produção/Envio: ${publications.filter((p: any) => p.status === "Rascunho" || p.status === "Em Produção" || p.status === "Rejeitado").map((p: any) => p.title).join(", ") || "Nenhum"}
+  
+  --- Planejamento Geográfico (Mapeamento de Cidades) ---
+  - Cidades Mapeadas Ativas: ${filledMappings.length} cidades.
+  - Histórico de Votação Anterior Somado nestas Cidades: ${totalHistoricVotes} votos.
+  - Meta de Votação Geral Pactuada para 2026: ${totalTargetVotes} votos.
+  - Detalhamento de Cidades Principais:
+  ${filledMappings.map((m: any) => `  * Município: ${m.cityName} | Liderança Local: ${m.lideranca || "Não informada"} | Histórico: ${m.historicoVotos || "0"} | Meta 2026: ${m.meta2026 || "0"} | Situação Crucial: ${m.situacao || "Nenhuma registrada"}`).join("\n")}
+  
+  Por favor, escreva um relatório de 3 a 4 parágrafos bem densos, com tom formal, profissional, pragmático e estratégico. 
+  Divida em seções com títulos curtos (ex: DIAGNÓSTICO DE MÍDIAS, ALINHAMENTO GEOGRÁFICO, DIRETRIZES DE COMUNICAÇÃO).
+  
+  Foque em como otimizar o cronograma de publicações para engajar as bases eleitorais nos municípios-chave, alinhar as bandeiras políticas com a linha editorial de comunicação, e onde a coordenação da Federação deve intervir ou apoiar o candidato para impulsionar sua imagem digital.`;
+
+  let reportText = "";
+  
+  try {
+    if (geminiAI) {
+      const response = await geminiAI.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt,
+        config: {
+          systemInstruction: "Você é o Coordenador Geral de Comunicação e Análise Estratégica da Federação PSDB-Cidadania. Escreva em português elegante do Brasil, voltado para decisões de imagem e comunicação partidária."
+        }
+      });
+      reportText = response.text || "Erro ao obter resposta da inteligência artificial.";
+    } else {
+      // Fallback response if GEMINI_API_KEY is not configured
+      reportText = `### PLANEJAMENTO ESTRATÉGICO DE MÍDIAS (${type.toUpperCase()})
+      
+      **Candidato(a):** ${candidate.urnName} | **Partido:** ${candidate.party} | **Número:** ${candidate.number}
+      
+      #### 1. Diagnóstico do Cronograma de Comunicação Digital
+      O candidato apresenta um índice de **${pubPercentage}%** de conformidade e engajamento em sua Agenda de Publicações, contando com ${approvedPubs} postagens validadas e postadas de um total de ${totalPubs} pautas programadas. Há necessidade de acelerar a produção de conteúdos voltados às propostas de ${candidate.areasOfInterest || "desenvolvimento estadual"} para suprir os eixos ainda classificados como pendentes ou em produção.
+      
+      #### 2. Articulação Geográfica e Campanha Multi-Plataforma
+      Com base ativa em ${filledMappings.length} municípios mapeados de Santa Catarina e meta global pactuada de **${totalTargetVotes} votos**, a presença digital do candidato precisa ser calibrada de acordo com as especificidades regionais. Municípios do Oeste e Sul demandam postagens específicas valorizando parcerias locais e as bandeiras de atuação prática do candidato (${candidate.politicalFlags}).
+      
+      #### 3. Diretrizes de Comunicação e Suporte Partidário
+      A coordenação estadual de mídias, sob liderança de ${candidate.mediaCoordinatorName || "equipe local de mídias"}, deve prover suporte para as campanhas de impulsionamento georreferenciado e assegurar que as postagens agendadas reflitam as diretrizes de mobilização da Federação. Sugere-se intensificar a produção de formatos interativos (Reels/Vídeos de rua) para humanizar a candidatura perante os eleitores catarinenses.`;
+    }
+  } catch (error: any) {
+    console.error("Gemini API Error:", error);
+    reportText = `Erro na geração de IA: ${error.message || error}. Por favor, verifique a chave GEMINI_API_KEY.`;
+  }
+  
+  const newReport = {
+    id: "rep-" + Date.now(),
+    title: `Relatório ${type} - ${candidate.urnName}`,
+    createdAt: new Date().toISOString(),
+    content: reportText,
+    author: "Analista Inteligência Federação",
+    candidateId,
+    candidateName: candidate.urnName,
+    type
+  };
+  
+  db.reports.unshift(newReport);
+  writeDB(db);
+  
+  res.json({ success: true, report: newReport });
+});
+
+// Build / Hot Module Replacement & SPA Static setup
+async function startServer() {
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa"
+    });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), "dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  });
+}
+
+startServer();

@@ -1,0 +1,5966 @@
+{
+  "candidates": [
+    {
+      "id": "cand-1",
+      "name": "Geovania de Sá",
+      "number": "23023",
+      "urnName": "GEOVANIA DE SÁ",
+      "whatsapp": "(48) 99912-3456",
+      "instagram": "@geovaniadesa",
+      "facebook": "GeovaniaDeSaOficial",
+      "email": "geovania.sa@cidadania23.org.br",
+      "party": "Cidadania",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Thiago Goulart",
+      "mediaCoordinatorWhatsApp": "(48) 99122-8765",
+      "professionalBackground": "Assistente Social de carreira, Deputada Federal, ex-secretária municipal de Assistência Social e de Saúde de Criciúma.",
+      "areasOfInterest": "Assistência Social, Saúde Pública, Defesa dos Direitos da Mulher e Emprego.",
+      "teams": "Coordenação Sul, Mídias Sociais, Mobilização Criciúma",
+      "family": "Apoio familiar integral no Sul Catarinense",
+      "groups": "Entidades filantrópicas, Associações de Bairro, Igrejas, Lideranças de Assistência",
+      "trajectory": "Com sólida trajetória na área social, Geovania iniciou sua vida pública na gestão local em Criciúma. Eleita deputada, obteve destaque pela destinação recorde de emendas para a saúde catarinense.",
+      "politicalFlags": "Saúde com dignidade, proteção integral à infância, valorização das entidades filantrópicas e assistência aos municípios.",
+      "keyContacts": [
+        {
+          "ladoAName": "Prefeito Clésio Salvaro",
+          "ladoAWhatsApp": "(48) 99144-1122",
+          "ladoBName": "Vereadora Geovana",
+          "ladoBWhatsApp": "(48) 99822-3344"
+        },
+        {
+          "ladoAName": "Acélio Casagrande",
+          "ladoAWhatsApp": "(48) 99933-2211",
+          "ladoBName": "Pastor Emerson",
+          "ladoBWhatsApp": "(48) 99111-5544"
+        },
+        {
+          "ladoAName": "Liderança Júlio (Araranguá)",
+          "ladoAWhatsApp": "(48) 99655-4433",
+          "ladoBName": "Coordenador Alisson",
+          "ladoBWhatsApp": "(48) 99201-4455"
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [
+        {
+          "id": "pub-1",
+          "title": "Lançamento da Pré-Candidatura",
+          "date": "2026-07-01",
+          "time": "10:00",
+          "platforms": [
+            "Instagram",
+            "Facebook"
+          ],
+          "format": "Card",
+          "caption": "Com muita alegria e compromisso com o futuro de Santa Catarina, anuncio o lançamento da nossa pré-candidatura! Conto com o apoio de cada um de vocês nessa jornada de muito trabalho e dedicação pelo nosso povo. 🇧🇷✨ #SantaCatarina #Compromisso",
+          "status": "Postado",
+          "fileName": "lancamento_pre_candidatura.png",
+          "fileSize": "1.5 MB",
+          "postUrl": "https://instagram.com/p/C7abc123",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-2",
+          "title": "Bandeira da Saúde: Propostas regionais",
+          "date": "2026-07-06",
+          "time": "14:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "YouTube"
+          ],
+          "format": "Vídeo",
+          "caption": "A saúde pública de qualidade é nossa prioridade absoluta. Hoje falo sobre nossos projetos para zerar as filas de exames especializados e cirurgias eletivas em todas as regiões do estado. Assista e compartilhe suas ideias! 🏥💪 #SaudeSC #TrabalhoSério",
+          "status": "Postado",
+          "fileName": "video_saude_propostas.mp4",
+          "fileSize": "18.4 MB",
+          "postUrl": "https://instagram.com/p/C7xyz456",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-3",
+          "title": "Entrevista de Rádio - Desenvolvimento Regional",
+          "date": "2026-07-12",
+          "time": "08:30",
+          "platforms": [
+            "YouTube",
+            "WhatsApp"
+          ],
+          "format": "Vídeo",
+          "caption": "Sintonize amanhã na Rádio Aliança para acompanhar nossa entrevista sobre as necessidades de infraestrutura, pavimentação e fomento ao agronegócio no Oeste catarinense. Estaremos ao vivo a partir das 08:30! 📻🌾 #DesenvolvimentoSC #OesteSC",
+          "status": "Aprovado",
+          "fileName": "roteiro_entrevista_radio.pdf",
+          "fileSize": "320 KB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-4",
+          "title": "Apoio às APAEs e Inclusão",
+          "date": "2026-07-16",
+          "time": "12:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "TikTok"
+          ],
+          "format": "Reels",
+          "caption": "Nosso mandato sempre esteve e sempre estará ao lado da inclusão social e do suporte integral às APAEs e entidades beneficentes do nosso estado. Garantir dignidade e inclusão para pessoas com deficiência é um dever de todos. 💙🤝 #Inclusao #APAEs #AmorAoProximo",
+          "status": "Em Produção",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-5",
+          "title": "Encontro com Lideranças do Vale",
+          "date": "2026-07-20",
+          "time": "19:00",
+          "platforms": [
+            "Instagram",
+            "X"
+          ],
+          "format": "Foto",
+          "caption": "Hoje realizamos uma reunião produtiva com prefeitos, vereadores e lideranças do Vale do Itajaí. Discutimos novas frentes de investimento e como a nossa federação pode potencializar os convênios municipais. 📈🗺️ #Liderancas #TrabalhoForte #Municipalismo",
+          "status": "Agendado",
+          "fileName": "arte_encontro_liderancas.png",
+          "fileSize": "2.1 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-6",
+          "title": "Dica de Utilidade Pública: Cadastro Eleitoral",
+          "date": "2026-07-25",
+          "time": "09:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "WhatsApp"
+          ],
+          "format": "Carrossel",
+          "caption": "Atenção eleitor! O prazo para regularização do título de eleitor está chegando. Preparamos esse carrossel informativo passo a passo para você não perder a oportunidade de exercer sua cidadania nestas eleições! 🗳️📲 #Eleicoes2026 #Cidadania #UtilidadePublica",
+          "status": "Enviado",
+          "fileName": "carrossel_utilidade_cadastro.pdf",
+          "fileSize": "4.8 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        }
+      ],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "Roberto Souza (Suplente)",
+          "historicoVotos": "1.250",
+          "meta2026": "3.500",
+          "situacao": "Demanda por ampliação da rede de assistência na Grande Florianópolis."
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "Júlio César",
+          "historicoVotos": "2.800",
+          "meta2026": "5.000",
+          "situacao": "Visita de campanha agendada; forte apoio das igrejas locais."
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:22:06.100Z"
+    },
+    {
+      "id": "cand-2",
+      "name": "Marcos Vieira",
+      "number": "45699",
+      "urnName": "DEPUTADO MARCOS VIEIRA",
+      "whatsapp": "(49) 99919-0821",
+      "instagram": "@deputadomarcosvieira",
+      "facebook": "deputadomarcosvieira",
+      "email": "",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "",
+      "mediaCoordinatorWhatsApp": "",
+      "professionalBackground": "DEPUTADO ESTADUAL",
+      "areasOfInterest": "Municipalismo, Grande Florianópolis, Dionísio Cerqueira, São Miguel do Oeste, Itapiranga",
+      "teams": "Coordenação Estadual PSDB",
+      "family": "Apoio familiar em Florianópolis e Oeste",
+      "groups": "Prefeitos, Vice-Prefeitos, Vereadores, Cooperativas",
+      "trajectory": "Líder histórico do PSDB em Santa Catarina, Marcos Vieira construiu sua reputação no municipalismo, sendo o deputado estadual que mais garantiu recursos diretos para convênios com prefeituras.",
+      "politicalFlags": "Fortalecimento dos municípios, descentralização do orçamento, pavimentação asfáltica de estradas rurais e fomento ao pequeno produtor.",
+      "keyContacts": [
+        {
+          "ladoAName": "Prefeito João Rodrigues (Apoio)",
+          "ladoAWhatsApp": "(49) 99981-1122",
+          "ladoBName": "Prefeita de Cunha Porã",
+          "ladoBWhatsApp": "(49) 99812-4523"
+        },
+        {
+          "ladoAName": "Vice-Prefeito de São José",
+          "ladoAWhatsApp": "(48) 99112-2345",
+          "ladoBName": "Presidente Regional PSDB",
+          "ladoBWhatsApp": "(48) 99651-1212"
+        },
+        {
+          "ladoAName": "Secretário de Obras",
+          "ladoAWhatsApp": "(48) 99823-1122",
+          "ladoBName": "Assessor Regional Oeste",
+          "ladoBWhatsApp": "(49) 99932-1244"
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [
+        {
+          "id": "pub-1",
+          "title": "Lançamento da Pré-Candidatura",
+          "date": "2026-07-01",
+          "time": "10:00",
+          "platforms": [
+            "Instagram",
+            "Facebook"
+          ],
+          "format": "Card",
+          "caption": "Com muita alegria e compromisso com o futuro de Santa Catarina, anuncio o lançamento da nossa pré-candidatura! Conto com o apoio de cada um de vocês nessa jornada de muito trabalho e dedicação pelo nosso povo. 🇧🇷✨ #SantaCatarina #Compromisso",
+          "status": "Postado",
+          "fileName": "lancamento_pre_candidatura.png",
+          "fileSize": "1.5 MB",
+          "postUrl": "https://instagram.com/p/C7abc123",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-2",
+          "title": "Bandeira da Saúde: Propostas regionais",
+          "date": "2026-07-06",
+          "time": "14:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "YouTube"
+          ],
+          "format": "Vídeo",
+          "caption": "A saúde pública de qualidade é nossa prioridade absoluta. Hoje falo sobre nossos projetos para zerar as filas de exames especializados e cirurgias eletivas em todas as regiões do estado. Assista e compartilhe suas ideias! 🏥💪 #SaudeSC #TrabalhoSério",
+          "status": "Postado",
+          "fileName": "video_saude_propostas.mp4",
+          "fileSize": "18.4 MB",
+          "postUrl": "https://instagram.com/p/C7xyz456",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-3",
+          "title": "Entrevista de Rádio - Desenvolvimento Regional",
+          "date": "2026-07-12",
+          "time": "08:30",
+          "platforms": [
+            "YouTube",
+            "WhatsApp"
+          ],
+          "format": "Vídeo",
+          "caption": "Sintonize amanhã na Rádio Aliança para acompanhar nossa entrevista sobre as necessidades de infraestrutura, pavimentação e fomento ao agronegócio no Oeste catarinense. Estaremos ao vivo a partir das 08:30! 📻🌾 #DesenvolvimentoSC #OesteSC",
+          "status": "Aprovado",
+          "fileName": "roteiro_entrevista_radio.pdf",
+          "fileSize": "320 KB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-4",
+          "title": "Apoio às APAEs e Inclusão",
+          "date": "2026-07-16",
+          "time": "12:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "TikTok"
+          ],
+          "format": "Reels",
+          "caption": "Nosso mandato sempre esteve e sempre estará ao lado da inclusão social e do suporte integral às APAEs e entidades beneficentes do nosso estado. Garantir dignidade e inclusão para pessoas com deficiência é um dever de todos. 💙🤝 #Inclusao #APAEs #AmorAoProximo",
+          "status": "Em Produção",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-5",
+          "title": "Encontro com Lideranças do Vale",
+          "date": "2026-07-20",
+          "time": "19:00",
+          "platforms": [
+            "Instagram",
+            "X"
+          ],
+          "format": "Foto",
+          "caption": "Hoje realizamos uma reunião produtiva com prefeitos, vereadores e lideranças do Vale do Itajaí. Discutimos novas frentes de investimento e como a nossa federação pode potencializar os convênios municipais. 📈🗺️ #Liderancas #TrabalhoForte #Municipalismo",
+          "status": "Agendado",
+          "fileName": "arte_encontro_liderancas.png",
+          "fileSize": "2.1 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-6",
+          "title": "Dica de Utilidade Pública: Cadastro Eleitoral",
+          "date": "2026-07-25",
+          "time": "09:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "WhatsApp"
+          ],
+          "format": "Carrossel",
+          "caption": "Atenção eleitor! O prazo para regularização do título de eleitor está chegando. Preparamos esse carrossel informativo passo a passo para você não perder a oportunidade de exercer sua cidadania nestas eleições! 🗳️📲 #Eleicoes2026 #Cidadania #UtilidadePublica",
+          "status": "Enviado",
+          "fileName": "carrossel_utilidade_cadastro.pdf",
+          "fileSize": "4.8 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        }
+      ],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "Ademir de Souza",
+          "historicoVotos": "3.100",
+          "meta2026": "5.000",
+          "situacao": "Demanda crucial de asfalto em bairros periféricos de divisa."
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "Coordenador Regional Valdir",
+          "historicoVotos": "5.400",
+          "meta2026": "8.000",
+          "situacao": "Encontro estratégico agendado com sindicatos de produtores rurais."
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-3",
+      "name": "Dr. Vicente Caropreso",
+      "number": "45111",
+      "urnName": "DR. VICENTE CAROPRESO",
+      "whatsapp": "(47) 99122-1111",
+      "instagram": "@drvicentecaropreso",
+      "facebook": "VicenteCaropreso",
+      "email": "dr.vicente@psdb.org.br",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Daniela Althoff",
+      "mediaCoordinatorWhatsApp": "(47) 99211-5463",
+      "professionalBackground": "Médico Neurologista, ex-Secretário de Estado da Saúde de Santa Catarina, Deputado Estadual atuante na saúde pública.",
+      "areasOfInterest": "Saúde, Direitos das Pessoas com Deficiência, Inclusão de Autistas, Educação Especial.",
+      "teams": "Escritório Jaraguá do Sul, Equipe de Saúde Norte, Voluntariado APAEs",
+      "family": "Lideranças da comunidade alemã no Vale do Itapocu",
+      "groups": "Diretoria das APAEs de Santa Catarina, Associação Catarinense de Medicina, Rede de Autismo",
+      "trajectory": "Dr. Vicente é reconhecido pelo trabalho incansável nas pautas de saúde pública e acessibilidade, sendo o autor de legislações estaduais pioneiras no suporte ao transtorno do espectro autista.",
+      "politicalFlags": "Zerar filas do SUS, financiamento integral para as APAEs e AMAs, diagnóstico precoce de neuropatias infantis e hospitais filantrópicos estruturados.",
+      "keyContacts": [
+        {
+          "ladoAName": "Presidente Estadual das APAEs",
+          "ladoAWhatsApp": "(48) 99111-2244",
+          "ladoBName": "Prefeito de Jaraguá do Sul",
+          "ladoBWhatsApp": "(47) 99882-1212"
+        },
+        {
+          "ladoAName": "Dr. Marcelo (CRM-SC)",
+          "ladoAWhatsApp": "(48) 99934-5566",
+          "ladoBName": "Coordenadora AMA Norte",
+          "ladoBWhatsApp": "(47) 99211-3344"
+        },
+        {
+          "ladoAName": "Líder Comunitário Blumenau",
+          "ladoAWhatsApp": "(47) 99611-2233",
+          "ladoBName": "Assessor Jurídico Campanha",
+          "ladoBWhatsApp": "(47) 99144-8899"
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [
+        {
+          "id": "pub-1",
+          "title": "Lançamento da Pré-Candidatura",
+          "date": "2026-07-01",
+          "time": "10:00",
+          "platforms": [
+            "Instagram",
+            "Facebook"
+          ],
+          "format": "Card",
+          "caption": "Com muita alegria e compromisso com o futuro de Santa Catarina, anuncio o lançamento da nossa pré-candidatura! Conto com o apoio de cada um de vocês nessa jornada de muito trabalho e dedicação pelo nosso povo. 🇧🇷✨ #SantaCatarina #Compromisso",
+          "status": "Postado",
+          "fileName": "lancamento_pre_candidatura.png",
+          "fileSize": "1.5 MB",
+          "postUrl": "https://instagram.com/p/C7abc123",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-2",
+          "title": "Bandeira da Saúde: Propostas regionais",
+          "date": "2026-07-06",
+          "time": "14:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "YouTube"
+          ],
+          "format": "Vídeo",
+          "caption": "A saúde pública de qualidade é nossa prioridade absoluta. Hoje falo sobre nossos projetos para zerar as filas de exames especializados e cirurgias eletivas em todas as regiões do estado. Assista e compartilhe suas ideias! 🏥💪 #SaudeSC #TrabalhoSério",
+          "status": "Postado",
+          "fileName": "video_saude_propostas.mp4",
+          "fileSize": "18.4 MB",
+          "postUrl": "https://instagram.com/p/C7xyz456",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-3",
+          "title": "Entrevista de Rádio - Desenvolvimento Regional",
+          "date": "2026-07-12",
+          "time": "08:30",
+          "platforms": [
+            "YouTube",
+            "WhatsApp"
+          ],
+          "format": "Vídeo",
+          "caption": "Sintonize amanhã na Rádio Aliança para acompanhar nossa entrevista sobre as necessidades de infraestrutura, pavimentação e fomento ao agronegócio no Oeste catarinense. Estaremos ao vivo a partir das 08:30! 📻🌾 #DesenvolvimentoSC #OesteSC",
+          "status": "Aprovado",
+          "fileName": "roteiro_entrevista_radio.pdf",
+          "fileSize": "320 KB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-4",
+          "title": "Apoio às APAEs e Inclusão",
+          "date": "2026-07-16",
+          "time": "12:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "TikTok"
+          ],
+          "format": "Reels",
+          "caption": "Nosso mandato sempre esteve e sempre estará ao lado da inclusão social e do suporte integral às APAEs e entidades beneficentes do nosso estado. Garantir dignidade e inclusão para pessoas com deficiência é um dever de todos. 💙🤝 #Inclusao #APAEs #AmorAoProximo",
+          "status": "Aprovado",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-5",
+          "title": "Encontro com Lideranças do Vale",
+          "date": "2026-07-20",
+          "time": "19:00",
+          "platforms": [
+            "Instagram",
+            "X"
+          ],
+          "format": "Foto",
+          "caption": "Hoje realizamos uma reunião produtiva com prefeitos, vereadores e lideranças do Vale do Itajaí. Discutimos novas frentes de investimento e como a nossa federação pode potencializar os convênios municipais. 📈🗺️ #Liderancas #TrabalhoForte #Municipalismo",
+          "status": "Em Produção",
+          "fileName": "arte_encontro_liderancas.png",
+          "fileSize": "2.1 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        },
+        {
+          "id": "pub-6",
+          "title": "Dica de Utilidade Pública: Cadastro Eleitoral",
+          "date": "2026-07-25",
+          "time": "09:00",
+          "platforms": [
+            "Instagram",
+            "Facebook",
+            "WhatsApp"
+          ],
+          "format": "Carrossel",
+          "caption": "Atenção eleitor! O prazo para regularização do título de eleitor está chegando. Preparamos esse carrossel informativo passo a passo para você não perder a oportunidade de exercer sua cidadania nestas eleições! 🗳️📲 #Eleicoes2026 #Cidadania #UtilidadePublica",
+          "status": "Em Produção",
+          "fileName": "carrossel_utilidade_cadastro.pdf",
+          "fileSize": "4.8 MB",
+          "lastUpdated": "2026-07-10T12:22:06.099Z"
+        }
+      ],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "Dr. Luiz (Médico parceiro)",
+          "historicoVotos": "4.200",
+          "meta2026": "7.000",
+          "situacao": "Demanda de ampliação dos leitos de retaguarda pediátricos."
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "Diretoria Local",
+          "historicoVotos": "18.200",
+          "meta2026": "25.000",
+          "situacao": "Forte base consolidada. Pauta: liberação de recursos para o Hospital São José."
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:22:06.100Z"
+    },
+    {
+      "id": "cand-arildo-fernandes",
+      "name": "Arildo Fernandes da Silva",
+      "number": "45777",
+      "urnName": "ARILDO FERNANDES DA SILVA",
+      "whatsapp": "(47) 99742-6128",
+      "instagram": "@arildofernandesoficial",
+      "facebook": "arildofernandesoficial",
+      "email": "arildofernandes@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "rafa",
+      "mediaCoordinatorWhatsApp": "(47) 99119-9278",
+      "professionalBackground": "PROFESSOR",
+      "areasOfInterest": "Educação, Cultura, Joinville e Região",
+      "teams": "Equipe de Campanha Joinville",
+      "family": "Apoio familiar na região Norte",
+      "groups": "Professores, Movimentos Estudantis, Associações de Bairro",
+      "trajectory": "Arildo é professor com longa atuação na rede de ensino do Norte catarinense, dedicando sua trajetória à qualidade da educação pública e fomento ao esporte e cultura local.",
+      "politicalFlags": "Valorização dos profissionais de educação, ampliação de creches e escolas integradas, apoio a projetos esportivos comunitários.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.668Z"
+    },
+    {
+      "id": "cand-sergio-freitas",
+      "name": "Sérgio Freitas",
+      "number": "45555",
+      "urnName": "SÉRGIO FREITAS",
+      "whatsapp": "(48) 98838-9778",
+      "instagram": "@sergiofreitas",
+      "facebook": "sergiofreitas",
+      "email": "",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "",
+      "mediaCoordinatorWhatsApp": "",
+      "professionalBackground": "SERVIDOR DA PREFEITURA",
+      "areasOfInterest": "Gestão Pública, Grande Florianópolis, Braço do Norte",
+      "teams": "Equipe de Campanha Regional",
+      "family": "Apoio familiar no Braço do Norte",
+      "groups": "Servidores Públicos, Associações Comunitárias",
+      "trajectory": "Sérgio é servidor público municipal na região da Grande Florianópolis, atuando diretamente em projetos de melhoria do serviço público e proximidade com as comunidades.",
+      "politicalFlags": "Eficiência na gestão pública, valorização dos servidores municipais e melhoria no atendimento das prefeituras.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-karyne-muller",
+      "name": "Karyne Muller",
+      "number": "45888",
+      "urnName": "KARYNE MULLER",
+      "whatsapp": "(47) 99709-2072",
+      "instagram": "",
+      "facebook": "",
+      "email": "karinymbrum@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "",
+      "mediaCoordinatorWhatsApp": "",
+      "professionalBackground": "Empresária",
+      "areasOfInterest": "Empreendedorismo, Balneário Camboriú, Itajaí",
+      "teams": "Equipe Litoral",
+      "family": "Apoio familiar em Balneário Camboriú",
+      "groups": "CDL, ACIB, Empreendedoras Locais",
+      "trajectory": "Karyne é empresária atuante no Vale do Itajaí, com forte liderança no comércio local e fomento ao empreendedorismo feminino.",
+      "politicalFlags": "Empreendedorismo, desburocratização comercial, fomento ao turismo regional e capacitação profissional para mulheres.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-jefferson-schmidt",
+      "name": "Jefferson Schmidt",
+      "number": "45678",
+      "urnName": "JEFFERSON SCHMIDT",
+      "whatsapp": "(47) 98414-4486",
+      "instagram": "@coronel_j.schmidt",
+      "facebook": "coronel_j.schmidt",
+      "email": "jefferson84144486@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Danubia",
+      "mediaCoordinatorWhatsApp": "(47) 99640-7323",
+      "professionalBackground": "Coronel da Reserva da Polícia Militar",
+      "areasOfInterest": "Segurança Pública, Timbó, Blumenau, Brusque, Balneário Camboriú, Itajaí, Joinville, Jaraguá do Sul",
+      "teams": "Coordenação de Segurança Regional",
+      "family": "Apoio familiar no Vale",
+      "groups": "Policiais Militares, Associações de Segurança, Clubes de Serviço",
+      "trajectory": "Jefferson é Coronel da Reserva da Polícia Militar de Santa Catarina, com mais de 30 anos de serviços prestados à segurança pública de diversas regiões do estado.",
+      "politicalFlags": "Segurança integrada, apoio às corporações policiais, prevenção à criminalidade e segurança nas escolas.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-bruno-horwatitsch",
+      "name": "Bruno Horwatitsch Cunha",
+      "number": "23123",
+      "urnName": "BRUNO CUNHA",
+      "whatsapp": "(47) 99644-0202",
+      "instagram": "@brunocunhablu",
+      "facebook": "brunocunhablu",
+      "email": "testesdogabinenete@gmail.com",
+      "party": "Cidadania",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "eid",
+      "mediaCoordinatorWhatsApp": "(47) 99997-0464",
+      "professionalBackground": "VEREADOR",
+      "areasOfInterest": "Defesa Animal, Transparência, Blumenau",
+      "teams": "Equipe Blumenau Cidadania",
+      "family": "Apoio familiar em Blumenau",
+      "groups": "ONGs Protetoras, Movimentos de Transparência, Causa Animal",
+      "trajectory": "Bruno é vereador em Blumenau, com forte atuação em prol da transparência na política, defesa animal, acessibilidade e causas sociais do município.",
+      "politicalFlags": "Causa animal, transparência pública, inovação na administração e inclusão de pessoas com deficiência.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-renato-geske",
+      "name": "Renato Geske",
+      "number": "45051",
+      "urnName": "RENATO GESKE",
+      "whatsapp": "(48) 98401-1577",
+      "instagram": "@ver.renatodafarmacia",
+      "facebook": "ver.renatodafarmacia",
+      "email": "othaviookonsky@hotmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "othavio",
+      "mediaCoordinatorWhatsApp": "(48) 99928-5584",
+      "professionalBackground": "VEREADOR",
+      "areasOfInterest": "Saúde, Assistência Farmacêutica, Florianópolis",
+      "teams": "Equipe Ilha",
+      "family": "Apoio familiar em Florianópolis",
+      "groups": "Profissionais de Saúde, Associações de Bairro de Florianópolis",
+      "trajectory": "Renato é conhecido como 'Renato da Farmácia', vereador atuante em Florianópolis com forte presença em causas sociais ligadas à saúde comunitária e assistência aos necessitados.",
+      "politicalFlags": "Ampliação do acesso a medicamentos, fortalecimento dos postos de saúde municipais e assistência social comunitária.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.683Z"
+    },
+    {
+      "id": "cand-adelar-tolfo",
+      "name": "Adelar José Tolfo",
+      "number": "45345",
+      "urnName": "ADELAR JOSÉ TOLFO",
+      "whatsapp": "(47) 99786-3770",
+      "instagram": "",
+      "facebook": "",
+      "email": "camila.tolfo@hotmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Camila",
+      "mediaCoordinatorWhatsApp": "(47) 99608-5951",
+      "professionalBackground": "Assessor Técnico de Saúde em Ibirama",
+      "areasOfInterest": "Saúde Pública, Alto Vale, Ibirama, Rio do Sul, Taió",
+      "teams": "Equipe Alto Vale",
+      "family": "Apoio familiar em Ibirama",
+      "groups": "Servidores da Saúde, Conselhos Municipais de Saúde",
+      "trajectory": "Adelar é assessor técnico de saúde em Ibirama, com ampla experiência em gestão hospitalar, regulação de leitos e captação de recursos para a saúde do Alto Vale.",
+      "politicalFlags": "Redução de filas do SUS, ampliação dos convênios hospitalares regionais e fortalecimento do atendimento de urgência e emergência.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-leonardo-heizen",
+      "name": "Leonardo Garcia Heizen",
+      "number": "45455",
+      "urnName": "LEONARDO GARCIA HEIZEN",
+      "whatsapp": "(49) 98832-9152",
+      "instagram": "@leonardogarciaheinzen",
+      "facebook": "leonardogarciaheinzen",
+      "email": "vanessascortegagnapagani@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Vanessa",
+      "mediaCoordinatorWhatsApp": "(49) 99995-1064",
+      "professionalBackground": "EX VICE PREFEITO",
+      "areasOfInterest": "Desenvolvimento Urbano, Planalto Serrano, Lages, Anita Garibaldi, São Joaquim",
+      "teams": "Equipe Serra Catarinense",
+      "family": "Liderança tradicional na Serra",
+      "groups": "Associações Comerciais, Sindicatos Rurais, Lideranças Municipais",
+      "trajectory": "Leonardo foi vice-prefeito e possui longa ficha de serviços prestados no desenvolvimento da infraestrutura urbana e fomento ao turismo de inverno na Serra Catarinense.",
+      "politicalFlags": "Fomento ao turismo serrano, incentivos fiscais para novas indústrias na região e melhoria na pavimentação das rodovias estaduais.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-sonia-vedovatto",
+      "name": "Sonia Salete Vedovatto",
+      "number": "45450",
+      "urnName": "SONIA SALETE VEDOVATTO",
+      "whatsapp": "(49) 99139-7660",
+      "instagram": "@soniavedovatto",
+      "facebook": "soniavedovatto",
+      "email": "tempoderecomecar45@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Alex",
+      "mediaCoordinatorWhatsApp": "(49) 99145-2895",
+      "professionalBackground": "EX PREFEITA",
+      "areasOfInterest": "Agricultura, Políticas Públicas para Mulheres, Campos Novos, Caçador, Videira, Curitibanos",
+      "teams": "Equipe Meio-Oeste",
+      "family": "Apoio familiar no Meio-Oeste",
+      "groups": "Produtores Rurais, Cooperativas de Mulheres, Clubes de Mães",
+      "trajectory": "Sonia é ex-prefeita municipal, reconhecida por sua gestão humanizada, avanço na infraestrutura rural e programas inovadores de assistência social e apoio ao agricultor familiar.",
+      "politicalFlags": "Apoio à agricultura familiar, empoderamento e capacitação de mulheres do campo, melhoria das estradas do interior.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-patricia-sobreda",
+      "name": "Patrícia Sobreda",
+      "urnName": "PATRÍCIA SOBREDA",
+      "number": "45000",
+      "whatsapp": "(48) 99940-4610",
+      "instagram": "@sobreda_s_patricia",
+      "facebook": "sobreda_s_patricia",
+      "email": "sobredap@gmail.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "",
+      "mediaCoordinatorWhatsApp": "",
+      "professionalBackground": "Liderança Comunitária",
+      "areasOfInterest": "Ação Social, Grande Florianópolis, Palhoça",
+      "teams": "Equipe Palhoça",
+      "family": "Apoio familiar em Palhoça",
+      "groups": "Clubes de Mães, Projetos Sociais Comunitários, Igrejas",
+      "trajectory": "Patrícia é uma das maiores lideranças da região de Palhoça, focada em desenvolvimento comunitário e acolhimento a famílias em situação de vulnerabilidade.",
+      "politicalFlags": "Projetos sociais descentralizados, cursos profissionalizantes em bairros periféricos e melhorias urbanas na Grande Florianópolis.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-paulo-spengler",
+      "name": "Paulo Spengler",
+      "number": "45145",
+      "urnName": "PAULO SPENGLER",
+      "whatsapp": "",
+      "instagram": "",
+      "facebook": "paulo.spengler.1",
+      "email": "",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Edmilson",
+      "mediaCoordinatorWhatsApp": "(47) 99623-6211",
+      "professionalBackground": "VEREADOR",
+      "areasOfInterest": "Saneamento, Meio Ambiente, Rio do Sul, Alto Vale",
+      "teams": "Equipe Rio do Sul",
+      "family": "Apoio familiar em Rio do Oeste",
+      "groups": "Sindicatos de Trabalhadores, Movimentos Ambientais",
+      "trajectory": "Paulo é vereador com grande histórico de atuação em prol da preservação ambiental e infraestrutura de saneamento básico no Vale do Itajaí.",
+      "politicalFlags": "Preservação de mananciais, saneamento básico universalizado, incentivos à energia limpa e desenvolvimento sustentável.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-tcharles-purim",
+      "name": "Tcharles Purim",
+      "number": "45045",
+      "urnName": "TCHARLES PURIM",
+      "whatsapp": "(47) 99220-2364",
+      "instagram": "@tcharlespurim",
+      "facebook": "tcharlespurim",
+      "email": "",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Luana",
+      "mediaCoordinatorWhatsApp": "(47) 99224-2859",
+      "professionalBackground": "SUPLENTE DE VEREADOR",
+      "areasOfInterest": "Desenvolvimento Econômico, Planalto Norte, São Bento do Sul",
+      "teams": "Equipe Planalto Norte",
+      "family": "Apoio familiar em Rio Negrinho",
+      "groups": "Jovens Empreendedores, Setor de Móveis e Madeira",
+      "trajectory": "Tcharles é suplente de vereador atuante em Rio Negrinho, com engajamento focado em atração de investimentos industriais, fomento de startups e emprego para jovens do Planalto Norte.",
+      "politicalFlags": "Estágio de primeiro emprego subsidiado, apoio à indústria moveleira regional, desoneração tributária para microempresas.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.684Z"
+    },
+    {
+      "id": "cand-edson-duarte",
+      "name": "Edson Luiz Duarte",
+      "number": "45444",
+      "urnName": "EDSON LUIZ DUARTE",
+      "whatsapp": "(47) 99202-7674",
+      "instagram": "edinho.casaazul",
+      "facebook": "edinho.casaazul",
+      "email": "fabinhosãochico@terra.com",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "Fabinho",
+      "mediaCoordinatorWhatsApp": "(47) 98421-5095",
+      "professionalBackground": "Vereador",
+      "areasOfInterest": "Portos e Logística, Joinville, São Francisco do Sul",
+      "teams": "Equipe São Francisco do Sul",
+      "family": "Apoio familiar na região portuária",
+      "groups": "Trabalhadores Portuários, Sindicato Marítimo",
+      "trajectory": "Edson (conhecido popularmente como Edinho) é vereador em São Francisco do Sul com larga representação no setor portuário e de transportes marítimos da região de Joinville.",
+      "politicalFlags": "Infraestrutura portuária de ponta, qualificação de mão de obra para logística e desenvolvimento do ecoturismo litorâneo.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.685Z"
+    },
+    {
+      "id": "cand-jucemar-custodio",
+      "name": "Jucemar Custódio",
+      "number": "45222",
+      "urnName": "JUCEMAR CUSTÓDIO (BUJÃO)",
+      "whatsapp": "(48) 99665-4545",
+      "instagram": "@jucemarcustodio",
+      "facebook": "jucemarcustodio",
+      "email": "",
+      "party": "PSDB",
+      "status": "Em Campanha",
+      "photoUrl": "",
+      "mediaCoordinatorName": "João vitor",
+      "mediaCoordinatorWhatsApp": "(48) 99997-9000",
+      "professionalBackground": "VEREADOR",
+      "areasOfInterest": "Esporte Amador, Ação Comunitária, Sombrio, Araranguá, Criciúma",
+      "teams": "Equipe Extremo Sul",
+      "family": "Grande círculo familiar no Extremo Sul",
+      "groups": "Clubes de Futebol de Várzea, Cooperativas de Energia",
+      "trajectory": "Jucemar, amplamente conhecido como Bujão, é vereador em Sombrio com marcante presença de campo em prol do esporte comunitário e revitalização de espaços de lazer da juventude.",
+      "politicalFlags": "Fomento ao esporte amador, bolsas de iniciação esportiva para jovens carentes e reestruturação das quadras poliesportivas regionais.",
+      "keyContacts": [
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        },
+        {
+          "ladoAName": "",
+          "ladoAWhatsApp": "",
+          "ladoBName": "",
+          "ladoBWhatsApp": ""
+        }
+      ],
+      "publications": [],
+      "mappings": [
+        {
+          "cityId": "florianopolis",
+          "cityName": "Florianópolis",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-jose",
+          "cityName": "São José",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "palhoca",
+          "cityName": "Palhoça",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "biguacu",
+          "cityName": "Biguaçu",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "santo-amaro-da-imperatriz",
+          "cityName": "Santo Amaro da Imperatriz",
+          "region": "GRANDE FLORIANÓPOLIS",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "balneario-camboriu",
+          "cityName": "Balneário Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "itajai",
+          "cityName": "Itajaí",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "camboriu",
+          "cityName": "Camboriú",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ilhota",
+          "cityName": "Ilhota",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "brusque",
+          "cityName": "Brusque",
+          "region": "VALE DO ITAJAÍ",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "joinville",
+          "cityName": "Joinville",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "jaragua-do-sul",
+          "cityName": "Jaraguá do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "araquari",
+          "cityName": "Araquari",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "garuva",
+          "cityName": "Garuva",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-francisco-do-sul",
+          "cityName": "São Francisco do Sul",
+          "region": "NORTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ararangua",
+          "cityName": "Araranguá",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "turvo",
+          "cityName": "Turvo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "ermo",
+          "cityName": "Ermo",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "praia-grande",
+          "cityName": "Praia Grande",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sombrio",
+          "cityName": "Sombrio",
+          "region": "SUL CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "chapeco",
+          "cityName": "Chapecó",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "concordia",
+          "cityName": "Concórdia",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "xanxere",
+          "cityName": "Xanxerê",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "maravilha",
+          "cityName": "Maravilha",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-miguel-do-oeste",
+          "cityName": "São Miguel do Oeste",
+          "region": "OESTE CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "lages",
+          "cityName": "Lages",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urubici",
+          "cityName": "Urubici",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "sao-joaquim",
+          "cityName": "São Joaquim",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "urupema",
+          "cityName": "Urupema",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        },
+        {
+          "cityId": "bom-retiro",
+          "cityName": "Bom Retiro",
+          "region": "SERRA CATARINENSE",
+          "lideranca": "",
+          "historicoVotos": "",
+          "meta2026": "",
+          "situacao": ""
+        }
+      ],
+      "lastSaved": "2026-07-10T12:28:27.685Z"
+    }
+  ],
+  "deadlines": [
+    {
+      "id": "dl-1",
+      "title": "Janela Partidária (Desfiliação/Filiação)",
+      "date": "2026-04-03",
+      "description": "Período para detentores de mandato mudarem de partido sem perda do mandato cargo.",
+      "daysRemaining": 0,
+      "status": "Concluído",
+      "category": "Convenção"
+    },
+    {
+      "id": "dl-2",
+      "title": "Fechamento do Cadastro Eleitoral",
+      "date": "2026-05-06",
+      "description": "Data limite para alistamento eleitoral, transferência de domicílio e regularização do título.",
+      "daysRemaining": 0,
+      "status": "Concluído",
+      "category": "Registro"
+    },
+    {
+      "id": "dl-3",
+      "title": "Início das Convenções Partidárias",
+      "date": "2026-07-20",
+      "description": "Início do período em que partidos e federações realizam reuniões para escolher candidatos.",
+      "daysRemaining": 12,
+      "status": "Pendente",
+      "category": "Convenção"
+    },
+    {
+      "id": "dl-4",
+      "title": "Término das Convenções Partidárias",
+      "date": "2026-08-05",
+      "description": "Prazo final de deliberação sobre coligações, federações e definição dos candidatos oficiais.",
+      "daysRemaining": 28,
+      "status": "Pendente",
+      "category": "Convenção"
+    },
+    {
+      "id": "dl-5",
+      "title": "Prazo Limite para Registro de Candidaturas",
+      "date": "2026-08-15",
+      "description": "Último dia para que os partidos apresentem no TRE o requerimento de registro de candidatos.",
+      "daysRemaining": 38,
+      "status": "Crítico",
+      "category": "Registro"
+    },
+    {
+      "id": "dl-6",
+      "title": "Início da Propaganda Eleitoral Geral",
+      "date": "2026-08-16",
+      "description": "Dia a partir do qual é permitida a propaganda eleitoral pública, na internet e nas ruas.",
+      "daysRemaining": 39,
+      "status": "Pendente",
+      "category": "Propaganda"
+    },
+    {
+      "id": "dl-7",
+      "title": "Envio de Relatórios de Contas Parcial",
+      "date": "2026-09-15",
+      "description": "Apresentação da prestação de contas parcial com discriminação dos recursos recebidos e gastos.",
+      "daysRemaining": 69,
+      "status": "Pendente",
+      "category": "Prestação de Contas"
+    },
+    {
+      "id": "dl-8",
+      "title": "Eleições 2026 - Primeiro Turno",
+      "date": "2026-10-04",
+      "description": "Dia oficial da votação em todo o país em primeiro turno das eleições gerais de 2026.",
+      "daysRemaining": 88,
+      "status": "Pendente",
+      "category": "Outro"
+    }
+  ],
+  "reports": [
+    {
+      "id": "rep-1",
+      "title": "Análise Preliminar de Registro - Dr. Vicente Caropreso",
+      "createdAt": "2026-07-10T12:22:06.099Z",
+      "content": "O candidato Dr. Vicente Caropreso possui 75% da documentação entregue e validada. Falta apenas o Comprovante de Escolaridade e a Certidão de Filiação Partidária. A situação jurídica está estável, sem impedimentos decorrentes de antecedentes criminais nas justiças federal e estadual.",
+      "author": "Assessoria Jurídica Federação",
+      "candidateId": "cand-3",
+      "candidateName": "Dr. Vicente Caropreso",
+      "type": "Jurídico"
+    }
+  ]
+}
