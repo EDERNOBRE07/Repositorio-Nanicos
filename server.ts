@@ -1145,6 +1145,360 @@ app.post("/api/reports/generate", async (req, res) => {
   }
 });
 
+// DATABASE STATUS AND INTEGRATION ENDPOINTS
+// 1. GET /api/database/status
+app.get("/api/database/status", async (req, res) => {
+  try {
+    const usingMySQL = mysqlPool !== null;
+    let connected = false;
+    let errorMessage = null;
+    let host = process.env.DB_HOST || "Não configurado";
+    let databaseName = process.env.DB_NAME || "Não configurado";
+    let user = process.env.DB_USER || "Não configurado";
+
+    if (mysqlPool) {
+      try {
+        const conn = await mysqlPool.getConnection();
+        connected = true;
+        conn.release();
+      } catch (err: any) {
+        errorMessage = err.message || String(err);
+      }
+    }
+
+    // Get current counts from active database
+    const candidates = await getCandidates();
+    const rawDeadlines = await getDeadlines();
+    const reports = await getReports();
+
+    res.json({
+      success: true,
+      usingMySQL,
+      connected,
+      errorMessage,
+      config: {
+        host,
+        databaseName,
+        user,
+      },
+      stats: {
+        candidatesCount: candidates.length,
+        deadlinesCount: rawDeadlines.length,
+        reportsCount: reports.length,
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Erro ao obter status do banco." });
+  }
+});
+
+// 2. GET /api/database/export-sql
+app.get("/api/database/export-sql", async (req, res) => {
+  try {
+    const candidates = await getCandidates();
+    const rawDeadlines = await getDeadlines();
+    const reports = await getReports();
+
+    let sql = `-- =======================================================\n`;
+    sql += `-- BANCO DE DADOS ATUALIZADO: u844537895_candidatos\n`;
+    sql += `-- Exportado em: ${new Date().toISOString()}\n`;
+    sql += `-- Target Subdomain: candidatos.mastervisionmarketing.com\n`;
+    sql += `-- =======================================================\n\n`;
+
+    sql += `CREATE DATABASE IF NOT EXISTS \`u844537895_candidatos\` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n`;
+    sql += `USE \`u844537895_candidatos\`;\n\n`;
+
+    // 1. Candidates table
+    sql += `-- \n`;
+    sql += `-- Estrutura para tabela \`candidates\`\n`;
+    sql += `-- \n\n`;
+    sql += `CREATE TABLE IF NOT EXISTS \`candidates\` (\n`;
+    sql += `  \`id\` VARCHAR(50) NOT NULL PRIMARY KEY,\n`;
+    sql += `  \`name\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`number\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`urnName\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`whatsapp\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`instagram\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`facebook\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`email\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`party\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`status\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`photoUrl\` LONGTEXT DEFAULT NULL,\n`;
+    sql += `  \`mediaCoordinatorName\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`mediaCoordinatorWhatsApp\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`professionalBackground\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`areasOfInterest\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`teams\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`family\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`groups\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`trajectory\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`politicalFlags\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`keyContacts\` LONGTEXT DEFAULT NULL,\n`;
+    sql += `  \`publications\` LONGTEXT DEFAULT NULL,\n`;
+    sql += `  \`mappings\` LONGTEXT DEFAULT NULL,\n`;
+    sql += `  \`lastSaved\` VARCHAR(100) DEFAULT NULL\n`;
+    sql += `) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n`;
+
+    sql += `-- Despejando dados para a tabela \`candidates\`\n\n`;
+    for (const cand of candidates) {
+      const escape = (val: any) => {
+        if (val === null || val === undefined) return 'NULL';
+        let str = typeof val === 'object' ? JSON.stringify(val) : String(val);
+        str = str.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        return `'${str}'`;
+      };
+
+      sql += `INSERT INTO \`candidates\` (\n`;
+      sql += `  \`id\`, \`name\`, \`number\`, \`urnName\`, \`whatsapp\`, \`instagram\`, \`facebook\`, \`email\`, \`party\`, \`status\`, \`photoUrl\`,\n`;
+      sql += `  \`mediaCoordinatorName\`, \`mediaCoordinatorWhatsApp\`, \`professionalBackground\`, \`areasOfInterest\`,\n`;
+      sql += `  \`teams\`, \`family\`, \`groups\`, \`trajectory\`, \`politicalFlags\`, \`keyContacts\`, \`publications\`, \`mappings\`, \`lastSaved\`\n`;
+      sql += `) VALUES (\n`;
+      sql += `  ${escape(cand.id)}, ${escape(cand.name)}, ${escape(cand.number)}, ${escape(cand.urnName)}, ${escape(cand.whatsapp)}, ${escape(cand.instagram)}, ${escape(cand.facebook)}, ${escape(cand.email)}, ${escape(cand.party)}, ${escape(cand.status)}, ${escape(cand.photoUrl)},\n`;
+      sql += `  ${escape(cand.mediaCoordinatorName)}, ${escape(cand.mediaCoordinatorWhatsApp)}, ${escape(cand.professionalBackground)}, ${escape(cand.areasOfInterest)},\n`;
+      sql += `  ${escape(cand.teams)}, ${escape(cand.family)}, ${escape(cand.groups)}, ${escape(cand.trajectory)}, ${escape(cand.politicalFlags)}, ${escape(cand.keyContacts)}, ${escape(cand.publications)}, ${escape(cand.mappings)}, ${escape(cand.lastSaved)}\n`;
+      sql += `) ON DUPLICATE KEY UPDATE\n`;
+      sql += `  \`name\` = VALUES(\`name\`), \`number\` = VALUES(\`number\`), \`urnName\` = VALUES(\`urnName\`), \`whatsapp\` = VALUES(\`whatsapp\`), \`instagram\` = VALUES(\`instagram\`), \`facebook\` = VALUES(\`facebook\`), \`email\` = VALUES(\`email\`), \`party\` = VALUES(\`party\`), \`status\` = VALUES(\`status\`), \`photoUrl\` = VALUES(\`photoUrl\`), \`mediaCoordinatorName\` = VALUES(\`mediaCoordinatorName\`), \`mediaCoordinatorWhatsApp\` = VALUES(\`mediaCoordinatorWhatsApp\`), \`professionalBackground\` = VALUES(\`professionalBackground\`), \`areasOfInterest\` = VALUES(\`areasOfInterest\`), \`teams\` = VALUES(\`teams\`), \`family\` = VALUES(\`family\`), \`groups\` = VALUES(\`groups\`), \`trajectory\` = VALUES(\`trajectory\`), \`politicalFlags\` = VALUES(\`politicalFlags\`), \`keyContacts\` = VALUES(\`keyContacts\`), \`publications\` = VALUES(\`publications\`), \`mappings\` = VALUES(\`mappings\`), \`lastSaved\` = VALUES(\`lastSaved\`);\n\n`;
+    }
+
+    // 2. Deadlines table
+    sql += `-- \n`;
+    sql += `-- Estrutura para tabela \`deadlines\`\n`;
+    sql += `-- \n\n`;
+    sql += `CREATE TABLE IF NOT EXISTS \`deadlines\` (\n`;
+    sql += `  \`id\` VARCHAR(50) NOT NULL PRIMARY KEY,\n`;
+    sql += `  \`title\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`date\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`description\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`daysRemaining\` INT DEFAULT NULL,\n`;
+    sql += `  \`status\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`category\` VARCHAR(50) DEFAULT NULL\n`;
+    sql += `) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n`;
+
+    sql += `-- Despejando dados para a tabela \`deadlines\`\n\n`;
+    for (const dl of rawDeadlines) {
+      const escape = (val: any) => {
+        if (val === null || val === undefined) return 'NULL';
+        let str = String(val).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        return `'${str}'`;
+      };
+      sql += `INSERT INTO \`deadlines\` (\`id\`, \`title\`, \`date\`, \`description\`, \`daysRemaining\`, \`status\`, \`category\`)\n`;
+      sql += `VALUES (${escape(dl.id)}, ${escape(dl.title)}, ${escape(dl.date)}, ${escape(dl.description)}, ${dl.daysRemaining || 0}, ${escape(dl.status)}, ${escape(dl.category)})\n`;
+      sql += `ON DUPLICATE KEY UPDATE \`title\` = VALUES(\`title\`), \`date\` = VALUES(\`date\`), \`description\` = VALUES(\`description\`), \`daysRemaining\` = VALUES(\`daysRemaining\`), \`status\` = VALUES(\`status\`), \`category\` = VALUES(\`category\`);\n\n`;
+    }
+
+    // 3. Reports table
+    sql += `-- \n`;
+    sql += `-- Estrutura para tabela \`reports\`\n`;
+    sql += `-- \n\n`;
+    sql += `CREATE TABLE IF NOT EXISTS \`reports\` (\n`;
+    sql += `  \`id\` VARCHAR(50) NOT NULL PRIMARY KEY,\n`;
+    sql += `  \`title\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`createdAt\` VARCHAR(100) DEFAULT NULL,\n`;
+    sql += `  \`content\` TEXT DEFAULT NULL,\n`;
+    sql += `  \`author\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`candidateId\` VARCHAR(50) DEFAULT NULL,\n`;
+    sql += `  \`candidateName\` VARCHAR(255) DEFAULT NULL,\n`;
+    sql += `  \`type\` VARCHAR(50) DEFAULT NULL\n`;
+    sql += `) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n`;
+
+    sql += `-- Despejando dados para a tabela \`reports\`\n\n`;
+    for (const rep of reports) {
+      const escape = (val: any) => {
+        if (val === null || val === undefined) return 'NULL';
+        let str = String(val).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        return `'${str}'`;
+      };
+      sql += `INSERT INTO \`reports\` (\`id\`, \`title\`, \`createdAt\`, \`content\`, \`author\`, \`candidateId\`, \`candidateName\`, \`type\`)\n`;
+      sql += `VALUES (${escape(rep.id)}, ${escape(rep.title)}, ${escape(rep.createdAt)}, ${escape(rep.content)}, ${escape(rep.author)}, ${escape(rep.candidateId)}, ${escape(rep.candidateName)}, ${escape(rep.type)})\n`;
+      sql += `ON DUPLICATE KEY UPDATE \`title\` = VALUES(\`title\`), \`createdAt\` = VALUES(\`createdAt\`), \`content\` = VALUES(\`content\`), \`author\` = VALUES(\`author\`), \`candidateId\` = VALUES(\`candidateId\`), \`candidateName\` = VALUES(\`candidateName\`), \`type\` = VALUES(\`type\`);\n\n`;
+    }
+
+    // Also write this updated sql string to workspace root `database.sql`
+    try {
+      fs.writeFileSync(path.join(process.cwd(), "database.sql"), sql, "utf8");
+      console.log("Updated database.sql file in workspace root with latest data.");
+    } catch (fsErr) {
+      console.error("Failed to write updated database.sql to disk:", fsErr);
+    }
+
+    res.setHeader("Content-Disposition", "attachment; filename=database.sql");
+    res.setHeader("Content-Type", "application/sql");
+    res.send(sql);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Erro ao exportar SQL." });
+  }
+});
+
+// 3. POST /api/database/sync
+app.post("/api/database/sync", async (req, res) => {
+  const { host, user, password, database, port } = req.body;
+  
+  let targetPool: mysql.Pool | null = null;
+  let isCustom = false;
+  
+  try {
+    if (host && user && password && database) {
+      console.log("Using custom submitted MySQL credentials for synchronization...");
+      isCustom = true;
+      targetPool = mysql.createPool({
+        host,
+        user,
+        password,
+        database,
+        port: parseInt(port || "3306", 10),
+        waitForConnections: true,
+        connectionLimit: 3,
+        queueLimit: 0,
+        charset: "utf8mb4"
+      });
+    } else if (mysqlPool) {
+      console.log("Using system-configured MySQL pool for synchronization...");
+      targetPool = mysqlPool;
+    } else {
+      return res.status(400).json({ error: "Credenciais de MySQL não configuradas e nenhum parâmetro fornecido." });
+    }
+    
+    // Test connection
+    const conn = await targetPool.getConnection();
+    console.log("Sync Target Connected successfully!");
+    
+    // Verify / create tables on target
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS candidates (
+        id VARCHAR(50) PRIMARY KEY,
+        name VARCHAR(255),
+        number VARCHAR(50),
+        urnName VARCHAR(255),
+        whatsapp VARCHAR(50),
+        instagram VARCHAR(255),
+        facebook VARCHAR(255),
+        email VARCHAR(255),
+        party VARCHAR(50),
+        status VARCHAR(50),
+        photoUrl LONGTEXT,
+        mediaCoordinatorName VARCHAR(255),
+        mediaCoordinatorWhatsApp VARCHAR(50),
+        professionalBackground TEXT,
+        areasOfInterest TEXT,
+        teams TEXT,
+        family TEXT,
+        groups TEXT,
+        trajectory TEXT,
+        politicalFlags TEXT,
+        keyContacts LONGTEXT,
+        publications LONGTEXT,
+        mappings LONGTEXT,
+        lastSaved VARCHAR(100)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS deadlines (
+        id VARCHAR(50) PRIMARY KEY,
+        title VARCHAR(255),
+        date VARCHAR(50),
+        description TEXT,
+        daysRemaining INT,
+        status VARCHAR(50),
+        category VARCHAR(50)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS reports (
+        id VARCHAR(50) PRIMARY KEY,
+        title VARCHAR(255),
+        createdAt VARCHAR(100),
+        content TEXT,
+        author VARCHAR(255),
+        candidateId VARCHAR(50),
+        candidateName VARCHAR(255),
+        type VARCHAR(50)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    // Fetch current source data
+    const candidates = await getCandidates();
+    const rawDeadlines = await getDeadlines();
+    const reports = await getReports();
+
+    // Synchronize Candidates
+    for (const cand of candidates) {
+      await conn.query(`
+        INSERT INTO candidates (
+          id, name, number, urnName, whatsapp, instagram, facebook, email, party, status, photoUrl,
+          mediaCoordinatorName, mediaCoordinatorWhatsApp, professionalBackground, areasOfInterest,
+          teams, family, groups, trajectory, politicalFlags, keyContacts, publications, mappings, lastSaved
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          name = VALUES(name), number = VALUES(number), urnName = VALUES(urnName), whatsapp = VALUES(whatsapp),
+          instagram = VALUES(instagram), facebook = VALUES(facebook), email = VALUES(email), party = VALUES(party),
+          status = VALUES(status), photoUrl = VALUES(photoUrl), mediaCoordinatorName = VALUES(mediaCoordinatorName),
+          mediaCoordinatorWhatsApp = VALUES(mediaCoordinatorWhatsApp), professionalBackground = VALUES(professionalBackground),
+          areasOfInterest = VALUES(areasOfInterest), teams = VALUES(teams), family = VALUES(family), groups = VALUES(groups),
+          trajectory = VALUES(trajectory), politicalFlags = VALUES(politicalFlags), keyContacts = VALUES(keyContacts),
+          publications = VALUES(publications), mappings = VALUES(mappings), lastSaved = VALUES(lastSaved)
+      `, [
+        cand.id, cand.name || "", cand.number || "", cand.urnName || "", cand.whatsapp || "",
+        cand.instagram || "", cand.facebook || "", cand.email || "", cand.party || "", cand.status || "",
+        cand.photoUrl || "", cand.mediaCoordinatorName || "", cand.mediaCoordinatorWhatsApp || "",
+        cand.professionalBackground || "", cand.areasOfInterest || "", cand.teams || "", cand.family || "",
+        cand.groups || "", cand.trajectory || "", cand.politicalFlags || "",
+        JSON.stringify(cand.keyContacts || []), JSON.stringify(cand.publications || []), JSON.stringify(cand.mappings || []),
+        cand.lastSaved || new Date().toISOString()
+      ]);
+    }
+
+    // Synchronize Deadlines
+    for (const dl of rawDeadlines) {
+      await conn.query(`
+        INSERT INTO deadlines (id, title, date, description, daysRemaining, status, category)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          title = VALUES(title), date = VALUES(date), description = VALUES(description),
+          daysRemaining = VALUES(daysRemaining), status = VALUES(status), category = VALUES(category)
+      `, [
+        dl.id, dl.title, dl.date, dl.description, dl.daysRemaining || 0, dl.status, dl.category
+      ]);
+    }
+
+    // Synchronize Reports
+    for (const rep of reports) {
+      await conn.query(`
+        INSERT INTO reports (id, title, createdAt, content, author, candidateId, candidateName, type)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          title = VALUES(title), createdAt = VALUES(createdAt), content = VALUES(content),
+          author = VALUES(author), candidateId = VALUES(candidateId), candidateName = VALUES(candidateName),
+          type = VALUES(type)
+      `, [
+        rep.id, rep.title, rep.createdAt, rep.content, rep.author, rep.candidateId, rep.candidateName, rep.type
+      ]);
+    }
+
+    conn.release();
+
+    if (isCustom && targetPool) {
+      // Close custom temporary pool
+      await targetPool.end();
+    }
+
+    res.json({
+      success: true,
+      message: `Sincronização concluída com sucesso! Sincronizados: ${candidates.length} candidatos, ${rawDeadlines.length} prazos e ${reports.length} relatórios.`,
+    });
+
+  } catch (err: any) {
+    console.error("Sync error:", err);
+    if (isCustom && targetPool) {
+      try { await targetPool.end(); } catch (e) {}
+    }
+    res.status(500).json({
+      error: `Falha na sincronização direta: ${err.message || String(err)}. Certifique-se de que o host do banco de dados permite conexões remotas do IP do servidor da aplicação.`
+    });
+  }
+});
+
 // Build / Hot Module Replacement & SPA Static setup
 async function startServer() {
   // Initialize MySQL or seed Firestore if empty

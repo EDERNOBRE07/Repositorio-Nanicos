@@ -8,9 +8,10 @@ import ReportGenerator from "./components/ReportGenerator";
 import PublicationsScheduleGlobal from "./components/PublicationsScheduleGlobal";
 import RegionalVision from "./components/RegionalVision";
 import UrgentDeadlinesWidget from "./components/UrgentDeadlinesWidget";
+import DatabaseSync from "./components/DatabaseSync";
 import { 
   Plus, Search, Filter, Shield, Calendar, FileText, Users, 
-  MapPin, AlertCircle, RefreshCw, Layers, Globe
+  MapPin, AlertCircle, RefreshCw, Layers, Globe, Database
 } from "lucide-react";
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
   const [reports, setReports] = useState<PartyReport[]>([]);
   
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
-  const [currentTab, setCurrentTab] = useState<"painel" | "calendario" | "relatorios" | "postagens" | "regional">("painel");
+  const [currentTab, setCurrentTab] = useState<"painel" | "calendario" | "relatorios" | "postagens" | "regional" | "database">("painel");
   const [fichaInitialTab, setFichaInitialTab] = useState<"ficha" | "agenda">("ficha");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -322,6 +323,15 @@ export default function App() {
             <FileText size={15} />
             Gabinete de IA
           </button>
+          <button 
+            onClick={() => { setSelectedCandidate(null); setCurrentTab("database"); }}
+            className={`flex items-center gap-2 px-4 py-2 rounded-none text-xs font-black transition cursor-pointer border ${
+              currentTab === "database" ? "bg-[#FFD700] text-gray-900 border-[#1A1A1B]" : "text-blue-100 border-transparent hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Database size={15} />
+            Integração DB
+          </button>
         </nav>
 
         {/* Database Sync Loader */}
@@ -332,7 +342,7 @@ export default function App() {
       </header>
 
       {/* MOBILE NAV (Visible on mobile only) */}
-      <div className="bg-white border-b-2 border-[#1A1A1B] p-2 grid grid-cols-5 gap-0.5 md:hidden no-print">
+      <div className="bg-white border-b-2 border-[#1A1A1B] p-2 grid grid-cols-6 gap-0.5 md:hidden no-print">
         <button 
           onClick={() => { setSelectedCandidate(null); setCurrentTab("painel"); }}
           className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
@@ -377,6 +387,15 @@ export default function App() {
         >
           <FileText size={14} />
           IA Relat.
+        </button>
+        <button 
+          onClick={() => { setSelectedCandidate(null); setCurrentTab("database"); }}
+          className={`flex flex-col items-center gap-1 py-1.5 rounded-none text-[9px] font-black uppercase transition ${
+            currentTab === "database" ? "bg-amber-100 text-gray-900 border border-[#1A1A1B]" : "text-gray-500"
+          }`}
+        >
+          <Database size={14} />
+          Sincronia
         </button>
       </div>
 
@@ -546,6 +565,11 @@ export default function App() {
             {/* PAGE TAB: CONSOLIDATED REGIONAL VISION */}
             {currentTab === "regional" && (
               <RegionalVision candidates={candidates} />
+            )}
+
+            {/* PAGE TAB: DATABASE INTEGRATION & SYNC */}
+            {currentTab === "database" && (
+              <DatabaseSync />
             )}
           </div>
         )}
