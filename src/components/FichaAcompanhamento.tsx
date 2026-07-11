@@ -21,6 +21,43 @@ const getStartOfWeek = (d: Date) => {
   return new Date(date.setDate(diff));
 };
 
+const compressImage = (base64Str: string, maxWidth = 300, maxHeight = 300): Promise<string> => {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.src = base64Str;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.7));
+      } else {
+        resolve(base64Str);
+      }
+    };
+    img.onerror = () => {
+      resolve(base64Str);
+    };
+  });
+};
+
 interface FichaAcompanhamentoProps {
   candidate: Candidate;
   onBack: () => void;
@@ -35,6 +72,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
   const [saveStatus, setSaveStatus] = useState<"salvo" | "digitando" | "salvando" | "erro">("salvo");
   const [activeTab, setActiveTab] = useState<"ficha" | "agenda">(initialTab);
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   // Publications states
   const [pubSearchQuery, setPubSearchQuery] = useState("");
@@ -83,6 +121,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
     setFormData({ ...candidate });
     setSaveStatus("salvo");
     setActiveTab(initialTab);
+    setImageError(false);
   }, [candidate, initialTab]);
 
   // Helper to change single fields
@@ -405,8 +444,9 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
 
     const reader = new FileReader();
     reader.onload = async () => {
-      const base64 = reader.result as string;
+      const originalBase64 = reader.result as string;
       try {
+        const base64 = await compressImage(originalBase64);
         const response = await fetch(`/api/candidates/${formData.id}/upload`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -423,6 +463,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
             photoUrl: resData.candidate.photoUrl
           };
           setFormData(nextData);
+          setImageError(false);
           await onSaveCandidate(nextData);
           setSaveStatus("salvo");
         } else {
@@ -652,13 +693,14 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                     onChange={handlePhotoUpload} 
                     className="hidden" 
                   />
-                  {formData.photoUrl ? (
+                  {formData.photoUrl && !imageError ? (
                     <div className="w-28 h-36 border-2 border-[#bbbbbb] rounded-md overflow-hidden relative shadow-sm">
                       <img 
                         src={formData.photoUrl} 
                         alt={formData.name} 
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
+                        onError={() => setImageError(true)}
                       />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-[11px] font-semibold text-center transition-opacity">
                         Alterar Foto

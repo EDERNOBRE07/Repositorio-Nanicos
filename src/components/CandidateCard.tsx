@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Candidate } from "../types";
 import { UserCheck, FileCheck2, MapPin, Eye, AlertCircle, Phone } from "lucide-react";
 
@@ -11,6 +11,7 @@ interface CandidateCardProps {
 }
 
 export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelect }: CandidateCardProps) {
+  const [imageError, setImageError] = useState(false);
   const approvedPubs = (candidate.publications || []).filter(p => p.status === "Aprovado" || p.status === "Postado").length;
   const totalPubs = (candidate.publications || []).length;
   const pubPercentage = totalPubs > 0 ? Math.round((approvedPubs / totalPubs) * 100) : 0;
@@ -48,12 +49,13 @@ export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelec
       <div className="p-5 flex-1 flex flex-col">
         {/* Row 1: Photo and name */}
         <div className="flex items-start gap-4 mb-4">
-          {candidate.photoUrl ? (
+          {candidate.photoUrl && !imageError ? (
             <img 
               src={candidate.photoUrl} 
               alt={candidate.name} 
               className="w-[60px] h-[80px] rounded-none object-cover border-2 border-[#1A1A1B] flex-shrink-0"
               referrerPolicy="no-referrer"
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className={`w-[60px] h-[80px] rounded-none flex flex-col items-center justify-center font-black text-lg flex-shrink-0 border-2 border-[#1A1A1B] ${

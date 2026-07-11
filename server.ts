@@ -503,13 +503,19 @@ app.post("/api/candidates/:id/upload", async (req, res) => {
     
     // Update photoUrl if docId/targetId is 'photo'
     if (targetId === "photo") {
-      // Write image to disk
       if (base64) {
-        const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
-        const safeName = `cand_${id}_profile_${path.basename(fileName)}`;
-        const filePath = path.join(UPLOADS_DIR, safeName);
-        fs.writeFileSync(filePath, fileBuffer);
-        candidate.photoUrl = `/uploads/${safeName}`;
+        // Save the base64 string directly in Firestore so it is 100% persistent and survives ephemeral container restarts!
+        candidate.photoUrl = base64;
+        
+        // Also save fallback file to disk
+        try {
+          const fileBuffer = Buffer.from(base64.split(",")[1], "base64");
+          const safeName = `cand_${id}_profile_${path.basename(fileName)}`;
+          const filePath = path.join(UPLOADS_DIR, safeName);
+          fs.writeFileSync(filePath, fileBuffer);
+        } catch (e) {
+          console.error("Failed to write profile fallback file:", e);
+        }
       } else {
         candidate.photoUrl = "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=150&auto=format&fit=crop&q=80";
       }
