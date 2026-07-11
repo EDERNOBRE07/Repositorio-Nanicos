@@ -17,8 +17,8 @@ export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelec
   const pubPercentage = totalPubs > 0 ? Math.round((approvedPubs / totalPubs) * 100) : 0;
   
   // Cities with active data
-  const mappedCities = candidate.mappings.filter(m => m.lideranca || m.meta2026 || m.situacao).length;
-  const totalMeta = candidate.mappings.reduce((sum, m) => sum + (parseInt(m.meta2026) || 0), 0);
+  const mappedCities = candidate.mappings.filter(m => m.atuacao).length;
+  const totalMeta = candidate.mappings.filter(m => m.atuacao).reduce((sum, m) => sum + (parseInt(m.meta2026) || 0), 0);
 
   // Status colors
   const getStatusColor = (status: string) => {

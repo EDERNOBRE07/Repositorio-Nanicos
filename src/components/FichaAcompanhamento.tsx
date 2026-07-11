@@ -169,6 +169,25 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
     setRegionalDrafts(prev => prev.map(m => {
       if (m.cityId === cityId) {
         const updated = { ...m, [field]: value };
+        if (field === "atuacao" && value === true) {
+          let filiados = 0;
+          for (const reg of SANTA_CATARINA_REGIONS) {
+            const city = reg.cities.find(c => c.name === m.cityName);
+            if (city) {
+              filiados = city.filiados || 0;
+              break;
+            }
+          }
+          const metaVal = Math.round((filiados * 0.10) * 3);
+          const bomVal = Math.round(metaVal * 0.80);
+          const idealVal = metaVal;
+          const otimoVal = Math.round(metaVal * 1.20);
+
+          updated.meta2026 = String(metaVal);
+          updated.perspectivaBom = String(bomVal);
+          updated.perspectivaIdeal = String(idealVal);
+          updated.perspectivaOtimo = String(otimoVal);
+        }
         if (field !== "atuacao" && value && !m.atuacao) {
           updated.atuacao = true;
         }
@@ -293,6 +312,25 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
     setMappingDrafts(prev => prev.map(m => {
       if (m.cityId === cityId) {
         const updated = { ...m, [field]: value };
+        if (field === "atuacao" && value === true) {
+          let filiados = 0;
+          for (const reg of SANTA_CATARINA_REGIONS) {
+            const city = reg.cities.find(c => c.name === m.cityName);
+            if (city) {
+              filiados = city.filiados || 0;
+              break;
+            }
+          }
+          const metaVal = Math.round((filiados * 0.10) * 3);
+          const bomVal = Math.round(metaVal * 0.80);
+          const idealVal = metaVal;
+          const otimoVal = Math.round(metaVal * 1.20);
+
+          updated.meta2026 = String(metaVal);
+          updated.perspectivaBom = String(bomVal);
+          updated.perspectivaIdeal = String(idealVal);
+          updated.perspectivaOtimo = String(otimoVal);
+        }
         // If they checked atuacao, or filled lideranca/meta/historico, make sure atuacao is set
         if (field !== "atuacao" && value && !m.atuacao) {
           updated.atuacao = true;
@@ -1064,9 +1102,19 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
 
                 return (
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-                    <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Cidades Ativas</div>
-                      <div className="text-lg font-black text-[#004488] font-mono mt-0.5">{totalCitiesAtuacao} <span className="text-xs font-normal text-gray-400">/ 295</span></div>
+                    <div className={`border rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all ${
+                      totalCitiesAtuacao > 0 
+                        ? "bg-emerald-400 border-emerald-500 text-black" 
+                        : "bg-[#f8f9fa] border-[#bbbbbb]"
+                    }`}>
+                      <div className={`text-[10px] uppercase font-extrabold tracking-wider ${
+                        totalCitiesAtuacao > 0 ? "text-neutral-800" : "text-gray-500"
+                      }`}>Cidades Ativas</div>
+                      <div className={`text-lg font-black font-mono mt-0.5 ${
+                        totalCitiesAtuacao > 0 ? "text-black" : "text-[#004488]"
+                      }`}>{totalCitiesAtuacao} <span className={`text-xs font-normal ${
+                        totalCitiesAtuacao > 0 ? "text-neutral-700" : "text-gray-400"
+                      }`}>/ 295</span></div>
                     </div>
                     <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
                       <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Habitantes Cobertos</div>
@@ -1262,7 +1310,11 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                                 <h4 className="font-sans font-black tracking-tight text-[#004488] text-sm uppercase group-hover:text-[#003366] transition-colors pr-2">
                                   Regional: {reg.region}
                                 </h4>
-                                <span className="bg-slate-100 text-slate-800 text-[9px] font-black uppercase px-2 py-0.5 border border-slate-300 rounded-sm whitespace-nowrap">
+                                <span className={`text-[9px] font-black uppercase px-2 py-0.5 border rounded-sm whitespace-nowrap transition-colors ${
+                                  activeCitiesCount > 0 
+                                    ? "bg-emerald-400 text-black border-emerald-500 font-extrabold" 
+                                    : "bg-slate-100 text-slate-800 border-slate-300"
+                                }`}>
                                   {activeCitiesCount} / {totalCities} Ativas
                                 </span>
                               </div>
@@ -1356,6 +1408,28 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                       cities: filteredCities
                     };
                   }).filter(Boolean) as { region: string; cities: typeof SANTA_CATARINA_REGIONS[0]["cities"] }[];
+
+                  const activeCityMappingsList = isEditingMappings ? mappingDrafts : (formData.mappings || []);
+                  const activeMappingsListForTotal = activeCityMappingsList.filter(m => m.atuacao);
+                  
+                  let totalHabitantes = 0;
+                  let totalEleitores = 0;
+                  let totalFiliados = 0;
+                  
+                  activeMappingsListForTotal.forEach(mapping => {
+                    for (const reg of SANTA_CATARINA_REGIONS) {
+                      const foundCity = reg.cities.find(c => c.name === mapping.cityName);
+                      if (foundCity) {
+                        totalHabitantes += foundCity.habitantes;
+                        totalEleitores += foundCity.eleitores;
+                        totalFiliados += foundCity.filiados;
+                        break;
+                      }
+                    }
+                  });
+
+                  const totalHistoricoVotos = activeMappingsListForTotal.reduce((acc, m) => acc + (parseInt(m.historicoVotos, 10) || 0), 0);
+                  const totalMeta2026 = activeMappingsListForTotal.reduce((acc, m) => acc + (parseInt(m.meta2026, 10) || 0), 0);
 
                   return (
                     <div className="overflow-x-auto border border-[#bbbbbb] rounded-md max-h-[600px] overflow-y-auto">
@@ -1559,6 +1633,42 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                             ))
                           )}
                         </tbody>
+                        {activeMappingsListForTotal.length > 0 && (
+                          <tfoot className="bg-gray-100 border-t-2 border-[#bbbbbb] font-bold sticky bottom-0 z-10 text-gray-900 font-mono text-[11px]">
+                            <tr className="divide-x divide-gray-200 bg-gray-100">
+                              <td className="border border-[#bbbbbb] p-2 text-center">
+                                {/* Checkbox empty */}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 uppercase font-black text-gray-800 text-[10px]">
+                                Total Acumulado (Cidades Ativas)
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 text-right font-black">
+                                {formatNumber(totalHabitantes)}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 text-right font-black">
+                                {formatNumber(totalEleitores)}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 text-right font-black text-amber-600">
+                                {formatNumber(totalFiliados)}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2">
+                                {/* Liderança empty */}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 text-center font-black">
+                                {formatNumber(totalHistoricoVotos)}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2 text-center font-black text-[#004488] bg-blue-50/50">
+                                {formatNumber(totalMeta2026)}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2">
+                                {/* Perspectives empty */}
+                              </td>
+                              <td className="border border-[#bbbbbb] p-2">
+                                {/* Situation empty */}
+                              </td>
+                            </tr>
+                          </tfoot>
+                        )}
                       </table>
                     </div>
                   );
@@ -2816,24 +2926,39 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                 grouped[regName].push(m);
               });
 
-              return Object.entries(grouped).map(([regionName, cities]) => (
-                <React.Fragment key={regionName}>
-                  <tr className="region-header">
-                    <td colSpan={5} style={{ fontWeight: "bold", background: "#f1f3f5", textTransform: "uppercase" }}>
-                      Regional: {regionName}
-                    </td>
-                  </tr>
-                  {cities.map(mapping => (
-                    <tr key={mapping.cityName}>
-                      <td style={{ fontWeight: "bold" }}>{mapping.cityName}</td>
-                      <td>{mapping.lideranca || "-"}</td>
-                      <td>{mapping.historicoVotos ? formatNumber(mapping.historicoVotos) : "-"}</td>
-                      <td style={{ fontWeight: "bold", color: "#004488" }}>{mapping.meta2026 ? formatNumber(mapping.meta2026) : "-"}</td>
-                      <td>{mapping.situacao || "-"}</td>
-                    </tr>
+              const totalHistoricoPrint = activeCities.reduce((acc, m) => acc + (parseInt(m.historicoVotos, 10) || 0), 0);
+              const totalMetaPrint = activeCities.reduce((acc, m) => acc + (parseInt(m.meta2026, 10) || 0), 0);
+
+              return (
+                <>
+                  {Object.entries(grouped).map(([regionName, cities]) => (
+                    <React.Fragment key={regionName}>
+                      <tr className="region-header">
+                        <td colSpan={5} style={{ fontWeight: "bold", background: "#f1f3f5", textTransform: "uppercase" }}>
+                          Regional: {regionName}
+                        </td>
+                      </tr>
+                      {cities.map(mapping => (
+                        <tr key={mapping.cityName}>
+                          <td style={{ fontWeight: "bold" }}>{mapping.cityName}</td>
+                          <td>{mapping.lideranca || "-"}</td>
+                          <td>{mapping.historicoVotos ? formatNumber(mapping.historicoVotos) : "-"}</td>
+                          <td style={{ fontWeight: "bold", color: "#004488" }}>{mapping.meta2026 ? formatNumber(mapping.meta2026) : "-"}</td>
+                          <td>{mapping.situacao || "-"}</td>
+                        </tr>
+                      ))}
+                    </React.Fragment>
                   ))}
-                </React.Fragment>
-              ));
+                  <tr style={{ fontWeight: "bold", background: "#e6f0fa", borderTop: "2px solid #1A1A1B" }}>
+                    <td colSpan={2} style={{ textTransform: "uppercase", fontSize: "10px", fontWeight: "bold" }}>
+                      META TOTAL ACUMULADA (CIDADES ATIVAS)
+                    </td>
+                    <td style={{ fontWeight: "bold" }}>{totalHistoricoPrint ? formatNumber(totalHistoricoPrint) : "-"}</td>
+                    <td style={{ fontWeight: "black", color: "#004488", fontSize: "12px" }}>{totalMetaPrint ? formatNumber(totalMetaPrint) : "-"}</td>
+                    <td></td>
+                  </tr>
+                </>
+              );
             })()}
           </tbody>
         </table>

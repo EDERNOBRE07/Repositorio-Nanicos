@@ -24,7 +24,7 @@ export default function DashboardStats({ candidates, deadlines, onSelectCandidat
 
   // Votes target
   const totalTargetVotes = candidates.reduce((acc, c) => {
-    const candidateMeta = c.mappings.reduce((sum, m) => sum + (parseInt(m.meta2026) || 0), 0);
+    const candidateMeta = c.mappings.filter(m => m.atuacao).reduce((sum, m) => sum + (parseInt(m.meta2026) || 0), 0);
     return acc + candidateMeta;
   }, 0);
 
