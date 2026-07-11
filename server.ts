@@ -6,8 +6,26 @@ import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 import { initializeApp } from "firebase/app";
 import { getFirestore, initializeFirestore, doc, getDoc, getDocs, setDoc, deleteDoc, collection } from "firebase/firestore";
+import mysql from "mysql2/promise";
 
 dotenv.config();
+
+// MySQL connection pool initialization if configuration is present
+let mysqlPool: mysql.Pool | null = null;
+if (process.env.DB_USER) {
+  console.log("MySQL configuration detected! Connecting to database:", process.env.DB_NAME);
+  mysqlPool = mysql.createPool({
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD || process.env.DB_PASS || "Shift2026",
+    database: process.env.DB_NAME,
+    port: parseInt(process.env.DB_PORT || "3306", 10),
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    charset: "utf8mb4"
+  });
+}
 
 const app = express();
 const PORT = 3000;
@@ -356,6 +374,407 @@ async function getReportsFromFirestore(): Promise<any[]> {
   }
 }
 
+// MySQL Table verification, creation and seeding on startup
+async function initMySQLIfNeeded() {
+  if (!mysqlPool) return;
+  
+  console.log("Initializing MySQL tables...");
+  let conn;
+  try {
+    conn = await mysqlPool.getConnection();
+  } catch (error: any) {
+    console.warn("=========================================================");
+    console.warn("WARNING: Could not connect to MySQL database.");
+    console.warn("Error detail:", error.message || error);
+    console.warn("Falling back to Firestore for local development/preview!");
+    console.warn("=========================================================");
+    mysqlPool = null;
+    await seedFirestoreIfNeeded();
+    return;
+  }
+
+  try {
+    // 1. candidates table
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS candidates (
+        id VARCHAR(50) PRIMARY KEY,
+        name VARCHAR(255),
+        number VARCHAR(50),
+        urnName VARCHAR(255),
+        whatsapp VARCHAR(50),
+        instagram VARCHAR(255),
+        facebook VARCHAR(255),
+        email VARCHAR(255),
+        party VARCHAR(50),
+        status VARCHAR(50),
+        photoUrl LONGTEXT,
+        mediaCoordinatorName VARCHAR(255),
+        mediaCoordinatorWhatsApp VARCHAR(50),
+        professionalBackground TEXT,
+        areasOfInterest TEXT,
+        teams TEXT,
+        family TEXT,
+        groups TEXT,
+        trajectory TEXT,
+        politicalFlags TEXT,
+        keyContacts LONGTEXT,
+        publications LONGTEXT,
+        mappings LONGTEXT,
+        lastSaved VARCHAR(100)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    // 2. deadlines table
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS deadlines (
+        id VARCHAR(50) PRIMARY KEY,
+        title VARCHAR(255),
+        date VARCHAR(50),
+        description TEXT,
+        daysRemaining INT,
+        status VARCHAR(50),
+        category VARCHAR(50)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    // 3. reports table
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS reports (
+        id VARCHAR(50) PRIMARY KEY,
+        title VARCHAR(255),
+        createdAt VARCHAR(100),
+        content TEXT,
+        author VARCHAR(255),
+        candidateId VARCHAR(50),
+        candidateName VARCHAR(255),
+        type VARCHAR(50)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    console.log("MySQL tables verified/created successfully!");
+
+    // Check if candidates table is empty, seed if so
+    const [rows]: any = await conn.query("SELECT COUNT(*) as count FROM candidates");
+    if (rows[0].count === 0) {
+      console.log("MySQL database is empty. Seeding with default candidates, deadlines, and reports...");
+      
+      const seedCandidates = getSeedCandidates();
+      for (const candidate of seedCandidates) {
+        await conn.query(`
+          INSERT INTO candidates (
+            id, name, number, urnName, whatsapp, instagram, facebook, email, party, status, photoUrl,
+            mediaCoordinatorName, mediaCoordinatorWhatsApp, professionalBackground, areasOfInterest,
+            teams, family, groups, trajectory, politicalFlags, keyContacts, publications, mappings, lastSaved
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          candidate.id,
+          candidate.name,
+          candidate.number,
+          candidate.urnName,
+          candidate.whatsapp,
+          candidate.instagram,
+          candidate.facebook,
+          candidate.email,
+          candidate.party,
+          candidate.status,
+          candidate.photoUrl || "",
+          candidate.mediaCoordinatorName || "",
+          candidate.mediaCoordinatorWhatsApp || "",
+          candidate.professionalBackground || "",
+          candidate.areasOfInterest || "",
+          candidate.teams || "",
+          candidate.family || "",
+          candidate.groups || "",
+          candidate.trajectory || "",
+          candidate.politicalFlags || "",
+          JSON.stringify(candidate.keyContacts || []),
+          JSON.stringify(candidate.publications || []),
+          JSON.stringify(candidate.mappings || []),
+          candidate.lastSaved || new Date().toISOString()
+        ]);
+      }
+
+      for (const deadline of DEFAULT_DEADLINES) {
+        await conn.query(`
+          INSERT INTO deadlines (id, title, date, description, daysRemaining, status, category)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [
+          deadline.id,
+          deadline.title,
+          deadline.date,
+          deadline.description,
+          deadline.daysRemaining,
+          deadline.status,
+          deadline.category
+        ]);
+      }
+
+      for (const report of DEFAULT_REPORTS) {
+        await conn.query(`
+          INSERT INTO reports (id, title, createdAt, content, author, candidateId, candidateName, type)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          report.id,
+          report.title,
+          report.createdAt,
+          report.content,
+          report.author,
+          report.candidateId,
+          report.candidateName,
+          report.type
+        ]);
+      }
+      console.log("MySQL seeding completed successfully!");
+    } else {
+      console.log("MySQL database already contains data. Skipping seeding.");
+    }
+  } catch (error) {
+    console.error("Error checking or seeding MySQL:", error);
+  } finally {
+    conn.release();
+  }
+}
+
+// Unified Database CRUD layer (dynamically switches between MySQL and Firestore)
+async function getCandidates(): Promise<any[]> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT * FROM candidates ORDER BY id ASC");
+      return rows.map((cand: any) => ({
+        ...cand,
+        keyContacts: JSON.parse(cand.keyContacts || "[]"),
+        publications: JSON.parse(cand.publications || "[]"),
+        mappings: JSON.parse(cand.mappings || "[]")
+      }));
+    } catch (error) {
+      console.error("Error reading candidates from MySQL:", error);
+      return [];
+    }
+  } else {
+    return getCandidatesFromFirestore();
+  }
+}
+
+async function getDeadlines(): Promise<any[]> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT * FROM deadlines");
+      return rows;
+    } catch (error) {
+      console.error("Error reading deadlines from MySQL:", error);
+      return [];
+    }
+  } else {
+    return getDeadlinesFromFirestore();
+  }
+}
+
+async function getReports(): Promise<any[]> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT * FROM reports ORDER BY createdAt DESC");
+      return rows;
+    } catch (error) {
+      console.error("Error reading reports from MySQL:", error);
+      return [];
+    }
+  } else {
+    return getReportsFromFirestore();
+  }
+}
+
+async function getCandidateById(id: string): Promise<any | null> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT * FROM candidates WHERE id = ?", [id]);
+      if (rows.length === 0) return null;
+      const cand = rows[0];
+      return {
+        ...cand,
+        keyContacts: JSON.parse(cand.keyContacts || "[]"),
+        publications: JSON.parse(cand.publications || "[]"),
+        mappings: JSON.parse(cand.mappings || "[]")
+      };
+    } catch (error) {
+      console.error("Error fetching candidate by ID from MySQL:", error);
+      return null;
+    }
+  } else {
+    const docRef = doc(firestoreDb, "candidates", id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    return docSnap.data();
+  }
+}
+
+async function saveCandidate(candidate: any): Promise<void> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT id FROM candidates WHERE id = ?", [candidate.id]);
+      if (rows.length > 0) {
+        await mysqlPool.query(`
+          UPDATE candidates SET
+            name = ?, number = ?, urnName = ?, whatsapp = ?, instagram = ?, facebook = ?, email = ?,
+            party = ?, status = ?, photoUrl = ?, mediaCoordinatorName = ?, mediaCoordinatorWhatsApp = ?,
+            professionalBackground = ?, areasOfInterest = ?, teams = ?, family = ?, groups = ?,
+            trajectory = ?, politicalFlags = ?, keyContacts = ?, publications = ?, mappings = ?, lastSaved = ?
+          WHERE id = ?
+        `, [
+          candidate.name || "",
+          candidate.number || "",
+          candidate.urnName || "",
+          candidate.whatsapp || "",
+          candidate.instagram || "",
+          candidate.facebook || "",
+          candidate.email || "",
+          candidate.party || "",
+          candidate.status || "",
+          candidate.photoUrl || "",
+          candidate.mediaCoordinatorName || "",
+          candidate.mediaCoordinatorWhatsApp || "",
+          candidate.professionalBackground || "",
+          candidate.areasOfInterest || "",
+          candidate.teams || "",
+          candidate.family || "",
+          candidate.groups || "",
+          candidate.trajectory || "",
+          candidate.politicalFlags || "",
+          JSON.stringify(candidate.keyContacts || []),
+          JSON.stringify(candidate.publications || []),
+          JSON.stringify(candidate.mappings || []),
+          candidate.lastSaved,
+          candidate.id
+        ]);
+      } else {
+        await mysqlPool.query(`
+          INSERT INTO candidates (
+            id, name, number, urnName, whatsapp, instagram, facebook, email, party, status, photoUrl,
+            mediaCoordinatorName, mediaCoordinatorWhatsApp, professionalBackground, areasOfInterest,
+            teams, family, groups, trajectory, politicalFlags, keyContacts, publications, mappings, lastSaved
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+          candidate.id,
+          candidate.name || "",
+          candidate.number || "",
+          candidate.urnName || "",
+          candidate.whatsapp || "",
+          candidate.instagram || "",
+          candidate.facebook || "",
+          candidate.email || "",
+          candidate.party || "",
+          candidate.status || "",
+          candidate.photoUrl || "",
+          candidate.mediaCoordinatorName || "",
+          candidate.mediaCoordinatorWhatsApp || "",
+          candidate.professionalBackground || "",
+          candidate.areasOfInterest || "",
+          candidate.teams || "",
+          candidate.family || "",
+          candidate.groups || "",
+          candidate.trajectory || "",
+          candidate.politicalFlags || "",
+          JSON.stringify(candidate.keyContacts || []),
+          JSON.stringify(candidate.publications || []),
+          JSON.stringify(candidate.mappings || []),
+          candidate.lastSaved
+        ]);
+      }
+    } catch (error) {
+      console.error("Error saving candidate to MySQL:", error);
+      throw error;
+    }
+  } else {
+    await setDoc(doc(firestoreDb, "candidates", candidate.id), candidate);
+  }
+}
+
+async function deleteCandidate(id: string): Promise<void> {
+  if (mysqlPool) {
+    try {
+      await mysqlPool.query("DELETE FROM candidates WHERE id = ?", [id]);
+    } catch (error) {
+      console.error("Error deleting candidate from MySQL:", error);
+      throw error;
+    }
+  } else {
+    await deleteDoc(doc(firestoreDb, "candidates", id));
+  }
+}
+
+async function saveDeadline(deadline: any): Promise<void> {
+  if (mysqlPool) {
+    try {
+      const [rows]: any = await mysqlPool.query("SELECT id FROM deadlines WHERE id = ?", [deadline.id]);
+      if (rows.length > 0) {
+        await mysqlPool.query(`
+          UPDATE deadlines SET title = ?, date = ?, description = ?, daysRemaining = ?, status = ?, category = ?
+          WHERE id = ?
+        `, [
+          deadline.title,
+          deadline.date,
+          deadline.description,
+          deadline.daysRemaining,
+          deadline.status,
+          deadline.category,
+          deadline.id
+        ]);
+      } else {
+        await mysqlPool.query(`
+          INSERT INTO deadlines (id, title, date, description, daysRemaining, status, category)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [
+          deadline.id,
+          deadline.title,
+          deadline.date,
+          deadline.description,
+          deadline.daysRemaining,
+          deadline.status,
+          deadline.category
+        ]);
+      }
+    } catch (error) {
+      console.error("Error saving deadline to MySQL:", error);
+      throw error;
+    }
+  } else {
+    await setDoc(doc(firestoreDb, "deadlines", deadline.id), deadline);
+  }
+}
+
+async function saveReport(report: any): Promise<void> {
+  if (mysqlPool) {
+    try {
+      await mysqlPool.query(`
+        INSERT INTO reports (id, title, createdAt, content, author, candidateId, candidateName, type)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          title = VALUES(title),
+          createdAt = VALUES(createdAt),
+          content = VALUES(content),
+          author = VALUES(author),
+          candidateId = VALUES(candidateId),
+          candidateName = VALUES(candidateName),
+          type = VALUES(type)
+      `, [
+        report.id,
+        report.title,
+        report.createdAt,
+        report.content,
+        report.author,
+        report.candidateId,
+        report.candidateName,
+        report.type
+      ]);
+    } catch (error) {
+      console.error("Error saving report to MySQL:", error);
+      throw error;
+    }
+  } else {
+    await setDoc(doc(firestoreDb, "reports", report.id), report);
+  }
+}
+
+
 // Calculate dynamic electoral deadlines remaining days relative to 2026-07-08T11:16:28-07:00 (represented by current time)
 function updateDaysRemaining(deadlines: any[]) {
   const currentDate = new Date("2026-07-08T11:16:28-07:00");
@@ -406,9 +825,9 @@ app.use(express.json({ limit: "50mb" })); // Support base64 image and files uplo
 // 1. GET ALL DATA
 app.get("/api/dashboard", async (req, res) => {
   try {
-    const candidates = await getCandidatesFromFirestore();
-    const rawDeadlines = await getDeadlinesFromFirestore();
-    const reports = await getReportsFromFirestore();
+    const candidates = await getCandidates();
+    const rawDeadlines = await getDeadlines();
+    const reports = await getReports();
     const deadlines = updateDaysRemaining(rawDeadlines);
     res.json({ candidates, deadlines, reports });
   } catch (error) {
@@ -420,7 +839,7 @@ app.get("/api/dashboard", async (req, res) => {
 // 2. CANDIDATES
 app.get("/api/candidates", async (req, res) => {
   try {
-    const candidates = await getCandidatesFromFirestore();
+    const candidates = await getCandidates();
     res.json(candidates);
   } catch (error) {
     console.error("Error fetching candidates:", error);
@@ -450,11 +869,9 @@ app.post("/api/candidates", async (req, res) => {
   candidate.lastSaved = new Date().toISOString();
   
   try {
-    const docRef = doc(firestoreDb, "candidates", candidate.id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
+    const existing = await getCandidateById(candidate.id);
+    if (existing) {
       // Preserve any manual file names if the update payload doesn't contain them
-      const existing = docSnap.data();
       candidate.publications = candidate.publications.map((newPub: any) => {
         const oldPub = (existing.publications || []).find((p: any) => p.id === newPub.id);
         return {
@@ -466,10 +883,10 @@ app.post("/api/candidates", async (req, res) => {
       });
     }
     
-    await setDoc(docRef, candidate);
+    await saveCandidate(candidate);
     res.json({ success: true, candidate });
   } catch (error) {
-    console.error("Error saving candidate to Firestore:", error);
+    console.error("Error saving candidate:", error);
     res.status(500).json({ error: "Erro ao salvar candidato." });
   }
 });
@@ -478,7 +895,7 @@ app.post("/api/candidates", async (req, res) => {
 app.delete("/api/candidates/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    await deleteDoc(doc(firestoreDb, "candidates", id));
+    await deleteCandidate(id);
     res.json({ success: true, message: "Candidato removido com sucesso." });
   } catch (error) {
     console.error("Error deleting candidate:", error);
@@ -493,18 +910,15 @@ app.post("/api/candidates/:id/upload", async (req, res) => {
   const targetId = pubId || docId;
   
   try {
-    const docRef = doc(firestoreDb, "candidates", id);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
+    const candidate = await getCandidateById(id);
+    if (!candidate) {
       return res.status(404).json({ error: "Candidato não encontrado" });
     }
-    
-    const candidate = docSnap.data();
     
     // Update photoUrl if docId/targetId is 'photo'
     if (targetId === "photo") {
       if (base64) {
-        // Save the base64 string directly in Firestore so it is 100% persistent and survives ephemeral container restarts!
+        // Save the base64 string directly so it is 100% persistent and survives ephemeral container restarts!
         candidate.photoUrl = base64;
         
         // Also save fallback file to disk
@@ -546,7 +960,7 @@ app.post("/api/candidates/:id/upload", async (req, res) => {
     }
     
     candidate.lastSaved = new Date().toISOString();
-    await setDoc(docRef, candidate);
+    await saveCandidate(candidate);
     
     res.json({ success: true, candidate });
   } catch (error) {
@@ -562,13 +976,11 @@ const handleStatusUpdate = async (req: any, res: any) => {
   const targetId = pubId || docId;
   
   try {
-    const docRef = doc(firestoreDb, "candidates", id);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
+    const candidate = await getCandidateById(id);
+    if (!candidate) {
       return res.status(404).json({ error: "Candidato não encontrado" });
     }
     
-    const candidate = docSnap.data();
     if (!candidate.publications) {
       candidate.publications = [];
     }
@@ -586,7 +998,7 @@ const handleStatusUpdate = async (req: any, res: any) => {
     });
     
     candidate.lastSaved = new Date().toISOString();
-    await setDoc(docRef, candidate);
+    await saveCandidate(candidate);
     
     res.json({ success: true, candidate });
   } catch (error) {
@@ -604,7 +1016,7 @@ app.use("/uploads", express.static(UPLOADS_DIR));
 // 3. DEADLINES
 app.get("/api/deadlines", async (req, res) => {
   try {
-    const rawDeadlines = await getDeadlinesFromFirestore();
+    const rawDeadlines = await getDeadlines();
     res.json(updateDaysRemaining(rawDeadlines));
   } catch (error) {
     console.error("Error getting deadlines:", error);
@@ -619,7 +1031,7 @@ app.post("/api/deadlines", async (req, res) => {
   }
   
   try {
-    await setDoc(doc(firestoreDb, "deadlines", deadline.id), deadline);
+    await saveDeadline(deadline);
     res.json({ success: true, deadline });
   } catch (error) {
     console.error("Error saving deadline:", error);
@@ -630,7 +1042,7 @@ app.post("/api/deadlines", async (req, res) => {
 // 4. AUTOMATED REPORTS (AI GENERATOR)
 app.get("/api/reports", async (req, res) => {
   try {
-    const reports = await getReportsFromFirestore();
+    const reports = await getReports();
     res.json(reports);
   } catch (error) {
     console.error("Error getting reports:", error);
@@ -642,13 +1054,10 @@ app.post("/api/reports/generate", async (req, res) => {
   const { candidateId, type } = req.body;
   
   try {
-    const candRef = doc(firestoreDb, "candidates", candidateId);
-    const candSnap = await getDoc(candRef);
-    if (!candSnap.exists()) {
+    const candidate = await getCandidateById(candidateId);
+    if (!candidate) {
       return res.status(404).json({ error: "Candidato não encontrado" });
     }
-    
-    const candidate = candSnap.data();
     
     // Prepare status summaries for prompt
     const publications = candidate.publications || [];
@@ -731,7 +1140,7 @@ app.post("/api/reports/generate", async (req, res) => {
       type
     };
     
-    await setDoc(doc(firestoreDb, "reports", newReport.id), newReport);
+    await saveReport(newReport);
     
     res.json({ success: true, report: newReport });
   } catch (error) {
@@ -742,8 +1151,12 @@ app.post("/api/reports/generate", async (req, res) => {
 
 // Build / Hot Module Replacement & SPA Static setup
 async function startServer() {
-  // Seed Firestore if empty
-  await seedFirestoreIfNeeded();
+  // Initialize MySQL or seed Firestore if empty
+  if (mysqlPool) {
+    await initMySQLIfNeeded();
+  } else {
+    await seedFirestoreIfNeeded();
+  }
 
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
