@@ -24,7 +24,13 @@ export default function DashboardStats({ candidates, deadlines, onSelectCandidat
 
   // Votes target
   const totalTargetVotes = candidates.reduce((acc, c) => {
-    const candidateMeta = c.mappings.filter(m => m.atuacao).reduce((sum, m) => sum + (parseInt(m.meta2026) || 0), 0);
+    const candidateMeta = (c.mappings || [])
+      .filter(m => m.atuacao === true || (m.atuacao !== false && (m.lideranca || m.historicoVotos || m.meta2026)))
+      .reduce((sum, m) => {
+        const cleaned = (m.meta2026 || "").toString().replace(/\./g, "").replace(/,/g, "").trim();
+        const val = parseInt(cleaned, 10);
+        return sum + (isNaN(val) ? 0 : val);
+      }, 0);
     return acc + candidateMeta;
   }, 0);
 

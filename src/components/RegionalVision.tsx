@@ -46,6 +46,14 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
     return { name: cityName, habitantes: 0, eleitores: 0, filiados: 0 };
   };
 
+  // Helper to find the correct region name for a city name
+  const getRegionForCity = (cityName: string): string | null => {
+    const found = SANTA_CATARINA_REGIONS.find(r => 
+      r.cities.some(c => c.name.toLowerCase() === cityName.toLowerCase())
+    );
+    return found ? found.region : null;
+  };
+
   // Group candidate activity by region and city
   const regionalActivityData = useMemo(() => {
     const activityMap: Record<string, Record<string, { candidate: Candidate; mapping: CityMapping }[]>> = {};
@@ -58,8 +66,9 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
 
       const mappings = candidate.mappings || [];
       mappings.forEach(m => {
-        if (m.atuacao) {
-          const regionName = m.region;
+        const hasActivity = m.atuacao === true || (m.atuacao !== false && (m.lideranca || m.historicoVotos || m.meta2026));
+        if (hasActivity) {
+          const regionName = getRegionForCity(m.cityName) || m.region;
           const cityName = m.cityName;
 
           if (!activityMap[regionName]) {
@@ -192,6 +201,19 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
     let totalMeta2026 = 0;
     let totalIdealPerspective = 0;
 
+    let totalBomPerspective = 0;
+    let totalOtimoPerspective = 0;
+
+    // Calculate totalMeta2026 as the sum of metas of all candidates (filtered by party if active)
+    totalMeta2026 = candidates
+      .filter(c => partyFilter === "TODOS" || c.party === partyFilter)
+      .reduce((sum, c) => {
+        const candidateMeta = (c.mappings || [])
+          .filter(m => m.atuacao === true || (m.atuacao !== false && (m.lideranca || m.historicoVotos || m.meta2026)))
+          .reduce((s, m) => s + parseFormattedInt(m.meta2026), 0);
+        return sum + candidateMeta;
+      }, 0);
+
     filteredConsolidatedRegions.forEach(item => {
       if (item.activeCitiesCount > 0) {
         regionsWithPresence++;
@@ -199,8 +221,9 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
       totalActiveCities += item.activeCitiesCount;
       totalCoveredEleitores += item.coveredEleitores;
       totalHistoricoVotos += item.historicoVotos;
-      totalMeta2026 += item.meta2026;
       totalIdealPerspective += item.perspectivaIdeal;
+      totalBomPerspective += item.perspectivaBom;
+      totalOtimoPerspective += item.perspectivaOtimo;
     });
 
     return {
@@ -209,9 +232,11 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
       totalCoveredEleitores,
       totalHistoricoVotos,
       totalMeta2026,
-      totalIdealPerspective
+      totalIdealPerspective,
+      totalBomPerspective,
+      totalOtimoPerspective
     };
-  }, [filteredConsolidatedRegions]);
+  }, [filteredConsolidatedRegions, candidates, partyFilter]);
 
   // Toggle single region expansion
   const toggleRegion = (regionName: string) => {
@@ -787,6 +812,39 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                   );
                 })}
               </tbody>
+              <tfoot className="bg-[#FAF9F6] border-t-2 border-[#1A1A1B] text-gray-900 text-xs font-black uppercase tracking-wider">
+                <tr className="bg-slate-100/80">
+                  <td className="py-3 px-4 no-print"></td>
+                  <td className="py-3 px-4 font-black">Total Consolidado</td>
+                  <td className="py-3 px-4 font-mono font-bold text-gray-800">
+                    {globalKpis.totalActiveCities} <span className="text-gray-400 font-normal">cidades</span>
+                  </td>
+                  <td className="py-3 px-4"></td>
+                  <td className="py-3 px-4 text-right font-mono font-bold text-gray-700">
+                    {formatNumber(globalKpis.totalCoveredEleitores)}
+                  </td>
+                  <td className="py-3 px-4 text-right font-mono font-bold text-blue-800">
+                    {formatNumber(globalKpis.totalHistoricoVotos)}
+                  </td>
+                  <td className="py-3 px-4 text-right font-mono font-extrabold text-emerald-800 bg-emerald-50/40">
+                    {formatNumber(globalKpis.totalMeta2026)}
+                  </td>
+                  <td className="py-3 px-4 text-center bg-blue-50/20 font-mono text-[10px]">
+                    <div className="inline-flex rounded-sm overflow-hidden border border-gray-200 leading-none">
+                      <span className="px-1.5 py-1 bg-gray-50 text-gray-700 border-r border-gray-200" title="Total Bom">
+                        B: <strong className="font-bold">{formatNumber(globalKpis.totalBomPerspective)}</strong>
+                      </span>
+                      <span className="px-1.5 py-1 bg-blue-50 text-blue-800 border-r border-gray-200" title="Total Ideal">
+                        I: <strong className="font-bold">{formatNumber(globalKpis.totalIdealPerspective)}</strong>
+                      </span>
+                      <span className="px-1.5 py-1 bg-emerald-50 text-emerald-800" title="Total Ótimo">
+                        Ó: <strong className="font-bold">{formatNumber(globalKpis.totalOtimoPerspective)}</strong>
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 no-print"></td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         )}

@@ -378,16 +378,12 @@ async function getReportsFromFirestore(): Promise<any[]> {
 async function initMySQLIfNeeded() {
   if (!mysqlPool) return;
   
-  console.log("Initializing MySQL tables...");
+  console.log("Checking MySQL database availability...");
   let conn;
   try {
     conn = await mysqlPool.getConnection();
   } catch (error: any) {
-    console.warn("=========================================================");
-    console.warn("WARNING: Could not connect to MySQL database.");
-    console.warn("Error detail:", error.message || error);
-    console.warn("Falling back to Firestore for local development/preview!");
-    console.warn("=========================================================");
+    console.log("MySQL database is not active or reachable. Using Firestore database for data storage.");
     mysqlPool = null;
     await seedFirestoreIfNeeded();
     return;
