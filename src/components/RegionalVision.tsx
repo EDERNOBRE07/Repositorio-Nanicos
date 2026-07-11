@@ -107,11 +107,23 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
         const matches = activeCitiesMap[cityName];
         matches.forEach(({ candidate, mapping }) => {
           activeCandidatesMap[candidate.id] = candidate;
-          totalHistoricoVotos += parseFormattedInt(mapping.historicoVotos);
-          totalMeta2026 += parseFormattedInt(mapping.meta2026);
-          totalBom += parseFormattedInt(mapping.perspectivaBom);
-          totalIdeal += parseFormattedInt(mapping.perspectivaIdeal);
-          totalOtimo += parseFormattedInt(mapping.perspectivaOtimo);
+          
+          const histVal = parseFormattedInt(mapping.historicoVotos);
+          const metaVal = parseFormattedInt(mapping.meta2026);
+          const rawBom = parseFormattedInt(mapping.perspectivaBom);
+          const rawIdeal = parseFormattedInt(mapping.perspectivaIdeal);
+          const rawOtimo = parseFormattedInt(mapping.perspectivaOtimo);
+
+          // Apply default formula calculations if perspectives are omitted or empty
+          const bomVal = rawBom || Math.round(metaVal * 0.80);
+          const idealVal = rawIdeal || metaVal;
+          const otimoVal = rawOtimo || Math.round(metaVal * 1.20);
+
+          totalHistoricoVotos += histVal;
+          totalMeta2026 += metaVal;
+          totalBom += bomVal;
+          totalIdeal += idealVal;
+          totalOtimo += otimoVal;
         });
       });
 
@@ -200,19 +212,8 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
     let totalHistoricoVotos = 0;
     let totalMeta2026 = 0;
     let totalIdealPerspective = 0;
-
     let totalBomPerspective = 0;
     let totalOtimoPerspective = 0;
-
-    // Calculate totalMeta2026 as the sum of metas of all candidates (filtered by party if active)
-    totalMeta2026 = candidates
-      .filter(c => partyFilter === "TODOS" || c.party === partyFilter)
-      .reduce((sum, c) => {
-        const candidateMeta = (c.mappings || [])
-          .filter(m => m.atuacao === true || (m.atuacao !== false && (m.lideranca || m.historicoVotos || m.meta2026)))
-          .reduce((s, m) => s + parseFormattedInt(m.meta2026), 0);
-        return sum + candidateMeta;
-      }, 0);
 
     filteredConsolidatedRegions.forEach(item => {
       if (item.activeCitiesCount > 0) {
@@ -221,6 +222,7 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
       totalActiveCities += item.activeCitiesCount;
       totalCoveredEleitores += item.coveredEleitores;
       totalHistoricoVotos += item.historicoVotos;
+      totalMeta2026 += item.meta2026;
       totalIdealPerspective += item.perspectivaIdeal;
       totalBomPerspective += item.perspectivaBom;
       totalOtimoPerspective += item.perspectivaOtimo;
@@ -236,7 +238,7 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
       totalBomPerspective,
       totalOtimoPerspective
     };
-  }, [filteredConsolidatedRegions, candidates, partyFilter]);
+  }, [filteredConsolidatedRegions]);
 
   // Toggle single region expansion
   const toggleRegion = (regionName: string) => {
@@ -776,17 +778,30 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
 
                                               {/* Candidate perspective scenarios in this city */}
                                               <td className="py-2 px-3 text-center bg-blue-50/5 border-r border-gray-100 font-mono text-[10px]">
-                                                <div className="inline-flex rounded-sm overflow-hidden border border-gray-150 leading-none">
-                                                  <span className="px-1.5 py-0.5 bg-gray-50 text-gray-600 border-r border-gray-150" title="Cenário Bom">
-                                                    B: {mapping.perspectivaBom ? formatNumber(mapping.perspectivaBom) : "-"}
-                                                  </span>
-                                                  <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 border-r border-gray-150" title="Cenário Ideal">
-                                                    I: {mapping.perspectivaIdeal ? formatNumber(mapping.perspectivaIdeal) : "-"}
-                                                  </span>
-                                                  <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700" title="Cenário Ótimo">
-                                                    Ó: {mapping.perspectivaOtimo ? formatNumber(mapping.perspectivaOtimo) : "-"}
-                                                  </span>
-                                                </div>
+                                                {(() => {
+                                                  const metaVal = parseFormattedInt(mapping.meta2026);
+                                                  const rawBom = parseFormattedInt(mapping.perspectivaBom);
+                                                  const rawIdeal = parseFormattedInt(mapping.perspectivaIdeal);
+                                                  const rawOtimo = parseFormattedInt(mapping.perspectivaOtimo);
+
+                                                  const bomVal = rawBom || (metaVal ? Math.round(metaVal * 0.80) : 0);
+                                                  const idealVal = rawIdeal || metaVal;
+                                                  const otimoVal = rawOtimo || (metaVal ? Math.round(metaVal * 1.20) : 0);
+
+                                                  return (
+                                                    <div className="inline-flex rounded-sm overflow-hidden border border-gray-150 leading-none">
+                                                      <span className="px-1.5 py-0.5 bg-gray-50 text-gray-600 border-r border-gray-150" title="Cenário Bom">
+                                                        B: {bomVal > 0 ? formatNumber(bomVal) : "-"}
+                                                      </span>
+                                                      <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 border-r border-gray-150" title="Cenário Ideal">
+                                                        I: {idealVal > 0 ? formatNumber(idealVal) : "-"}
+                                                      </span>
+                                                      <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700" title="Cenário Ótimo">
+                                                        Ó: {otimoVal > 0 ? formatNumber(otimoVal) : "-"}
+                                                      </span>
+                                                    </div>
+                                                  );
+                                                })()}
                                               </td>
 
                                               {/* Candidate situation notes */}

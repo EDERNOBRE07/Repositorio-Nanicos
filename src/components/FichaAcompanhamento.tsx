@@ -58,6 +58,17 @@ const compressImage = (base64Str: string, maxWidth = 300, maxHeight = 300): Prom
   });
 };
 
+const normalizeCandidate = (c: Candidate): Candidate => {
+  if (!c) return c;
+  return {
+    ...c,
+    mappings: (c.mappings || []).map(m => ({
+      ...m,
+      atuacao: m.atuacao ?? (m.lideranca || m.historicoVotos || m.meta2026 ? true : false)
+    }))
+  };
+};
+
 interface FichaAcompanhamentoProps {
   candidate: Candidate;
   onBack: () => void;
@@ -68,7 +79,7 @@ interface FichaAcompanhamentoProps {
 
 export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate, onDeleteCandidate, initialTab = "ficha" }: FichaAcompanhamentoProps) {
   // Local state initialized with candidate prop
-  const [formData, setFormData] = useState<Candidate>({ ...candidate });
+  const [formData, setFormData] = useState<Candidate>(() => normalizeCandidate(candidate));
   const [saveStatus, setSaveStatus] = useState<"salvo" | "digitando" | "salvando" | "erro">("salvo");
   const [activeTab, setActiveTab] = useState<"ficha" | "agenda">(initialTab);
   const [photoUploading, setPhotoUploading] = useState(false);
@@ -97,7 +108,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
   useEffect(() => {
     // Every time formData changes, if it is different from candidate, set status to digitando
     // then set a timeout to save
-    if (JSON.stringify(formData) === JSON.stringify(candidate)) {
+    if (JSON.stringify(formData) === JSON.stringify(normalizeCandidate(candidate))) {
       return;
     }
 
@@ -118,7 +129,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
 
   // Synchronize when candidate prop changes (e.g., initial load or manual refresh)
   useEffect(() => {
-    setFormData({ ...candidate });
+    setFormData(normalizeCandidate(candidate));
     setSaveStatus("salvo");
     setActiveTab(initialTab);
     setImageError(false);
