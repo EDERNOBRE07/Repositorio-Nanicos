@@ -19,11 +19,40 @@ define('SECURITY_TOKEN', 'mastervision');
 $accessToken = isset($_GET['token']) ? $_GET['token'] : '';
 $isAuthenticated = ($accessToken === SECURITY_TOKEN);
 
+// Função para verificar se o shell_exec está habilitado e utilizável
+function isShellEnabled() {
+    if (!function_exists('shell_exec')) {
+        return false;
+    }
+    
+    $disabled = ini_get('disable_functions');
+    if ($disabled) {
+        $disabled_array = array_map('trim', explode(',', $disabled));
+        if (in_array('shell_exec', $disabled_array)) {
+            return false;
+        }
+    }
+    
+    // Teste simples para garantir que funciona e não lança exceção
+    try {
+        $test = @shell_exec('echo 1');
+        return trim($test) === '1';
+    } catch (\Throwable $e) {
+        return false;
+    }
+}
+
 // Função para formatar as saídas de terminal
 function runCommand($cmd, $desc) {
     echo "<div class='cmd-block'>";
     echo "<p class='cmd-desc'># " . htmlspecialchars($desc) . "</p>";
     echo "<p class='cmd-input'>$ " . htmlspecialchars($cmd) . "</p>";
+    
+    if (!isShellEnabled()) {
+        echo "<pre class='cmd-output' style='color:#f85149; border-color:#f85149;'>[ERRO] A função 'shell_exec' está desabilitada nas configurações de PHP da sua Hostinger.\nPor favor, ative-a no seu painel ou utilize a conexão SSH.</pre>";
+        echo "</div>";
+        return;
+    }
     
     // Configura caminhos úteis para garantir que npm/node sejam encontrados
     putenv('PATH=' . getenv('PATH') . ':/usr/local/bin:/usr/bin:/bin:/usr/node/bin');
@@ -253,6 +282,57 @@ function runCommand($cmd, $desc) {
         </div>
     <?php else: ?>
         
+        <!-- VERIFICAÇÃO SE SHELL_EXEC ESTÁ ATIVO -->
+        <?php if (!isShellEnabled()): ?>
+            <div class="card" style="border: 2px solid #ffd700; background-color: rgba(255, 215, 0, 0.05); padding: 25px; margin-bottom: 25px;">
+                <h2 style="color: #ffd700; margin-top: 0; font-size: 16px; text-transform: uppercase; display: flex; align-items: center; gap: 10px;">
+                    ⚠️ Função PHP 'shell_exec' Desativada na Hostinger
+                </h2>
+                <p style="font-size: 13px; color: #e6edf3; line-height: 1.6;">
+                    Identificamos que o provedor <strong>Hostinger</strong> desabilitou a execução de funções de terminal por padrão para este domínio. 
+                    Isso impede que este script PHP execute os comandos automatizados do Node.js (<code>npm install</code> e <code>npm run build</code>).
+                </p>
+                <p style="font-size: 13px; color: #8b949e; margin-bottom: 20px;">
+                    Para resolver isso, você pode escolher uma de duas soluções simples e diretas:
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                    <!-- OPÇÃO 1 -->
+                    <div style="background-color: #1f242c; border: 1px solid #30363d; padding: 18px; border-radius: 4px;">
+                        <h3 style="color: #ffd700; font-size: 13px; margin-top: 0; text-transform: uppercase; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 12px;">
+                            Opção A: Liberar a função no Painel Hostinger (Recomendado para usar esta página)
+                        </h3>
+                        <ol style="font-size: 12px; color: #c9d1d9; padding-left: 15px; line-height: 1.8;">
+                            <li>Acesse seu painel <strong><a href="https://hpanel.hostinger.com/" target="_blank" style="color: #ffd700; font-weight: bold; text-decoration: underline;">Hostinger hPanel</a></strong>.</li>
+                            <li>No menu lateral esquerdo, vá em <strong>Avançado</strong> &gt; <strong>Configuração de PHP</strong>.</li>
+                            <li>Clique na aba superior <strong>Opções do PHP</strong> (PHP Options).</li>
+                            <li>Procure pela linha <strong>disable_functions</strong> (Funções Desabilitadas).</li>
+                            <li>Remova o termo <code>shell_exec</code> da lista de bloqueio.</li>
+                            <li>Role até o final da página e clique em <strong>Salvar</strong>.</li>
+                            <li>Após salvar, <a href="" style="color: #ffd700; font-weight: bold; text-decoration: underline;">atualize esta página</a> e tente compilar novamente!</li>
+                        </ol>
+                    </div>
+
+                    <!-- OPÇÃO 2 -->
+                    <div style="background-color: #1f242c; border: 1px solid #30363d; padding: 18px; border-radius: 4px;">
+                        <h3 style="color: #ffd700; font-size: 13px; margin-top: 0; text-transform: uppercase; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 12px;">
+                            Opção B: Compilar via Terminal SSH da Hostinger (Alternativa 100% direta e segura)
+                        </h3>
+                        <p style="font-size: 12px; color: #c9d1d9; line-height: 1.6; margin-top: 5px; margin-bottom: 10px;">
+                            Se preferir não alterar as configurações do PHP, use a conexão SSH (que é completamente independente e extremamente rápida):
+                        </p>
+                        <ol style="font-size: 12px; color: #c9d1d9; padding-left: 15px; line-height: 1.8;">
+                            <li>No menu lateral esquerdo da Hostinger, clique em <strong>Avançado</strong> &gt; <strong>Acesso SSH</strong> e clique para ativá-lo.</li>
+                            <li>Copie o comando de conexão SSH exibido e cole no seu terminal local (CMD, PowerShell ou Git Bash).</li>
+                            <li>Insira a senha de acesso configurada na Hostinger.</li>
+                            <li>Uma vez conectado, copie, cole o comando completo abaixo e pressione <strong>Enter</strong>:</li>
+                        </ol>
+                        <pre style="background-color: #0c0f12; color: #39ff14; padding: 12px; font-family: monospace; font-size: 11px; border: 1px solid #30363d; overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; line-height: 1.4;">cd domains/candidatos.mastervisionmarketing.com/public_html && npm install && npm run build && mkdir -p tmp && touch tmp/restart.txt</pre>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <!-- STATUS INFORMATION -->
         <div class="card">
             <h2 style="color: #ffd700; margin-top: 0; font-size: 16px; text-transform: uppercase;">Ações do Servidor</h2>
