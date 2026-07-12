@@ -42,6 +42,45 @@ function isShellEnabled() {
     }
 }
 
+// Função para buscar dinamicamente os caminhos do Node.js e NPM na Hostinger
+function getOptimalPath() {
+    $standardPaths = [
+        '/usr/local/bin',
+        '/usr/bin',
+        '/bin',
+        '/usr/node/bin'
+    ];
+    
+    // Caminhos do Alt-NodeJS (CloudLinux da Hostinger) em ordem decrescente de versão
+    $altVersions = glob('/opt/alt/alt-nodejs*/root/usr/bin');
+    if (is_array($altVersions)) {
+        rsort($altVersions); // Versões mais novas primeiro (ex: alt-nodejs20 antes de alt-nodejs18)
+        $standardPaths = array_merge($standardPaths, $altVersions);
+    }
+    
+    // Caminhos locais do usuário (~/.nvm, ~/.npm-global)
+    $homeDir = getenv('HOME');
+    if (!$homeDir) {
+        $homeDir = '/home/' . get_current_user();
+    }
+    
+    if (is_dir($homeDir)) {
+        $nvmPaths = glob($homeDir . '/.nvm/versions/node/*/bin');
+        if (is_array($nvmPaths)) {
+            rsort($nvmPaths);
+            $standardPaths = array_merge($standardPaths, $nvmPaths);
+        }
+        $standardPaths[] = $homeDir . '/.npm-global/bin';
+        $standardPaths[] = $homeDir . '/bin';
+    }
+    
+    // Remove duplicados e junta tudo na variável PATH
+    $uniquePaths = array_unique($standardPaths);
+    $finalPath = implode(':', $uniquePaths);
+    
+    return getenv('PATH') . ':' . $finalPath;
+}
+
 // Função para formatar as saídas de terminal
 function runCommand($cmd, $desc) {
     echo "<div class='cmd-block'>";
@@ -54,8 +93,8 @@ function runCommand($cmd, $desc) {
         return;
     }
     
-    // Configura caminhos úteis para garantir que npm/node sejam encontrados
-    putenv('PATH=' . getenv('PATH') . ':/usr/local/bin:/usr/bin:/bin:/usr/node/bin');
+    // Configura caminhos úteis dinamicamente para garantir que npm/node sejam encontrados
+    putenv('PATH=' . getOptimalPath());
     
     // Executa e captura a saída mesclando stdout e stderr
     $output = shell_exec($cmd . " 2>&1");
