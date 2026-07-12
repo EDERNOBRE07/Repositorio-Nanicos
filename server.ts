@@ -1499,6 +1499,144 @@ app.post("/api/database/sync", async (req, res) => {
   }
 });
 
+function splitSqlStatements(sqlText: string): string[] {
+  const statements: string[] = [];
+  let currentStatement = "";
+  let inString = false;
+  let stringChar = "";
+  let inComment = false;
+  let inLineComment = false;
+
+  for (let i = 0; i < sqlText.length; i++) {
+    const char = sqlText[i];
+    const nextChar = sqlText[i + 1] || "";
+
+    if (!inString && !inComment && ((char === '-' && nextChar === '-') || char === '#')) {
+      inLineComment = true;
+      if (char === '-') i++;
+      continue;
+    }
+    if (inLineComment && (char === '\n' || char === '\r')) {
+      inLineComment = false;
+      continue;
+    }
+    if (inLineComment) {
+      continue;
+    }
+
+    if (!inString && !inComment && char === '/' && nextChar === '*') {
+      inComment = true;
+      i++;
+      continue;
+    }
+    if (inComment && char === '*' && nextChar === '/') {
+      inComment = false;
+      i++;
+      continue;
+    }
+    if (inComment) {
+      continue;
+    }
+
+    if ((char === "'" || char === '"' || char === '`') && sqlText[i - 1] !== '\\') {
+      if (!inString) {
+        inString = true;
+        stringChar = char;
+      } else if (stringChar === char) {
+        inString = false;
+      }
+    }
+
+    currentStatement += char;
+
+    if (char === ';' && !inString) {
+      const trimmed = currentStatement.trim();
+      if (trimmed) {
+        statements.push(trimmed);
+      }
+      currentStatement = "";
+    }
+  }
+
+  const trimmed = currentStatement.trim();
+  if (trimmed) {
+    statements.push(trimmed);
+  }
+
+  return statements;
+}
+
+// 4. POST /api/database/import-sql
+app.post("/api/database/import-sql", async (req, res) => {
+  const { sql, host, port, database, user, password } = req.body;
+
+  if (!sql) {
+    return res.status(400).json({ success: false, error: "Nenhum comando SQL fornecido." });
+  }
+
+  let importPool: mysql.Pool | null = null;
+  try {
+    importPool = mysql.createPool({
+      host: host || "localhost",
+      port: parseInt(port || "3306", 10),
+      database: database || "u844537895_candidatos",
+      user: user || "u844537895_candidatos",
+      password: password || "Shift2026",
+      waitForConnections: true,
+      connectionLimit: 1,
+      queueLimit: 0,
+      multipleStatements: true
+    });
+
+    const conn = await importPool.getConnection();
+    const statements = splitSqlStatements(sql);
+    let executed = 0;
+    let failed = 0;
+    const errors: string[] = [];
+
+    await conn.query("SET FOREIGN_KEY_CHECKS=0");
+
+    for (const stmt of statements) {
+      const trimmed = stmt.trim();
+      if (!trimmed) continue;
+      try {
+        await conn.query(trimmed);
+        executed++;
+      } catch (err: any) {
+        failed++;
+        errors.push(`Erro no comando [${trimmed.substring(0, 80)}...]: ${err.message}`);
+      }
+    }
+
+    await conn.query("SET FOREIGN_KEY_CHECKS=1");
+    conn.release();
+
+    if (failed === 0) {
+      res.json({
+        success: true,
+        message: `Importação do SQL concluída com sucesso! Foram executadas ${executed} instruções com êxito e 0 falhas no banco de dados.`
+      });
+    } else {
+      res.json({
+        success: true,
+        message: `Importação concluída parcialmente. Executados com sucesso: ${executed}. Falhas: ${failed}.`,
+        warnings: errors.slice(0, 5)
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: `Falha ao tentar conectar ou importar SQL: ${error.message || error}`
+    });
+  } finally {
+    if (importPool) {
+      try {
+        await importPool.end();
+      } catch (e) {}
+    }
+  }
+});
+
 // Build / Hot Module Replacement & SPA Static setup
 async function startServer() {
   // Initialize MySQL or seed Firestore if empty

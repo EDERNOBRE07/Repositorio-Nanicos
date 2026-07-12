@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { 
   Database, Download, CheckCircle, XCircle, AlertTriangle, 
-  Server, RefreshCw, Play, ArrowRight, ExternalLink, HelpCircle 
+  Server, RefreshCw, Play, ArrowRight, ExternalLink, HelpCircle,
+  Upload, FileText, Settings, Globe
 } from "lucide-react";
 
 interface DBStatus {
@@ -34,6 +35,77 @@ export default function DatabaseSync() {
   
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<{ success: boolean; message: string } | null>(null);
+
+  // States for database SQL file import
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<{ success: boolean; message: string; warnings?: string[] } | null>(null);
+  const [showImportConfig, setShowImportConfig] = useState(false);
+
+  // Default credentials requested by user
+  const [importHost, setImportHost] = useState("localhost");
+  const [importPort, setImportPort] = useState("3306");
+  const [importDatabase, setImportDatabase] = useState("u844537895_candidatos");
+  const [importUser, setImportUser] = useState("u844537895_candidatos");
+  const [importPassword, setImportPassword] = useState("Shift2026");
+
+  const handleImportSQL = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!importFile) return;
+
+    setImporting(true);
+    setImportResult(null);
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const sqlContent = event.target?.result as string;
+        
+        const res = await fetch("/api/database/import-sql", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sql: sqlContent,
+            host: importHost,
+            port: importPort,
+            database: importDatabase,
+            user: importUser,
+            password: importPassword
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setImportResult({ 
+            success: true, 
+            message: data.message || "Banco de dados importado com sucesso!",
+            warnings: data.warnings
+          });
+          setImportFile(null);
+          fetchStatus(); // Refresh status counts
+        } else {
+          setImportResult({ 
+            success: false, 
+            message: data.error || "Ocorreu um erro ao importar o arquivo SQL." 
+          });
+        }
+      } catch (err: any) {
+        setImportResult({ 
+          success: false, 
+          message: err.message || "Erro de rede ao processar importação." 
+        });
+      } finally {
+        setImporting(false);
+      }
+    };
+
+    reader.onerror = () => {
+      setImportResult({ success: false, message: "Erro ao ler o arquivo selecionado." });
+      setImporting(false);
+    };
+
+    reader.readAsText(importFile);
+  };
 
   const fetchStatus = async () => {
     setLoadingStatus(true);
@@ -280,14 +352,194 @@ export default function DatabaseSync() {
             </div>
           </div>
 
-          {/* MODE 2: DIRECT SYNC VIA NETWORK */}
+          {/* MODE 2: DIRECT SQL IMPORT (NEW FEATURE) */}
+          <div className="bg-white border-2 border-[#1A1A1B] shadow-[4px_4px_0px_0px_rgba(26,26,27,1)]">
+            <div className="bg-[#FFD700] text-gray-900 px-5 py-4 border-b-2 border-[#1A1A1B] flex items-center gap-3">
+              <div className="bg-gray-900/10 p-1.5 border border-gray-900/20">
+                <Upload size={18} />
+              </div>
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-wider leading-none">Método B: Importação Direta de Arquivo SQL</h3>
+                <span className="text-[9px] text-gray-800 font-bold mt-1 block uppercase font-mono">DB_HOST="localhost" &bull; DB_USER="u844537895_candidatos"</span>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <p className="text-xs text-gray-700 leading-relaxed">
+                Selecione ou arraste um arquivo de banco de dados (ex: <code>database.sql</code>) para importá-lo diretamente no MySQL do servidor. 
+                Isso recria as tabelas e preenche os registros instantaneamente, resolvendo discrepâncias de visualização e ativando os cálculos eleitorais.
+              </p>
+
+              {/* Informative advice about TRE-SC Sync */}
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-none text-xs text-blue-950 space-y-2">
+                <div className="font-bold flex items-center gap-1.5 uppercase text-[10px]">
+                  <Globe size={14} className="text-blue-700" />
+                  Sincronização com o TRE-SC e dados de eleitores
+                </div>
+                <p className="leading-relaxed text-blue-900">
+                  A visualização regional calcula o eleitorado oficial do TRE-SC <strong>dinamicamente</strong> com base nos municípios ativos cadastrados. Se o seu banco estiver vazio na Hostinger, os dados mostrarão 0. Ao importar o arquivo SQL, as tabelas de candidatos e seus mapeamentos geográficos são restauradas, e o sistema ativa imediatamente os cálculos atualizados para cada regional do TRE-SC!
+                </p>
+              </div>
+
+              <form onSubmit={handleImportSQL} className="space-y-4">
+                {/* File Drop / Select Area */}
+                <div 
+                  onClick={() => document.getElementById("sql-file-input")?.click()}
+                  className="border-2 border-dashed border-[#1A1A1B] p-6 text-center cursor-pointer hover:bg-slate-50 transition bg-slate-50/50"
+                >
+                  <input 
+                    id="sql-file-input"
+                    type="file" 
+                    accept=".sql"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setImportFile(e.target.files[0]);
+                      }
+                    }}
+                    className="hidden"
+                  />
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <FileText size={24} className={importFile ? "text-emerald-600" : "text-gray-400"} />
+                    {importFile ? (
+                      <div>
+                        <p className="text-xs font-black text-emerald-700">{importFile.name}</p>
+                        <p className="text-[10px] text-gray-500 font-mono mt-0.5">{(importFile.size / 1024).toFixed(2)} KB &bull; Pronto para importar</p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-xs font-bold text-gray-700">Arraste ou clique para selecionar seu database.sql</p>
+                        <p className="text-[10px] text-gray-400 mt-0.5">Aceita apenas arquivos com extensão .SQL</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Collapsible Connection Config */}
+                <div className="border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowImportConfig(!showImportConfig)}
+                    className="w-full bg-slate-100 hover:bg-slate-200 px-3 py-2 text-left text-[10px] font-black text-gray-700 uppercase flex items-center justify-between transition"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <Settings size={12} />
+                      Configurações de Conexão do Importador
+                    </span>
+                    <span>{showImportConfig ? "Ocultar ▲" : "Exibir ▼"}</span>
+                  </button>
+                  
+                  {showImportConfig && (
+                    <div className="p-4 bg-slate-50 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <label className="text-[9px] font-black text-gray-500 block mb-1 uppercase">Endereço Host (DB_HOST):</label>
+                        <input 
+                          type="text" 
+                          value={importHost} 
+                          onChange={(e) => setImportHost(e.target.value)}
+                          className="w-full bg-white border border-gray-300 px-2 py-1 text-xs font-mono focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-gray-500 block mb-1 uppercase">Porta (DB_PORT):</label>
+                        <input 
+                          type="text" 
+                          value={importPort} 
+                          onChange={(e) => setImportPort(e.target.value)}
+                          className="w-full bg-white border border-gray-300 px-2 py-1 text-xs font-mono focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-gray-500 block mb-1 uppercase">Nome do Banco (DB_NAME):</label>
+                        <input 
+                          type="text" 
+                          value={importDatabase} 
+                          onChange={(e) => setImportDatabase(e.target.value)}
+                          className="w-full bg-white border border-gray-300 px-2 py-1 text-xs font-mono focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-gray-500 block mb-1 uppercase">Usuário (DB_USER):</label>
+                        <input 
+                          type="text" 
+                          value={importUser} 
+                          onChange={(e) => setImportUser(e.target.value)}
+                          className="w-full bg-white border border-gray-300 px-2 py-1 text-xs font-mono focus:outline-none"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="text-[9px] font-black text-gray-500 block mb-1 uppercase">Senha (DB_PASSWORD):</label>
+                        <input 
+                          type="password" 
+                          value={importPassword} 
+                          onChange={(e) => setImportPassword(e.target.value)}
+                          className="w-full bg-white border border-gray-300 px-2 py-1 text-xs font-mono focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Import Result Alert */}
+                {importResult && (
+                  <div className={`p-4 border-2 text-xs font-black flex items-start gap-2.5 ${
+                    importResult.success 
+                      ? "bg-green-50 border-green-300 text-green-800" 
+                      : "bg-red-50 border-red-300 text-red-800"
+                  }`}>
+                    {importResult.success ? (
+                      <CheckCircle size={18} className="text-green-600 flex-shrink-0" />
+                    ) : (
+                      <XCircle size={18} className="text-red-600 flex-shrink-0" />
+                    )}
+                    <div>
+                      <p className="font-bold uppercase tracking-wider text-[10px]">
+                        {importResult.success ? "Importação Concluída com Sucesso!" : "Falha na Importação"}
+                      </p>
+                      <p className="mt-1 font-mono font-medium leading-relaxed">{importResult.message}</p>
+                      {importResult.warnings && importResult.warnings.length > 0 && (
+                        <div className="mt-2 text-[10px] font-normal font-mono bg-amber-50 border border-amber-200 p-2 text-amber-800">
+                          <p className="font-bold uppercase mb-1">Avisos do Banco de Dados:</p>
+                          <ul className="list-disc pl-3 space-y-1">
+                            {importResult.warnings.map((warn, wIdx) => <li key={wIdx}>{warn}</li>)}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  disabled={importing || !importFile}
+                  className={`w-full px-5 py-3 bg-[#FFD700] hover:bg-amber-400 text-gray-900 border-2 border-[#1A1A1B] text-xs font-black uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(26,26,27,1)] active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(26,26,27,1)] ${
+                    (importing || !importFile) ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {importing ? (
+                    <>
+                      <RefreshCw size={15} className="animate-spin" />
+                      Lendo e Processando SQL no Servidor...
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={14} />
+                      Executar Importação do Arquivo SQL no Hostinger MySQL
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* MODE 3: DIRECT SYNC VIA NETWORK */}
           <div className="bg-white border-2 border-[#1A1A1B] shadow-[4px_4px_0px_0px_rgba(26,26,27,1)]">
             <div className="bg-gray-800 text-white px-5 py-4 border-b-2 border-[#1A1A1B] flex items-center gap-3">
               <div className="bg-white/10 p-1.5 border border-white/20">
                 <Server size={18} />
               </div>
               <div>
-                <h3 className="text-xs font-black uppercase tracking-wider leading-none">Método B: Sincronização Direta Online</h3>
+                <h3 className="text-xs font-black uppercase tracking-wider leading-none">Método C: Sincronização Direta Online</h3>
                 <span className="text-[9px] text-gray-300 font-bold mt-1 block uppercase">CONEXÃO DIRETA COM O MYSQL DA HOSTINGER</span>
               </div>
             </div>

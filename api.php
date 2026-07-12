@@ -947,6 +947,148 @@ if ($route === 'database/sync' && $method === 'POST') {
     exit;
 }
 
+// Helper function to split SQL statements while ignoring semicolons inside strings and comments
+function splitSqlStatements($sqlText) {
+    $statements = [];
+    $currentStatement = "";
+    $inString = false;
+    $stringChar = "";
+    $inComment = false;
+    $inLineComment = false;
+    $len = strlen($sqlText);
+
+    for ($i = 0; $i < $len; $i++) {
+        $char = $sqlText[$i];
+        $nextChar = ($i + 1 < $len) ? $sqlText[$i + 1] : "";
+
+        if (!$inString && !$inComment && (($char === '-' && $nextChar === '-') || $char === '#')) {
+            $inLineComment = true;
+            if ($char === '-') $i++;
+            continue;
+        }
+        if ($inLineComment && ($char === "\n" || $char === "\r")) {
+            $inLineComment = false;
+            continue;
+        }
+        if ($inLineComment) {
+            continue;
+        }
+
+        if (!$inString && !$inComment && $char === '/' && $nextChar === '*') {
+            $inComment = true;
+            $i++;
+            continue;
+        }
+        if ($inComment && $char === '*' && $nextChar === '/') {
+            $inComment = false;
+            $i++;
+            continue;
+        }
+        if ($inComment) {
+            continue;
+        }
+
+        if (($char === "'" || $char === '"' || $char === '`') && ($i === 0 || $sqlText[$i - 1] !== '\\')) {
+            if (!$inString) {
+                $inString = true;
+                $stringChar = $char;
+            } elseif ($stringChar === $char) {
+                $inString = false;
+            }
+        }
+
+        $currentStatement .= $char;
+
+        if ($char === ';' && !$inString) {
+            $trimmed = trim($currentStatement);
+            if (!empty($trimmed)) {
+                $statements[] = $trimmed;
+            }
+            $currentStatement = "";
+        }
+    }
+
+    $trimmed = trim($currentStatement);
+    if (!empty($trimmed)) {
+        $statements[] = $trimmed;
+    }
+
+    return $statements;
+}
+
+// -----------------------------------------------------------------
+// 12. POST DATABASE IMPORT-SQL
+// -----------------------------------------------------------------
+if ($route === 'database/import-sql' && $method === 'POST') {
+    try {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $sql = $input['sql'] ?? '';
+        $host = $input['host'] ?? 'localhost';
+        $port = $input['port'] ?? '3306';
+        $database = $input['database'] ?? 'u844537895_candidatos';
+        $user = $input['user'] ?? 'u844537895_candidatos';
+        $password = $input['password'] ?? 'Shift2026';
+
+        if (empty($sql)) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "error" => "Nenhum comando SQL fornecido."]);
+            exit;
+        }
+
+        // Tentar conectar com as credenciais especificadas para importação
+        $importPdo = new PDO("mysql:host=$host;dbname=$database;port=$port;charset=utf8mb4", $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
+
+        // Função robusta de separação de instruções SQL
+        $statements = splitSqlStatements($sql);
+        $executed = 0;
+        $failed = 0;
+        $errors = [];
+
+        // Habilitar desativação temporária de chaves estrangeiras para evitar conflitos de ordem na importação
+        $importPdo->exec("SET FOREIGN_KEY_CHECKS=0");
+
+        foreach ($statements as $stmtText) {
+            $stmtText = trim($stmtText);
+            if (empty($stmtText)) {
+                continue;
+            }
+            try {
+                $importPdo->exec($stmtText);
+                $executed++;
+            } catch (Exception $e) {
+                $failed++;
+                $errors[] = "Erro no comando [" . substr($stmtText, 0, 80) . "...]: " . $e->getMessage();
+            }
+        }
+
+        $importPdo->exec("SET FOREIGN_KEY_CHECKS=1");
+
+        if ($failed === 0) {
+            echo json_encode([
+                "success" => true,
+                "message" => "Importação do SQL concluída com absoluto sucesso! Foram executadas $executed instruções com êxito e 0 falhas no banco de dados u844537895_candidatos."
+            ]);
+        } else {
+            echo json_encode([
+                "success" => true, // Ainda considerado sucesso por ter rodado os demais, mas com avisos
+                "message" => "Importação concluída parcialmente. Executados com sucesso: $executed. Falhas no banco de dados: $failed.",
+                "warnings" => array_slice($errors, 0, 5) // Retornar primeiros 5 erros
+            ]);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "success" => false,
+            "error" => "Falha catastrófica ao tentar importar SQL: " . $e->getMessage()
+        ]);
+    }
+    exit;
+}
+
 // Se nenhuma rota bater, retornar 404
 http_response_code(404);
 echo json_encode([
