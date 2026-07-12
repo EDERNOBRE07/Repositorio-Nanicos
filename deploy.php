@@ -325,9 +325,9 @@ function runCommand($cmd, $desc) {
                             <li>No menu lateral esquerdo da Hostinger, clique em <strong>Avançado</strong> &gt; <strong>Acesso SSH</strong> e clique para ativá-lo.</li>
                             <li>Copie o comando de conexão SSH exibido e cole no seu terminal local (CMD, PowerShell ou Git Bash).</li>
                             <li>Insira a senha de acesso configurada na Hostinger.</li>
-                            <li>Uma vez conectado, copie, cole o comando completo abaixo e pressione <strong>Enter</strong>:</li>
+                            <li>Uma vez conectado, copie, cole o comando de limpeza e instalação completo abaixo e pressione <strong>Enter</strong>:</li>
                         </ol>
-                        <pre style="background-color: #0c0f12; color: #39ff14; padding: 12px; font-family: monospace; font-size: 11px; border: 1px solid #30363d; overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; line-height: 1.4;">cd domains/candidatos.mastervisionmarketing.com/public_html && npm install && npm run build && mkdir -p tmp && touch tmp/restart.txt</pre>
+                        <pre style="background-color: #0c0f12; color: #39ff14; padding: 12px; font-family: monospace; font-size: 11px; border: 1px solid #30363d; overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; line-height: 1.4;">cd domains/candidatos.mastervisionmarketing.com/public_html && rm -rf node_modules package-lock.json && npm install && npm run build && mkdir -p tmp && touch tmp/restart.txt</pre>
                     </div>
                 </div>
             </div>
@@ -403,7 +403,8 @@ function runCommand($cmd, $desc) {
                             runCommand("cp .env.example .env", "Criando arquivo .env a partir do .env.example");
                         }
 
-                        // 3. Instalar dependências completas
+                        // 3. Instalar dependências completas (Limpando caches anteriores para evitar incompatibilidade de plataforma)
+                        runCommand("rm -rf node_modules package-lock.json", "Limpando diretórios antigos para evitar conflitos de arquitetura");
                         runCommand("npm install --no-audit --no-fund", "Instalando dependências do projeto (pode levar 1 a 2 minutos)");
 
                         // 4. Executar script de build

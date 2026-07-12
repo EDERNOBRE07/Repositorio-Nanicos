@@ -22,7 +22,8 @@ else
 fi
 
 # 2. Instalar dependências completas
-echo -e "\n${YELLOW}[2/4] Instalando dependências completas do npm...${NC}"
+echo -e "\n${YELLOW}[2/4] Limpando diretórios antigos e instalando dependências completas do npm...${NC}"
+rm -rf node_modules package-lock.json
 npm install --no-audit --no-fund
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}[✓] Dependências instaladas com sucesso.${NC}"
