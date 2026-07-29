@@ -153,7 +153,18 @@ const generateBlankMapping = () => {
   return mapping;
 };
 
-const getSeedCandidates = () => [
+const getSeedCandidates = () => {
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      const fileData = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+      if (fileData.candidates && Array.isArray(fileData.candidates) && fileData.candidates.length > 0) {
+        return fileData.candidates;
+      }
+    } catch (e) {
+      console.error("Error reading data.json in getSeedCandidates:", e);
+    }
+  }
+  return [
   {
     id: "cand-1",
     name: "Geovania de Sá",
@@ -278,6 +289,7 @@ const getSeedCandidates = () => [
     lastSaved: new Date().toISOString()
   }
 ];
+};
 
 const DEFAULT_DEADLINES = [
   { id: "dl-1", title: "Janela Partidária (Desfiliação/Filiação)", date: "2026-04-03", description: "Período para detentores de mandato mudarem de partido sem perda do mandato cargo.", daysRemaining: 0, status: "Concluído" as const, category: "Convenção" as const },
@@ -604,6 +616,23 @@ async function getCandidateById(id: string): Promise<any | null> {
 }
 
 async function saveCandidate(candidate: any): Promise<void> {
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      const fileData = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+      if (fileData && Array.isArray(fileData.candidates)) {
+        const idx = fileData.candidates.findIndex((c: any) => c.id === candidate.id);
+        if (idx >= 0) {
+          fileData.candidates[idx] = candidate;
+        } else {
+          fileData.candidates.push(candidate);
+        }
+        fs.writeFileSync(DATA_FILE, JSON.stringify(fileData, null, 2), "utf8");
+      }
+    } catch (e) {
+      console.error("Error writing candidate to data.json:", e);
+    }
+  }
+
   if (mysqlPool) {
     try {
       const [rows]: any = await mysqlPool.query("SELECT id FROM candidates WHERE id = ?", [candidate.id]);

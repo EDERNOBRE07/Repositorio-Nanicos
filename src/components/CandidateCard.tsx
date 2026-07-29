@@ -77,8 +77,8 @@ export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelec
               </span>
             </div>
             
-            <h4 className="text-base font-black text-[#1A1A1B] mt-2 truncate" title={candidate.name}>
-              {candidate.name}
+            <h4 className="text-base font-black text-[#1A1A1B] mt-2 truncate" title={candidate.name || candidate.urnName}>
+              {candidate.name || candidate.urnName || "Candidato sem nome"}
             </h4>
             <p className="text-xs text-gray-500 font-mono font-medium">
               Nº {candidate.number || "---"} &nbsp;|&nbsp; Urna: {candidate.urnName || "N/A"}

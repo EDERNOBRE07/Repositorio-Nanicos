@@ -137,10 +137,15 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
 
   // Helper to change single fields
   const handleFieldChange = (field: keyof Candidate, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      if (field === "name" && typeof value === "string") {
+        if (!prev.urnName || prev.urnName === prev.name.toUpperCase()) {
+          updated.urnName = value.toUpperCase();
+        }
+      }
+      return updated;
+    });
   };
 
   // Helper to change contacts table
@@ -593,7 +598,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-black text-gray-900 uppercase tracking-tight">{formData.name || "Novo Candidato"}</h2>
+              <h2 className="text-lg font-black text-gray-900 uppercase tracking-tight">{formData.name || formData.urnName || "Novo Candidato"}</h2>
               <span className={`text-[10px] px-2 py-0.5 font-black uppercase rounded-none border border-[#1A1A1B] ${isPsdb ? "bg-[#004488] text-white" : "bg-[#FFD700] text-gray-900"}`}>
                 {formData.party}
               </span>
