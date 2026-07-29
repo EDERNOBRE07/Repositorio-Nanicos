@@ -2,14 +2,32 @@
   RewriteEngine On
   RewriteBase /
   
-  # Redirecionar todas as chamadas /api/... para api.php?route=...
+  # 1. Redirecionar todas as chamadas /api/... para api.php?route=...
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^api/(.*)$ api.php?route=$1 [QSA,L]
   
-  # Suporte para roteamento do React Router (Single Page Application fallback)
-  # Se o arquivo físico ou diretório não existir, redirecionar para index.html
+  # 2. Redirecionar pedidos de assets diretamente para a pasta dist/assets/
+  RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+  
+  # 3. Se a URL vazia ou index.html for acessada, servir de dist/
+  RewriteRule ^$ dist/index.html [L]
+  RewriteRule ^index\.html$ dist/index.html [L]
+
+  # 4. Servir arquivos estáticos específicos (como favicon.ico ou imagens) da pasta dist
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteCond %{REQUEST_URI} !^/api/
+  RewriteCond %{REQUEST_URI} !^/dist/
+  RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/dist/%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ dist/$1 [L]
+
+  # 5. Suporte para rotas do React Router (Single Page Application fallback)
+  # Se o arquivo ou diretório físico não existir na raiz nem na pasta dist, servir dist/index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/api/
+  RewriteCond %{REQUEST_URI} !^/dist/
+  RewriteRule . dist/index.html [L]
 </IfModule>
