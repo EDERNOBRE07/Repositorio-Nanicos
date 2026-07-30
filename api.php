@@ -110,19 +110,55 @@ function updateDaysRemaining($deadlines) {
     return $updated;
 }
 
+// Normalizar nomes incorretos e ordenar alfabeticamente
+function normalizeAndSortCandidates(&$candidates, $pdo = null) {
+    setlocale(LC_COLLATE, 'pt_BR.utf8', 'pt_BR', 'portuguese');
+    foreach ($candidates as &$cand) {
+        $name = trim($cand['name'] ?? '');
+        $urnName = trim($cand['urnName'] ?? '');
+        $needsUpdate = false;
+
+        if (mb_strtolower($name) === 'charles purim' || mb_strtolower($name) === 'charles') {
+            $cand['name'] = 'Tcharles Purim';
+            $needsUpdate = true;
+        }
+        if (mb_strtolower($urnName) === 'charles purim' || mb_strtolower($urnName) === 'charles') {
+            $cand['urnName'] = 'TCHARLES PURIM';
+            $needsUpdate = true;
+        }
+
+        if ($needsUpdate && $pdo && !empty($cand['id'])) {
+            try {
+                $stmt = $pdo->prepare("UPDATE candidates SET name = ?, urnName = ? WHERE id = ?");
+                $stmt->execute([$cand['name'], $cand['urnName'], $cand['id']]);
+            } catch (Exception $e) {
+                // Ignore silent update errors
+            }
+        }
+    }
+    unset($cand);
+
+    usort($candidates, function($a, $b) {
+        $nameA = trim($a['name'] ?? $a['urnName'] ?? '');
+        $nameB = trim($b['name'] ?? $b['urnName'] ?? '');
+        return strcoll(mb_strtoupper($nameA, 'UTF-8'), mb_strtoupper($nameB, 'UTF-8'));
+    });
+}
+
 // -----------------------------------------------------------------
 // 1. GET ALL DATA (dashboard)
 // -----------------------------------------------------------------
 if ($route === 'dashboard' && $method === 'GET') {
     try {
         // Buscar candidatos
-        $stmt = $pdo->query("SELECT * FROM candidates ORDER BY id ASC");
+        $stmt = $pdo->query("SELECT * FROM candidates");
         $candidates = $stmt->fetchAll();
         foreach ($candidates as &$cand) {
             $cand['keyContacts'] = json_decode($cand['keyContacts'] ?: '[]', true) ?: [];
             $cand['publications'] = json_decode($cand['publications'] ?: '[]', true) ?: [];
             $cand['mappings'] = json_decode($cand['mappings'] ?: '[]', true) ?: [];
         }
+        normalizeAndSortCandidates($candidates, $pdo);
         
         // Buscar prazos
         $stmt = $pdo->query("SELECT * FROM deadlines");
@@ -150,13 +186,14 @@ if ($route === 'dashboard' && $method === 'GET') {
 // -----------------------------------------------------------------
 if ($route === 'candidates' && $method === 'GET') {
     try {
-        $stmt = $pdo->query("SELECT * FROM candidates ORDER BY id ASC");
+        $stmt = $pdo->query("SELECT * FROM candidates");
         $candidates = $stmt->fetchAll();
         foreach ($candidates as &$cand) {
             $cand['keyContacts'] = json_decode($cand['keyContacts'] ?: '[]', true) ?: [];
             $cand['publications'] = json_decode($cand['publications'] ?: '[]', true) ?: [];
             $cand['mappings'] = json_decode($cand['mappings'] ?: '[]', true) ?: [];
         }
+        normalizeAndSortCandidates($candidates, $pdo);
         echo json_encode($candidates);
     } catch (Exception $e) {
         http_response_code(500);
@@ -677,8 +714,9 @@ if ($route === 'database/status' && $method === 'GET') {
 // -----------------------------------------------------------------
 if ($route === 'database/export-sql' && $method === 'GET') {
     try {
-        $stmt = $pdo->query("SELECT * FROM candidates ORDER BY id ASC");
+        $stmt = $pdo->query("SELECT * FROM candidates");
         $candidates = $stmt->fetchAll();
+        normalizeAndSortCandidates($candidates, $pdo);
         
         $stmt = $pdo->query("SELECT * FROM deadlines");
         $deadlines = $stmt->fetchAll();
