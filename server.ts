@@ -545,10 +545,11 @@ async function initMySQLIfNeeded() {
 
 // Unified Database CRUD layer (dynamically switches between MySQL and Firestore)
 async function getCandidates(): Promise<any[]> {
+  let list: any[] = [];
   if (mysqlPool) {
     try {
-      const [rows]: any = await mysqlPool.query("SELECT * FROM candidates ORDER BY id ASC");
-      return rows.map((cand: any) => ({
+      const [rows]: any = await mysqlPool.query("SELECT * FROM candidates");
+      list = rows.map((cand: any) => ({
         ...cand,
         keyContacts: JSON.parse(cand.keyContacts || "[]"),
         publications: JSON.parse(cand.publications || "[]"),
@@ -556,11 +557,31 @@ async function getCandidates(): Promise<any[]> {
       }));
     } catch (error) {
       console.error("Error reading candidates from MySQL:", error);
-      return [];
+      list = [];
     }
   } else {
-    return getCandidatesFromFirestore();
+    list = await getCandidatesFromFirestore();
   }
+
+  // Ensure any candidate named "Charles Purim" or "Charles" is corrected to "Tcharles Purim" / "TCHARLES PURIM"
+  list = list.map((cand: any) => {
+    let name = cand.name || "";
+    let urnName = cand.urnName || "";
+    if (name.trim().toLowerCase() === "charles purim" || name.trim().toLowerCase() === "charles") {
+      name = "Tcharles Purim";
+    }
+    if (urnName.trim().toLowerCase() === "charles purim" || urnName.trim().toLowerCase() === "charles") {
+      urnName = "TCHARLES PURIM";
+    }
+    return { ...cand, name, urnName };
+  });
+
+  // Sort candidates alphabetically by name (pt-BR)
+  return list.sort((a, b) => {
+    const nameA = (a.name || a.urnName || "").trim();
+    const nameB = (b.name || b.urnName || "").trim();
+    return nameA.localeCompare(nameB, "pt-BR", { sensitivity: "base" });
+  });
 }
 
 async function getDeadlines(): Promise<any[]> {

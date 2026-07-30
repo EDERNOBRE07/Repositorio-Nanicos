@@ -52,7 +52,12 @@ export default function App() {
         throw new Error("Falha ao comunicar com o servidor");
       }
       const data = await response.json();
-      setCandidates(data.candidates || []);
+      const sortedCandidates = (data.candidates || []).sort((a: Candidate, b: Candidate) => {
+        const nameA = (a.name || a.urnName || "").trim();
+        const nameB = (b.name || b.urnName || "").trim();
+        return nameA.localeCompare(nameB, "pt-BR", { sensitivity: "base" });
+      });
+      setCandidates(sortedCandidates);
       setDeadlines(data.deadlines || []);
       setReports(data.reports || []);
       setError(null);
@@ -243,19 +248,25 @@ export default function App() {
     }
   };
 
-  // Filter candidates list
-  const filteredCandidates = candidates.filter(c => {
-    const matchesSearch = 
-      c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      c.number.includes(searchTerm) || 
-      c.urnName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.mappings.some(m => m.cityName.toLowerCase().includes(searchTerm.toLowerCase()) && m.lideranca);
-    
-    const matchesParty = partyFilter === "todos" || c.party === partyFilter;
-    const matchesStatus = statusFilter === "todos" || c.status === statusFilter;
+  // Filter candidates list and sort in alphabetical order
+  const filteredCandidates = candidates
+    .filter(c => {
+      const matchesSearch = 
+        (c.name || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+        (c.number || "").includes(searchTerm) || 
+        (c.urnName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (c.mappings || []).some(m => m.cityName.toLowerCase().includes(searchTerm.toLowerCase()) && m.lideranca);
+      
+      const matchesParty = partyFilter === "todos" || c.party === partyFilter;
+      const matchesStatus = statusFilter === "todos" || c.status === statusFilter;
 
-    return matchesSearch && matchesParty && matchesStatus;
-  });
+      return matchesSearch && matchesParty && matchesStatus;
+    })
+    .sort((a, b) => {
+      const nameA = (a.name || a.urnName || "").trim();
+      const nameB = (b.name || b.urnName || "").trim();
+      return nameA.localeCompare(nameB, "pt-BR", { sensitivity: "base" });
+    });
 
   return (
     <div className="min-h-screen bg-slate-50 text-gray-900 font-sans flex flex-col">
