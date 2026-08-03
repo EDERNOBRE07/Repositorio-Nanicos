@@ -1216,7 +1216,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                         onClick={() => setAtuacaoFilter("atuando")}
                         className={`px-2.5 py-1 text-[10px] font-bold rounded-sm transition-all cursor-pointer ${
                           atuacaoFilter === "atuando"
-                            ? "bg-white text-[#004488] shadow-2xs"
+                            ? "bg-emerald-600 text-white font-extrabold shadow-2xs"
                             : "text-gray-500 hover:text-gray-800"
                         }`}
                       >
@@ -1378,7 +1378,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                                         key={city.name} 
                                         className={`text-[9px] px-1.5 py-0.5 rounded-xs border transition-colors ${
                                           isAtivo 
-                                            ? "bg-[#e6f0fa] text-[#004488] border-[#004488]/30 font-bold" 
+                                            ? "bg-emerald-100 text-emerald-800 border-emerald-300 font-bold" 
                                             : "bg-gray-50 text-gray-400 border-gray-100 font-normal"
                                         }`}
                                       >
@@ -1497,7 +1497,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                                     <tr 
                                       key={city.name} 
                                       className={`border-b border-gray-200 hover:bg-slate-50/70 transition-all ${
-                                        isAtivo ? "bg-[#e6f0fa]/20 font-medium" : "text-gray-500 bg-white"
+                                        isAtivo ? "bg-emerald-50/40 font-medium text-emerald-950" : "text-gray-500 bg-white"
                                       }`}
                                     >
                                       {/* Checkbox Atuação */}
@@ -2682,7 +2682,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                         <tr 
                           key={draft.cityId}
                           className={`border-b border-gray-200 hover:bg-slate-50 transition-all ${
-                            isAtivo ? "bg-[#e6f0fa]/20 font-medium text-gray-900" : "text-gray-500 bg-white"
+                            isAtivo ? "bg-emerald-50/40 font-medium text-gray-900" : "text-gray-500 bg-white"
                           }`}
                         >
                           {/* Checkbox Atuação */}
@@ -2691,7 +2691,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                               type="checkbox"
                               checked={isAtivo}
                               onChange={(e) => handleRegionalDraftChange(draft.cityId, "atuacao", e.target.checked)}
-                              className="h-3.5 w-3.5 text-[#004488] border-gray-300 rounded focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                              className="h-3.5 w-3.5 text-emerald-600 border-gray-300 rounded focus:ring-0 focus:ring-offset-0 cursor-pointer"
                             />
                           </td>
 

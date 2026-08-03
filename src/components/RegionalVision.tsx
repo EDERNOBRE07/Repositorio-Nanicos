@@ -402,12 +402,12 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-100">
           <div className="flex items-center gap-4">
             {/* Show only active toggle */}
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-black uppercase text-gray-700">
+            <label className={`flex items-center gap-2 cursor-pointer text-xs font-black uppercase p-1.5 rounded-sm transition ${showOnlyWithActivity ? "bg-emerald-50 text-emerald-800 border border-emerald-300" : "text-gray-700"}`}>
               <input 
                 type="checkbox"
                 checked={showOnlyWithActivity}
                 onChange={e => setShowOnlyWithActivity(e.target.checked)}
-                className="rounded-none border-2 border-[#1A1A1B] text-[#004488] focus:ring-[#004488] h-4 w-4 cursor-pointer"
+                className="rounded-none border-2 border-[#1A1A1B] text-emerald-600 focus:ring-emerald-600 h-4 w-4 cursor-pointer"
               />
               Apenas regiões com atuação ativa
             </label>
@@ -558,14 +558,14 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                   return (
                     <React.Fragment key={item.regionName}>
                       {/* Main Region Row */}
-                      <tr className={`hover:bg-slate-50 transition ${item.activeCitiesCount > 0 ? "font-semibold text-gray-900" : "text-gray-400 bg-gray-50/40"}`}>
+                      <tr className={`hover:bg-emerald-50/30 transition ${item.activeCitiesCount > 0 ? "font-semibold text-gray-900 border-l-4 border-l-emerald-500 bg-emerald-50/10" : "text-gray-400 bg-gray-50/40 border-l-4 border-l-transparent"}`}>
                         
                         {/* Toggle expand chevron (no-print) */}
                         <td className="py-3 px-4 text-center no-print">
                           {item.activeCitiesCount > 0 ? (
                             <button
                               onClick={() => toggleRegion(item.regionName)}
-                              className="p-1.5 border border-gray-300 hover:border-gray-600 rounded-none bg-white transition text-[#004488] cursor-pointer"
+                              className="p-1.5 border border-emerald-300 hover:border-emerald-600 rounded-none bg-emerald-50 transition text-emerald-700 cursor-pointer"
                             >
                               {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                             </button>
@@ -577,11 +577,11 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                         {/* Region Name */}
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-2">
-                            <span className="font-sans font-black tracking-tight text-gray-900 text-xs uppercase">
+                            <span className={`font-sans font-black tracking-tight text-xs uppercase ${item.activeCitiesCount > 0 ? "text-emerald-900 font-extrabold" : "text-gray-900"}`}>
                               {item.regionName}
                             </span>
                             {item.activeCitiesCount > 0 && (
-                              <span className="bg-blue-100 text-blue-800 text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm border border-blue-200">
+                              <span className="bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm border border-emerald-300">
                                 Ativo
                               </span>
                             )}
@@ -593,8 +593,8 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
 
                         {/* Mapped cities fraction */}
                         <td className="py-3 px-4">
-                          <span className="font-bold text-gray-800 font-mono">
-                            {item.activeCitiesCount} <span className="text-gray-400 font-normal">/ {item.totalCities}</span>
+                          <span className={`font-mono text-xs ${item.activeCitiesCount > 0 ? "font-black text-emerald-800 bg-emerald-100/60 px-2 py-0.5 border border-emerald-300 inline-block rounded-xs" : "font-bold text-gray-800"}`}>
+                            {item.activeCitiesCount} <span className={item.activeCitiesCount > 0 ? "text-emerald-700 font-normal" : "text-gray-400 font-normal"}>/ {item.totalCities}</span>
                           </span>
                           <span className="text-[10px] text-gray-400 block font-normal mt-0.5">
                             cidades com atuação
@@ -677,7 +677,7 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                           {item.activeCitiesCount > 0 ? (
                             <button
                               onClick={() => toggleRegion(item.regionName)}
-                              className="text-xs font-black text-[#004488] hover:underline uppercase cursor-pointer"
+                              className="text-xs font-black text-emerald-700 hover:text-emerald-900 hover:underline uppercase cursor-pointer bg-emerald-50 px-2 py-1 border border-emerald-200"
                             >
                               {isExpanded ? "Fechar" : "Detalhar"}
                             </button>
@@ -690,16 +690,16 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                       {/* Expanded Sub-Table containing City breakdowns */}
                       {isExpanded && item.activeCitiesCount > 0 && (
                         <tr>
-                          <td colSpan={9} className="bg-[#FCFCFB] px-6 py-4 border-l-4 border-[#004488]">
+                          <td colSpan={9} className="bg-emerald-50/20 px-6 py-4 border-l-4 border-emerald-600">
                             
                             <div className="space-y-3">
                               <div className="flex items-center justify-between">
-                                <h4 className="text-[11px] font-black uppercase text-[#004488] tracking-wider flex items-center gap-1.5">
-                                  <MapPin size={13} />
+                                <h4 className="text-[11px] font-black uppercase text-emerald-800 tracking-wider flex items-center gap-1.5">
+                                  <MapPin size={13} className="text-emerald-600" />
                                   Detalhamento de Cidades e Candidatos Ativos - Regional {item.regionName}
                                 </h4>
-                                <span className="text-[10px] text-gray-400 font-bold">
-                                  Mostrando apenas municípios com atividade de campanha
+                                <span className="text-[10px] text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 border border-emerald-300">
+                                  Mostrando apenas municípios com atuação de campanha ativa
                                 </span>
                               </div>
 
@@ -729,16 +729,20 @@ export default function RegionalVision({ candidates }: RegionalVisionProps) {
                                             <tr key={`${c.name}-${candidate.id}-${idx}`} className="hover:bg-slate-50/40">
                                               
                                               {/* City Column (Rowspanned or listed on each row) */}
-                                              <td className="py-2 px-3 font-bold border-r border-gray-100">
+                                              <td className="py-2 px-3 font-bold border-r border-gray-100 bg-emerald-50/10">
                                                 {idx === 0 ? (
                                                   <div>
-                                                    <span className="text-gray-900 uppercase font-black">{c.name}</span>
-                                                    <span className="text-[9px] text-gray-400 block font-bold font-mono mt-0.5">
+                                                    <div className="flex items-center gap-1.5">
+                                                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Ativa"></span>
+                                                      <span className="text-emerald-950 uppercase font-black">{c.name}</span>
+                                                      <span className="bg-emerald-100 text-emerald-800 text-[8px] font-black uppercase px-1.5 py-0.5 rounded-xs border border-emerald-300">Ativa</span>
+                                                    </div>
+                                                    <span className="text-[9px] text-gray-500 block font-bold font-mono mt-0.5">
                                                       Eleitores: {formatNumber(cityStats.eleitores)} | Habitantes: {formatNumber(cityStats.habitantes)}
                                                     </span>
                                                   </div>
                                                 ) : (
-                                                  <span className="text-gray-300 italic text-[10px]">Mesma cidade</span>
+                                                  <span className="text-gray-400 italic text-[10px]">Mesma cidade</span>
                                                 )}
                                               </td>
 
