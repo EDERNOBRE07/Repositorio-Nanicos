@@ -721,10 +721,14 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                     <select 
                       value={formData.role || "Candidato(a) a Deputado(a) Estadual"} 
                       onChange={(e) => handleFieldChange("role", e.target.value)}
-                      className="border-b border-gray-300 font-bold text-gray-700 focus:border-[#004488] focus:outline-hidden bg-transparent cursor-pointer"
+                      className={`border-b-2 font-black text-xs px-2 py-0.5 rounded-none focus:outline-hidden cursor-pointer ${
+                        formData.role === "Candidato(a) a Deputado(a) Federal"
+                          ? "text-emerald-800 border-emerald-600 bg-emerald-50"
+                          : "text-[#004488] border-[#004488] bg-blue-50"
+                      }`}
                     >
-                      <option value="Candidato(a) a Deputado(a) Estadual">Candidato(a) a Deputado(a) Estadual</option>
-                      <option value="Candidato(a) a Deputado(a) Federal">Candidato(a) a Deputado(a) Federal</option>
+                      <option value="Candidato(a) a Deputado(a) Estadual" className="text-[#004488] font-bold">Candidato(a) a Deputado(a) Estadual (Azul)</option>
+                      <option value="Candidato(a) a Deputado(a) Federal" className="text-emerald-800 font-bold">Candidato(a) a Deputado(a) Federal (Verde)</option>
                     </select>
                   </div>
                   <span>|</span>

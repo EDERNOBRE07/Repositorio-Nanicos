@@ -646,10 +646,14 @@ export default function App() {
                   <select
                     value={newCandidate.role}
                     onChange={e => setNewCandidate(prev => ({ ...prev, role: e.target.value }))}
-                    className="w-full text-xs p-2.5 bg-white border-2 border-[#1A1A1B] rounded-none focus:outline-none focus:border-[#004488] font-black cursor-pointer"
+                    className={`w-full text-xs p-2.5 bg-white border-2 border-[#1A1A1B] rounded-none focus:outline-none font-black cursor-pointer ${
+                      newCandidate.role === "Candidato(a) a Deputado(a) Federal" 
+                        ? "text-emerald-700 border-emerald-600 bg-emerald-50/50" 
+                        : "text-[#004488] border-[#004488] bg-blue-50/50"
+                    }`}
                   >
-                    <option value="Candidato(a) a Deputado(a) Estadual">Deputado(a) Estadual</option>
-                    <option value="Candidato(a) a Deputado(a) Federal">Deputado(a) Federal</option>
+                    <option value="Candidato(a) a Deputado(a) Estadual" className="text-[#004488] font-bold">Deputado(a) Estadual (Azul)</option>
+                    <option value="Candidato(a) a Deputado(a) Federal" className="text-emerald-700 font-bold">Deputado(a) Federal (Verde)</option>
                   </select>
                 </div>
                 <div>
