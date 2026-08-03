@@ -56,11 +56,16 @@ export interface CityMapping {
   perspectivaOtimo?: string;
 }
 
+export type CandidateRoleType = 
+  | "Candidato(a) a Deputado(a) Estadual"
+  | "Candidato(a) a Deputado(a) Federal";
+
 export interface Candidate {
   id: string;
   name: string;
   number: string;
   urnName: string;
+  role?: CandidateRoleType | string;
   whatsapp: string;
   instagram: string;
   facebook: string;

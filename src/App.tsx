@@ -37,6 +37,7 @@ export default function App() {
     name: "",
     number: "",
     urnName: "",
+    role: "Candidato(a) a Deputado(a) Estadual",
     party: "PSDB" as "PSDB" | "Cidadania",
     status: "Pré-Campanha" as const,
     whatsapp: "",
@@ -175,6 +176,7 @@ export default function App() {
       name: newCandidate.name,
       number: newCandidate.number,
       urnName: newCandidate.urnName || newCandidate.name.toUpperCase(),
+      role: newCandidate.role || "Candidato(a) a Deputado(a) Estadual",
       whatsapp: newCandidate.whatsapp,
       instagram: "",
       facebook: "",
@@ -239,7 +241,7 @@ export default function App() {
       if (data.success) {
         setCandidates(prev => [...prev, data.candidate]);
         setShowCreateModal(false);
-        setNewCandidate({ name: "", number: "", urnName: "", party: "PSDB", status: "Pré-Campanha", whatsapp: "", email: "" });
+        setNewCandidate({ name: "", number: "", urnName: "", role: "Candidato(a) a Deputado(a) Estadual", party: "PSDB", status: "Pré-Campanha", whatsapp: "", email: "" });
         // Go straight into strategic sheet view of new candidate
         setSelectedCandidate(data.candidate);
       }
@@ -638,7 +640,18 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="text-[10px] font-black text-gray-700 block mb-1 uppercase tracking-wider">Cargo:</label>
+                  <select
+                    value={newCandidate.role}
+                    onChange={e => setNewCandidate(prev => ({ ...prev, role: e.target.value }))}
+                    className="w-full text-xs p-2.5 bg-white border-2 border-[#1A1A1B] rounded-none focus:outline-none focus:border-[#004488] font-black cursor-pointer"
+                  >
+                    <option value="Candidato(a) a Deputado(a) Estadual">Deputado(a) Estadual</option>
+                    <option value="Candidato(a) a Deputado(a) Federal">Deputado(a) Federal</option>
+                  </select>
+                </div>
                 <div>
                   <label className="text-[10px] font-black text-gray-700 block mb-1 uppercase tracking-wider">Partido:</label>
                   <select

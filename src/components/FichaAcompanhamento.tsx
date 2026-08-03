@@ -718,7 +718,14 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                   <span>|</span>
                   <div className="flex items-center gap-1.5">
                     <label className="text-gray-500 font-bold">Cargo:</label>
-                    <span className="font-bold text-gray-700">Candidato(a) a Deputado(a) Estadual</span>
+                    <select 
+                      value={formData.role || "Candidato(a) a Deputado(a) Estadual"} 
+                      onChange={(e) => handleFieldChange("role", e.target.value)}
+                      className="border-b border-gray-300 font-bold text-gray-700 focus:border-[#004488] focus:outline-hidden bg-transparent cursor-pointer"
+                    >
+                      <option value="Candidato(a) a Deputado(a) Estadual">Candidato(a) a Deputado(a) Estadual</option>
+                      <option value="Candidato(a) a Deputado(a) Federal">Candidato(a) a Deputado(a) Federal</option>
+                    </select>
                   </div>
                   <span>|</span>
                   <div className="flex items-center gap-1.5">
@@ -2810,7 +2817,7 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
         <div className="header-container">
           <div className="header-text">
             <h1>Ficha de Acompanhamento Estratégico</h1>
-            <p>Partido: {formData.party} &nbsp;|&nbsp; Cargo: Candidato(a) a Deputado(a) Estadual &nbsp;|&nbsp; Fase: {formData.status}</p>
+            <p>Partido: {formData.party} &nbsp;|&nbsp; Cargo: {formData.role || "Candidato(a) a Deputado(a) Estadual"} &nbsp;|&nbsp; Fase: {formData.status}</p>
           </div>
           <div className="photo-upload-box" style={{ backgroundImage: formData.photoUrl ? `url(${formData.photoUrl})` : "none", backgroundSize: "cover", backgroundPosition: "center" }}>
             {!formData.photoUrl && <span>Foto Oficial<br />(Anexo / Upload)</span>}

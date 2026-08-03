@@ -409,6 +409,7 @@ async function initMySQLIfNeeded() {
         name VARCHAR(255),
         number VARCHAR(50),
         urnName VARCHAR(255),
+        role VARCHAR(255),
         whatsapp VARCHAR(50),
         instagram VARCHAR(255),
         facebook VARCHAR(255),
@@ -431,6 +432,10 @@ async function initMySQLIfNeeded() {
         lastSaved VARCHAR(100)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
+
+    try {
+      await conn.query("ALTER TABLE candidates ADD COLUMN role VARCHAR(255) DEFAULT 'Candidato(a) a Deputado(a) Estadual'");
+    } catch (e) {}
 
     // 2. deadlines table
     await conn.query(`
@@ -660,7 +665,7 @@ async function saveCandidate(candidate: any): Promise<void> {
       if (rows.length > 0) {
         await mysqlPool.query(`
           UPDATE candidates SET
-            name = ?, number = ?, urnName = ?, whatsapp = ?, instagram = ?, facebook = ?, email = ?,
+            name = ?, number = ?, urnName = ?, role = ?, whatsapp = ?, instagram = ?, facebook = ?, email = ?,
             party = ?, status = ?, photoUrl = ?, mediaCoordinatorName = ?, mediaCoordinatorWhatsApp = ?,
             professionalBackground = ?, areasOfInterest = ?, teams = ?, family = ?, groups = ?,
             trajectory = ?, politicalFlags = ?, keyContacts = ?, publications = ?, mappings = ?, lastSaved = ?
@@ -669,6 +674,7 @@ async function saveCandidate(candidate: any): Promise<void> {
           candidate.name || "",
           candidate.number || "",
           candidate.urnName || "",
+          candidate.role || "Candidato(a) a Deputado(a) Estadual",
           candidate.whatsapp || "",
           candidate.instagram || "",
           candidate.facebook || "",
@@ -694,15 +700,16 @@ async function saveCandidate(candidate: any): Promise<void> {
       } else {
         await mysqlPool.query(`
           INSERT INTO candidates (
-            id, name, number, urnName, whatsapp, instagram, facebook, email, party, status, photoUrl,
+            id, name, number, urnName, role, whatsapp, instagram, facebook, email, party, status, photoUrl,
             mediaCoordinatorName, mediaCoordinatorWhatsApp, professionalBackground, areasOfInterest,
             teams, family, groups, trajectory, politicalFlags, keyContacts, publications, mappings, lastSaved
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
           candidate.id,
           candidate.name || "",
           candidate.number || "",
           candidate.urnName || "",
+          candidate.role || "Candidato(a) a Deputado(a) Estadual",
           candidate.whatsapp || "",
           candidate.instagram || "",
           candidate.facebook || "",

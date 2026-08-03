@@ -61,6 +61,9 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
+    try {
+        $pdo->exec("ALTER TABLE candidates ADD COLUMN role VARCHAR(255) DEFAULT 'Candidato(a) a Deputado(a) Estadual'");
+    } catch (Exception $e) {}
 } catch (PDOException $e) {
     echo json_encode([
         "success" => false,
@@ -222,6 +225,7 @@ if ($route === 'candidates' && $method === 'POST') {
         $name = $input['name'] ?? '';
         $number = $input['number'] ?? '';
         $urnName = $input['urnName'] ?? '';
+        $role = $input['role'] ?? 'Candidato(a) a Deputado(a) Estadual';
         $whatsapp = $input['whatsapp'] ?? '';
         $instagram = $input['instagram'] ?? '';
         $facebook = $input['facebook'] ?? '';
@@ -251,27 +255,27 @@ if ($route === 'candidates' && $method === 'POST') {
         
         if ($exists) {
             $sql = "UPDATE candidates SET 
-                name = ?, number = ?, urnName = ?, whatsapp = ?, instagram = ?, facebook = ?, email = ?,
+                name = ?, number = ?, urnName = ?, role = ?, whatsapp = ?, instagram = ?, facebook = ?, email = ?,
                 party = ?, status = ?, photoUrl = ?, mediaCoordinatorName = ?, mediaCoordinatorWhatsApp = ?,
                 professionalBackground = ?, areasOfInterest = ?, teams = ?, family = ?, groups = ?,
                 trajectory = ?, politicalFlags = ?, keyContacts = ?, publications = ?, mappings = ?, lastSaved = ?
                 WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                $name, $number, $urnName, $whatsapp, $instagram, $facebook, $email,
+                $name, $number, $urnName, $role, $whatsapp, $instagram, $facebook, $email,
                 $party, $status, $photoUrl, $mediaCoordinatorName, $mediaCoordinatorWhatsApp,
                 $professionalBackground, $areasOfInterest, $teams, $family, $groups,
                 $trajectory, $politicalFlags, $keyContacts, $publications, $mappings, $lastSaved, $id
             ]);
         } else {
             $sql = "INSERT INTO candidates (
-                id, name, number, urnName, whatsapp, instagram, facebook, email, party, status, photoUrl,
+                id, name, number, urnName, role, whatsapp, instagram, facebook, email, party, status, photoUrl,
                 mediaCoordinatorName, mediaCoordinatorWhatsApp, professionalBackground, areasOfInterest,
                 teams, family, groups, trajectory, politicalFlags, keyContacts, publications, mappings, lastSaved
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                $id, $name, $number, $urnName, $whatsapp, $instagram, $facebook, $email,
+                $id, $name, $number, $urnName, $role, $whatsapp, $instagram, $facebook, $email,
                 $party, $status, $photoUrl, $mediaCoordinatorName, $mediaCoordinatorWhatsApp,
                 $professionalBackground, $areasOfInterest, $teams, $family, $groups,
                 $trajectory, $politicalFlags, $keyContacts, $publications, $mappings, $lastSaved

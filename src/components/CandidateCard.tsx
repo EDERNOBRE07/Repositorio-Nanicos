@@ -75,6 +75,9 @@ export default function CandidateCard({ candidate, onEdit, onOpenAgenda, onSelec
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-none border border-[#1A1A1B] ${getStatusColor(candidate.status)}`}>
                 {candidate.status}
               </span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-none border border-[#1A1A1B] bg-slate-100 text-gray-800">
+                {candidate.role === "Candidato(a) a Deputado(a) Federal" ? "Dep. Federal" : "Dep. Estadual"}
+              </span>
             </div>
             
             <h4 className="text-base font-black text-[#1A1A1B] mt-2 truncate" title={candidate.name || candidate.urnName}>
