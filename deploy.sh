@@ -12,6 +12,22 @@ echo -e "${YELLOW}        INSTALADOR E COMPILADOR AUTOMATIZADO - HOSTINGER      
 echo -e "${CYAN}================================================================${NC}"
 echo -e ""
 
+# AUTO-DETECÇÃO DO NODE.JS E NPM NA HOSTINGER
+export PATH=$PATH:/opt/alt/alt-nodejs22/root/usr/bin:/opt/alt/alt-nodejs20/root/usr/bin:/opt/alt/alt-nodejs18/root/usr/bin:/usr/local/bin:/usr/bin
+
+if [ -d "$HOME/nodevenv" ]; then
+    NODE_PATH=$(find "$HOME/nodevenv" -name "npm" -type f 2>/dev/null | head -n 1)
+    if [ -n "$NODE_PATH" ]; then
+        NODE_DIR=$(dirname "$NODE_PATH")
+        export PATH=$NODE_DIR:$PATH
+    fi
+fi
+
+if [ -d "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+fi
+
 # 1. Copiar .env.example se não existir
 if [ ! -f .env ]; then
     echo -e "${YELLOW}[!] Arquivo .env não encontrado. Criando a partir de .env.example...${NC}"

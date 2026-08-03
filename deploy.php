@@ -54,17 +54,28 @@ function getOptimalPath() {
     // Caminhos do Alt-NodeJS (CloudLinux da Hostinger) em ordem decrescente de versão
     $altVersions = glob('/opt/alt/alt-nodejs*/root/usr/bin');
     if (is_array($altVersions)) {
-        rsort($altVersions); // Versões mais novas primeiro (ex: alt-nodejs20 antes de alt-nodejs18)
+        rsort($altVersions); // Versões mais novas primeiro (ex: alt-nodejs22, alt-nodejs20)
         $standardPaths = array_merge($standardPaths, $altVersions);
     }
     
-    // Caminhos locais do usuário (~/.nvm, ~/.npm-global)
+    // Caminhos locais do usuário (~/nodevenv, ~/.nvm, ~/.npm-global)
     $homeDir = getenv('HOME');
     if (!$homeDir) {
         $homeDir = '/home/' . get_current_user();
     }
     
     if (is_dir($homeDir)) {
+        // Suporte para Node Virtualenv da Hostinger (nodevenv)
+        $nodevenvPaths = glob($homeDir . '/nodevenv/**/*/bin');
+        if (is_array($nodevenvPaths)) {
+            rsort($nodevenvPaths);
+            $standardPaths = array_merge($standardPaths, $nodevenvPaths);
+        }
+        $nodevenvPaths2 = glob($homeDir . '/nodevenv/*/*/bin');
+        if (is_array($nodevenvPaths2)) {
+            rsort($nodevenvPaths2);
+            $standardPaths = array_merge($standardPaths, $nodevenvPaths2);
+        }
         $nvmPaths = glob($homeDir . '/.nvm/versions/node/*/bin');
         if (is_array($nvmPaths)) {
             rsort($nvmPaths);
