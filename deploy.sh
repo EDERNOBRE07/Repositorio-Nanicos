@@ -37,6 +37,12 @@ else
     echo -e "${GREEN}[✓] Arquivo .env de produção detectado.${NC}"
 fi
 
+# 1.5 Atualizar código do GitHub
+if [ -d .git ]; then
+    echo -e "\n${YELLOW}[1.5/4] Atualizando código fonte do GitHub (git pull)...${NC}"
+    git pull origin main || git pull || echo -e "${YELLOW}[!] git pull não pôde ser executado ou já está atualizado.${NC}"
+fi
+
 # 2. Instalar dependências completas
 echo -e "\n${YELLOW}[2/4] Limpando diretórios antigos e instalando dependências completas do npm...${NC}"
 rm -rf node_modules package-lock.json

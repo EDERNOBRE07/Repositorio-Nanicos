@@ -377,7 +377,7 @@ function runCommand($cmd, $desc) {
                             <li>Insira a senha de acesso configurada na Hostinger.</li>
                             <li>Uma vez conectado, copie, cole o comando de limpeza e instalação completo abaixo e pressione <strong>Enter</strong>:</li>
                         </ol>
-                        <pre style="background-color: #0c0f12; color: #39ff14; padding: 12px; font-family: monospace; font-size: 11px; border: 1px solid #30363d; overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; line-height: 1.4;">cd domains/candidatos.mastervisionmarketing.com/public_html && rm -rf node_modules package-lock.json && npm install && npm run build && mkdir -p tmp && touch tmp/restart.txt</pre>
+                        <pre style="background-color: #0c0f12; color: #39ff14; padding: 12px; font-family: monospace; font-size: 11px; border: 1px solid #30363d; overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; line-height: 1.4;">cd domains/candidatos.mastervisionmarketing.com/public_html && git pull origin main && bash deploy.sh</pre>
                     </div>
                 </div>
             </div>
@@ -445,7 +445,8 @@ function runCommand($cmd, $desc) {
                     if (isset($_GET['run'])) {
                         echo "<h3>🚀 INICIANDO INSTALAÇÃO E COMPILAÇÃO AUTOMATIZADA...</h3>";
                         
-                        // 1. Git pull adicional se necessário (opcional, já que a Hostinger faz auto-git)
+                        // 1. Git pull para garantir a sincronização do repositório
+                        runCommand("git pull origin main || git pull", "Puxando últimas atualizações do GitHub");
                         runCommand("git status", "Status atual do Repositório Git");
 
                         // 2. Copiar arquivo .env se não existir
