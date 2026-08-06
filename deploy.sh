@@ -12,8 +12,9 @@ echo -e "${YELLOW}        INSTALADOR E COMPILADOR AUTOMATIZADO - HOSTINGER      
 echo -e "${CYAN}================================================================${NC}"
 echo -e ""
 
-# AUTO-DETECÇÃO DO NODE.JS E NPM NA HOSTINGER
-export PATH=$PATH:/opt/alt/alt-nodejs22/root/usr/bin:/opt/alt/alt-nodejs20/root/usr/bin:/opt/alt/alt-nodejs18/root/usr/bin:/usr/local/bin:/usr/bin
+# AUTO-DETECÇÃO DO NODE.JS E NPM NA HOSTINGER (PREFERE NODE 20 PARA EVITAR ERRO DE MEMÓRIA WASM)
+export PATH=/opt/alt/alt-nodejs20/root/usr/bin:/opt/alt/alt-nodejs18/root/usr/bin:/opt/alt/alt-nodejs22/root/usr/bin:$PATH:/usr/local/bin:/usr/bin
+export NODE_OPTIONS="--max-old-space-size=512"
 
 if [ -d "$HOME/nodevenv" ]; then
     NODE_PATH=$(find "$HOME/nodevenv" -name "npm" -type f 2>/dev/null | head -n 1)

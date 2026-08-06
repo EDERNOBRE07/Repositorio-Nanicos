@@ -51,11 +51,22 @@ function getOptimalPath() {
         '/usr/node/bin'
     ];
     
-    // Caminhos do Alt-NodeJS (CloudLinux da Hostinger) em ordem decrescente de versão
+    // Caminhos do Alt-NodeJS (CloudLinux da Hostinger) - prefere Node 20 / 18 para estabilidade e baixo consumo de memória Wasm
     $altVersions = glob('/opt/alt/alt-nodejs*/root/usr/bin');
     if (is_array($altVersions)) {
-        rsort($altVersions); // Versões mais novas primeiro (ex: alt-nodejs22, alt-nodejs20)
-        $standardPaths = array_merge($standardPaths, $altVersions);
+        usort($altVersions, function($a, $b) {
+            if (strpos($a, 'alt-nodejs20') !== false) return -1;
+            if (strpos($b, 'alt-nodejs20') !== false) return 1;
+            if (strpos($a, 'alt-nodejs18') !== false) return -1;
+            if (strpos($b, 'alt-nodejs18') !== false) return 1;
+            return strcmp($b, $a);
+        });
+        $standardPaths = array_merge($altVersions, $standardPaths);
+    } else {
+        $standardPaths = array_merge([
+            '/opt/alt/alt-nodejs20/root/usr/bin',
+            '/opt/alt/alt-nodejs18/root/usr/bin'
+        ], $standardPaths);
     }
     
     // Caminhos locais do usuário (~/nodevenv, ~/.nvm, ~/.npm-global)
@@ -89,7 +100,7 @@ function getOptimalPath() {
     $uniquePaths = array_unique($standardPaths);
     $finalPath = implode(':', $uniquePaths);
     
-    return getenv('PATH') . ':' . $finalPath;
+    return $finalPath . ':' . getenv('PATH');
 }
 
 // Função para formatar as saídas de terminal
@@ -104,13 +115,14 @@ function runCommand($cmd, $desc) {
         return;
     }
     
-    // Configura caminhos úteis dinamicamente para garantir que npm/node sejam encontrados
+    // Configura caminhos úteis e limite de memória do Node para evitar erro de Out of Memory WebAssembly
     putenv('PATH=' . getOptimalPath());
+    putenv('NODE_OPTIONS=--max-old-space-size=512');
     
     // Executa e captura a saída mesclando stdout e stderr
     $output = shell_exec($cmd . " 2>&1");
     
-    echo "<pre class='cmd-output'>" . htmlspecialchars($output) . "</pre>";
+    echo "<pre class='cmd-output'>" . htmlspecialchars($output ?? '') . "</pre>";
     echo "</div>";
     
     // Força o envio do buffer para exibir em tempo real no navegador

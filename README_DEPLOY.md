@@ -13,10 +13,16 @@ Se ao tentar executar comandos no terminal SSH da Hostinger você recebeu a mens
 Isso acontece porque o Node.js e o NPM na Hostinger ficam em caminhos específicos (como `/opt/alt/alt-nodejs*/root/usr/bin` ou `~/nodevenv/`).
 
 ### Solução 1: Utilizar o Script Autoconfigurado via SSH (Recomendado)
-Criamos um script que localiza e carrega o Node.js/NPM automaticamente. No terminal SSH, basta rodar:
+Criamos um script que localiza e carrega o Node.js/NPM automaticamente sem estourar limite de memória.
 
+- **Se você estiver no diretório raiz (`~`):**
 ```bash
-cd domains/candidatos.mastervisionmarketing.com/public_html && bash deploy.sh
+cd domains/candidatos.mastervisionmarketing.com/public_html && git pull origin main && bash deploy.sh
+```
+
+- **Se seu terminal já estiver na pasta `public_html` (ex: `public_html]$`):**
+```bash
+git pull origin main && bash deploy.sh
 ```
 
 ### Solução 2: Executar com Export do PATH no SSH

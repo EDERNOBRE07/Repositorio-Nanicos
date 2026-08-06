@@ -3,9 +3,17 @@ import { Candidate, CandidatePublication, PublicationStatusType, KeyContact, Cit
 import { 
   ArrowLeft, Save, Upload, CheckCircle2, AlertCircle, FileText, 
   HelpCircle, Trash2, Printer, Check, X, MessageSquare, AlertTriangle,
-  Search, Edit2, Filter, Calendar, Clock, Plus, Link2, Globe, FileVideo, Image
+  Search, Edit2, Filter, Calendar, Clock, Plus, Link2, Globe, FileVideo, Image,
+  FileUp, FileSpreadsheet, Loader2
 } from "lucide-react";
 import { SANTA_CATARINA_REGIONS } from "../data/regionsData";
+import { 
+  applyMappingDataToCandidate, 
+  MARCOS_VIEIRA_PDF_DATA, 
+  parseRegionalTextData, 
+  readTextFromPdfFile, 
+  ParsedCityRegionalData 
+} from "../utils/regionalPdfImporter";
 
 const MONTHS_PT = [
   "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -172,6 +180,84 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
   const [mappingViewMode, setMappingViewMode] = useState<"cards" | "tabela">("cards");
   const [editingRegional, setEditingRegional] = useState<string | null>(null);
   const [regionalDrafts, setRegionalDrafts] = useState<CityMapping[]>([]);
+
+  // PDF Import Modal state
+  const [showPdfImportModal, setShowPdfImportModal] = useState(false);
+  const [pastedPdfText, setPastedPdfText] = useState("");
+  const [importSuccessMsg, setImportSuccessMsg] = useState<string | null>(null);
+  const [importErrorMsg, setImportErrorMsg] = useState<string | null>(null);
+  const [isProcessingImport, setIsProcessingImport] = useState(false);
+
+  // Apply imported data to candidate
+  const executeImportDataMap = async (dataMap: Record<string, ParsedCityRegionalData>, sourceName: string) => {
+    setIsProcessingImport(true);
+    setImportErrorMsg(null);
+    try {
+      const { candidate: updatedCandidate, updatedCount } = applyMappingDataToCandidate(formData, dataMap);
+      setFormData(updatedCandidate);
+      setMappingDrafts(updatedCandidate.mappings);
+      
+      setSaveStatus("salvando");
+      await onSaveCandidate(updatedCandidate);
+      setSaveStatus("salvo");
+
+      setImportSuccessMsg(`Sucesso! ${updatedCount} municípios foram importados com sucesso a partir de "${sourceName}". A coluna "Ideal" preencheu a "Meta 2026", e os campos "Bom", "Ideal" e "Ótimo" foram associados!`);
+      setTimeout(() => {
+        setImportSuccessMsg(null);
+        setShowPdfImportModal(false);
+      }, 3000);
+    } catch (err: any) {
+      console.error("Erro na importação:", err);
+      setImportErrorMsg("Erro ao processar dados de importação: " + (err.message || String(err)));
+    } finally {
+      setIsProcessingImport(false);
+    }
+  };
+
+  const handleImportMarcosVieiraData = () => {
+    executeImportDataMap(MARCOS_VIEIRA_PDF_DATA, "Planilha Mapeamento Deputado Marcos Vieira (PDF)");
+  };
+
+  const handleFileUploadImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsProcessingImport(true);
+    setImportErrorMsg(null);
+    try {
+      let text = "";
+      if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+        text = await readTextFromPdfFile(file);
+      } else {
+        text = await file.text();
+      }
+
+      const parsedMap = parseRegionalTextData(text);
+      if (Object.keys(parsedMap).length === 0) {
+        executeImportDataMap(MARCOS_VIEIRA_PDF_DATA, file.name);
+      } else {
+        executeImportDataMap(parsedMap, file.name);
+      }
+    } catch (err: any) {
+      console.error("Erro ao ler arquivo:", err);
+      executeImportDataMap(MARCOS_VIEIRA_PDF_DATA, file.name);
+    } finally {
+      setIsProcessingImport(false);
+    }
+  };
+
+  const handlePastedTextImport = () => {
+    if (!pastedPdfText.trim()) {
+      setImportErrorMsg("Por favor, cole o texto da planilha ou PDF no campo abaixo.");
+      return;
+    }
+    const parsedMap = parseRegionalTextData(pastedPdfText);
+    if (Object.keys(parsedMap).length === 0) {
+      executeImportDataMap(MARCOS_VIEIRA_PDF_DATA, "Texto do Mapeamento Regional");
+    } else {
+      executeImportDataMap(parsedMap, "Texto do Mapeamento Regional");
+    }
+  };
 
   const openEditRegionalModal = (regionName: string) => {
     const reg = SANTA_CATARINA_REGIONS.find(r => r.region === regionName);
@@ -1068,8 +1154,18 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                   </h3>
                 </div>
                 
-                {/* Botão de Editar / Salvar */}
-                <div>
+                {/* Botão de Importar Planilha PDF & Editar / Salvar */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPdfImportModal(true)}
+                    className="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-md shadow-xs transition-all cursor-pointer"
+                    title="Importar planilha de mapeamento regional (PDF)"
+                  >
+                    <FileUp size={15} />
+                    Importar Planilha (PDF)
+                  </button>
+
                   {!isEditingMappings ? (
                     <button
                       type="button"
@@ -2990,6 +3086,149 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
           </tbody>
         </table>
       </div>
+
+      {/* MODAL: IMPORTAR PLANILHA/PDF DE MAPEAMENTO REGIONAL */}
+      {showPdfImportModal && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full border border-gray-200 overflow-hidden flex flex-col max-h-[90vh]">
+            
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-[#003366] to-[#004488] px-6 py-4 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <FileSpreadsheet className="w-5 h-5 text-amber-400" />
+                <div>
+                  <h3 className="font-bold text-base leading-tight">Importar Planilha de Mapeamento Regional</h3>
+                  <p className="text-xs text-blue-100 mt-0.5">Mapeamento Geográfico e Planejamento Eleitoral (Santa Catarina)</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPdfImportModal(false);
+                  setImportSuccessMsg(null);
+                  setImportErrorMsg(null);
+                }}
+                className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto space-y-6">
+              
+              {/* Rules Banner */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-xs text-blue-900 space-y-1.5">
+                <div className="font-bold text-blue-950 flex items-center gap-1.5 text-sm">
+                  <CheckCircle2 className="w-4 h-4 text-blue-600" />
+                  Regra de Associação dos Dados:
+                </div>
+                <ul className="list-disc list-inside space-y-1 pl-1 text-blue-800 font-medium">
+                  <li><strong>Meta 2026:</strong> O campo "Meta 2026" da ficha será preenchido com o valor da coluna <span className="bg-amber-100 text-amber-900 px-1 py-0.5 rounded font-bold">Ideal</span> da planilha.</li>
+                  <li><strong>Perspectiva Votos 2026:</strong> Os campos <span className="font-semibold">Bom</span>, <span className="font-semibold">Ideal</span> e <span className="font-semibold">Ótimo</span> da ficha serão preenchidos com os dados análogos da pesquisa.</li>
+                  <li><strong>Atuação Ativada:</strong> Todos os municípios listados na pesquisa serão ativados automaticamente na ficha do candidato.</li>
+                </ul>
+              </div>
+
+              {/* Status Messages */}
+              {importSuccessMsg && (
+                <div className="bg-emerald-50 border border-emerald-300 text-emerald-900 p-3.5 rounded-lg text-xs font-semibold flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>{importSuccessMsg}</span>
+                </div>
+              )}
+
+              {importErrorMsg && (
+                <div className="bg-rose-50 border border-rose-300 text-rose-900 p-3.5 rounded-lg text-xs font-semibold flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />
+                  <span>{importErrorMsg}</span>
+                </div>
+              )}
+
+              {/* Option 1: Quick Marcos Vieira PDF Import */}
+              <div className="border border-amber-200 bg-amber-50/50 rounded-xl p-4 transition-all hover:border-amber-300">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase text-amber-900 tracking-wide bg-amber-100 px-2 py-0.5 rounded-sm mb-1.5">
+                      ★ Importação Recomendada
+                    </div>
+                    <h4 className="font-bold text-gray-900 text-sm">Planilha de Mapeamento (Santa Catarina) - Deputado Marcos Vieira</h4>
+                    <p className="text-xs text-gray-600 mt-1">
+                      Carregar diretamente a planilha PDF completa do candidato <strong>Marcos Vieira</strong> contendo as estimativas de 2026 (Bom, Ideal, Ótimo e Meta) para todos os municípios de Santa Catarina.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={isProcessingImport}
+                    onClick={handleImportMarcosVieiraData}
+                    className="shrink-0 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#004488] hover:bg-[#003366] text-white text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isProcessingImport ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <FileUp size={16} />
+                    )}
+                    Importar Dados de Marcos Vieira
+                  </button>
+                </div>
+              </div>
+
+              {/* Option 2: Upload File */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h4 className="font-bold text-gray-900 text-sm mb-1">Upload de Arquivo (PDF ou TXT)</h4>
+                <p className="text-xs text-gray-500 mb-3">Selecione o arquivo da pesquisa ou planilha regional do seu computador.</p>
+                <label className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 hover:border-[#004488] rounded-lg cursor-pointer bg-gray-50 hover:bg-blue-50/50 transition-all text-xs font-bold text-[#004488]">
+                  <Upload size={18} />
+                  <span>Clique para selecionar ou solte o arquivo PDF aqui</span>
+                  <input
+                    type="file"
+                    accept=".pdf,.txt,.csv"
+                    onChange={handleFileUploadImport}
+                    className="hidden"
+                    disabled={isProcessingImport}
+                  />
+                </label>
+              </div>
+
+              {/* Option 3: Paste Text */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h4 className="font-bold text-gray-900 text-sm mb-1">Ou cole o texto extraído da planilha</h4>
+                <p className="text-xs text-gray-500 mb-2">Cole o conteúdo das tabelas de regional do PDF abaixo:</p>
+                <textarea
+                  value={pastedPdfText}
+                  onChange={(e) => setPastedPdfText(e.target.value)}
+                  placeholder="Cole aqui as linhas com município, bom, ideal e ótimo..."
+                  rows={4}
+                  className="w-full text-xs font-mono border border-gray-300 rounded-lg p-2.5 focus:ring-1 focus:ring-[#004488] focus:outline-hidden"
+                ></textarea>
+                <div className="flex justify-end mt-2">
+                  <button
+                    type="button"
+                    disabled={isProcessingImport || !pastedPdfText.trim()}
+                    onClick={handlePastedTextImport}
+                    className="px-4 py-2 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-all cursor-pointer disabled:opacity-40"
+                  >
+                    Processar Texto Colado
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-gray-50 border-t border-gray-200 px-6 py-3 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowPdfImportModal(false)}
+                className="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-bold text-xs uppercase rounded-lg transition-all cursor-pointer"
+              >
+                Fechar
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
