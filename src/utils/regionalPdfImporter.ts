@@ -401,13 +401,17 @@ export async function readTextFromPdfFile(file: File): Promise<string> {
   try {
     const pdfjsLib = await import("pdfjs-dist");
     
-    // Set worker src from cdn if needed
+    // Use stable pinned worker script from unpkg/jsdelivr to avoid version mismatch dynamic import errors
     if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '3.11.174'}/pdf.worker.min.js`;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const loadingTask = pdfjsLib.getDocument({ 
+      data: arrayBuffer,
+      useSystemFonts: true,
+      disableFontFace: true
+    });
     const pdf = await loadingTask.promise;
 
     let fullText = "";
@@ -422,7 +426,25 @@ export async function readTextFromPdfFile(file: File): Promise<string> {
 
     return fullText;
   } catch (err) {
-    console.error("Failed to parse PDF with pdfjs-dist:", err);
-    throw err;
+    console.warn("PDF.js worker failed, trying fallback worker setup...", err);
+    try {
+      const pdfjsLib = await import("pdfjs-dist");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdf = await loadingTask.promise;
+
+      let fullText = "";
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map((item: any) => item.str).join(" ");
+        fullText += pageText + "\n";
+      }
+      return fullText;
+    } catch (fallbackErr) {
+      console.error("Failed to parse PDF with fallback:", fallbackErr);
+      throw fallbackErr;
+    }
   }
 }

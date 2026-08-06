@@ -2927,60 +2927,66 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
         {/* DADOS DO CANDIDATO */}
         <div className="section-title">Dados do(a) Candidato(a)</div>
         <table className="form-grid">
-          <tr>
-            <td className="label" style={{ width: "10%" }}>Candidato(a):</td>
-            <td style={{ width: "60%" }}><span className="input-line">{formData.name}</span></td>
-            <td className="label" style={{ width: "8%" }}>Número:</td>
-            <td style={{ width: "22%" }}><span className="input-line">{formData.number}</span></td>
-          </tr>
-          <tr>
-            <td className="label">Nome de Urna:</td>
-            <td><span className="input-line">{formData.urnName}</span></td>
-            <td className="label">WhatsApp:</td>
-            <td><span className="input-line">{formData.whatsapp}</span></td>
-          </tr>
-          <tr>
-            <td className="label">Instagram:</td>
-            <td><span className="input-line">{formData.instagram}</span></td>
-            <td className="label">Facebook:</td>
-            <td><span className="input-line">{formData.facebook}</span></td>
-          </tr>
-          <tr>
-            <td className="label">Email Oficial:</td>
-            <td colSpan={3}><span className="input-line">{formData.email}</span></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className="label" style={{ width: "10%" }}>Candidato(a):</td>
+              <td style={{ width: "60%" }}><span className="input-line">{formData.name}</span></td>
+              <td className="label" style={{ width: "8%" }}>Número:</td>
+              <td style={{ width: "22%" }}><span className="input-line">{formData.number}</span></td>
+            </tr>
+            <tr>
+              <td className="label">Nome de Urna:</td>
+              <td><span className="input-line">{formData.urnName}</span></td>
+              <td className="label">WhatsApp:</td>
+              <td><span className="input-line">{formData.whatsapp}</span></td>
+            </tr>
+            <tr>
+              <td className="label">Instagram:</td>
+              <td><span className="input-line">{formData.instagram}</span></td>
+              <td className="label">Facebook:</td>
+              <td><span className="input-line">{formData.facebook}</span></td>
+            </tr>
+            <tr>
+              <td className="label">Email Oficial:</td>
+              <td colSpan={3}><span className="input-line">{formData.email}</span></td>
+            </tr>
+          </tbody>
         </table>
 
         {/* RESPONSÁVEL DE MÍDIAS */}
         <div className="section-title">Responsável pelas Mídias Sociais</div>
         <table className="form-grid">
-          <tr>
-            <td className="label" style={{ width: "18%" }}>Nome do Responsável:</td>
-            <td style={{ width: "52%" }}><span className="input-line">{formData.mediaCoordinatorName}</span></td>
-            <td className="label" style={{ width: "10%" }}>WhatsApp:</td>
-            <td style={{ width: "20%" }}><span className="input-line">{formData.mediaCoordinatorWhatsApp}</span></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className="label" style={{ width: "18%" }}>Nome do Responsável:</td>
+              <td style={{ width: "52%" }}><span className="input-line">{formData.mediaCoordinatorName}</span></td>
+              <td className="label" style={{ width: "10%" }}>WhatsApp:</td>
+              <td style={{ width: "20%" }}><span className="input-line">{formData.mediaCoordinatorWhatsApp}</span></td>
+            </tr>
+          </tbody>
         </table>
 
         {/* PERFIL E ATUAÇÃO */}
         <div className="section-title">Atuação Profissional e Redes</div>
         <table className="form-grid">
-          <tr>
-            <td className="label" style={{ width: "15%" }}>Atuação Profissional:</td>
-            <td colSpan={5}><span className="input-line">{formData.professionalBackground}</span></td>
-          </tr>
-          <tr>
-            <td className="label">Áreas de Interesse:</td>
-            <td colSpan={5}><span className="input-line">{formData.areasOfInterest}</span></td>
-          </tr>
-          <tr>
-            <td className="label" style={{ width: "8%" }}>Equipes:</td>
-            <td style={{ width: "25%" }}><span className="input-line">{formData.teams}</span></td>
-            <td className="label" style={{ width: "8%" }}>Família:</td>
-            <td style={{ width: "25%" }}><span className="input-line">{formData.family}</span></td>
-            <td className="label" style={{ width: "16%" }}>Grupos Organizados:</td>
-            <td style={{ width: "18%" }}><span className="input-line">{formData.groups}</span></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className="label" style={{ width: "15%" }}>Atuação Profissional:</td>
+              <td colSpan={5}><span className="input-line">{formData.professionalBackground}</span></td>
+            </tr>
+            <tr>
+              <td className="label">Áreas de Interesse:</td>
+              <td colSpan={5}><span className="input-line">{formData.areasOfInterest}</span></td>
+            </tr>
+            <tr>
+              <td className="label" style={{ width: "8%" }}>Equipes:</td>
+              <td style={{ width: "25%" }}><span className="input-line">{formData.teams}</span></td>
+              <td className="label" style={{ width: "8%" }}>Família:</td>
+              <td style={{ width: "25%" }}><span className="input-line">{formData.family}</span></td>
+              <td className="label" style={{ width: "16%" }}>Grupos Organizados:</td>
+              <td style={{ width: "18%" }}><span className="input-line">{formData.groups}</span></td>
+            </tr>
+          </tbody>
         </table>
 
         {/* TRAJETÓRIA E BANDEIRAS */}
