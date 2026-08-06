@@ -345,10 +345,20 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
     }
   };
 
+  // Helper to robustly extract numeric values from strings (handling "1.703", "1,703", "1703")
+  const parseNumericString = (val: number | string | undefined | null): number => {
+    if (val === undefined || val === null || val === "") return 0;
+    if (typeof val === "number") return isNaN(val) ? 0 : val;
+    const cleaned = String(val).replace(/\D/g, "");
+    if (!cleaned) return 0;
+    const parsed = parseInt(cleaned, 10);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
   // Number formatter for demographic and vote numbers
-  const formatNumber = (num: number | string | undefined) => {
+  const formatNumber = (num: number | string | undefined | null) => {
     if (num === undefined || num === null || num === "") return "-";
-    const parsed = typeof num === "string" ? parseInt(num, 10) : num;
+    const parsed = typeof num === "number" ? num : parseNumericString(num);
     if (isNaN(parsed)) return num.toString();
     return new Intl.NumberFormat("pt-BR").format(parsed);
   };
@@ -356,9 +366,10 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
   // Helper to find a specific city mapping inside active draft or saved state
   const getCityMapping = useCallback((cityName: string, regionName: string): CityMapping => {
     const cityId = cityName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+    const normName = normalizeCityKey(cityName);
     const sourceList = isEditingMappings ? mappingDrafts : (formData.mappings || []);
     
-    const found = sourceList.find(m => m.cityName === cityName || m.cityId === cityId);
+    const found = sourceList.find(m => m.cityName === cityName || m.cityId === cityId || normalizeCityKey(m.cityName) === normName);
     if (found) return found;
     
     return {
@@ -1201,7 +1212,16 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
               {/* PAINEL DE MÉTRICAS ACUMULADAS */}
               {(() => {
                 const allCityMappingsList = isEditingMappings ? mappingDrafts : (formData.mappings || []);
-                const activeMappings = allCityMappingsList.filter(m => m.atuacao);
+                const activeMappings = allCityMappingsList.filter(m => {
+                  if (m.atuacao) return true;
+                  return (
+                    parseNumericString(m.historicoVotos) > 0 ||
+                    parseNumericString(m.meta2026) > 0 ||
+                    parseNumericString(m.perspectivaBom) > 0 ||
+                    parseNumericString(m.perspectivaIdeal) > 0 ||
+                    parseNumericString(m.perspectivaOtimo) > 0
+                  );
+                });
                 const totalCitiesAtuacao = activeMappings.length;
                 
                 let sumHabitantes = 0;
@@ -1209,56 +1229,86 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                 let sumFiliados = 0;
                 
                 activeMappings.forEach(mapping => {
+                  const normName = normalizeCityKey(mapping.cityName);
                   for (const reg of SANTA_CATARINA_REGIONS) {
-                    const foundCity = reg.cities.find(c => c.name === mapping.cityName);
+                    const foundCity = reg.cities.find(c => normalizeCityKey(c.name) === normName);
                     if (foundCity) {
-                      sumHabitantes += foundCity.habitantes;
-                      sumEleitores += foundCity.eleitores;
-                      sumFiliados += foundCity.filiados;
+                      sumHabitantes += foundCity.habitantes || 0;
+                      sumEleitores += foundCity.eleitores || 0;
+                      sumFiliados += foundCity.filiados || 0;
                       break;
                     }
                   }
                 });
 
-                const sumHistoricoVotos = activeMappings.reduce((acc, m) => acc + (parseInt(m.historicoVotos, 10) || 0), 0);
-                const sumMeta2026 = activeMappings.reduce((acc, m) => acc + (parseInt(m.meta2026, 10) || 0), 0);
+                const sumHistoricoVotos = activeMappings.reduce((acc, m) => acc + parseNumericString(m.historicoVotos), 0);
+                const sumMeta2026 = activeMappings.reduce((acc, m) => acc + parseNumericString(m.meta2026), 0);
+                const sumBomTotal = activeMappings.reduce((acc, m) => acc + parseNumericString(m.perspectivaBom), 0);
+                const sumIdealTotal = activeMappings.reduce((acc, m) => acc + parseNumericString(m.perspectivaIdeal), 0);
+                const sumOtimoTotal = activeMappings.reduce((acc, m) => acc + parseNumericString(m.perspectivaOtimo), 0);
 
                 return (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-                    <div className={`border rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all ${
-                      totalCitiesAtuacao > 0 
-                        ? "bg-emerald-400 border-emerald-500 text-black" 
-                        : "bg-[#f8f9fa] border-[#bbbbbb]"
-                    }`}>
-                      <div className={`text-[10px] uppercase font-extrabold tracking-wider ${
-                        totalCitiesAtuacao > 0 ? "text-neutral-800" : "text-gray-500"
-                      }`}>Cidades Ativas</div>
-                      <div className={`text-lg font-black font-mono mt-0.5 ${
-                        totalCitiesAtuacao > 0 ? "text-black" : "text-[#004488]"
-                      }`}>{totalCitiesAtuacao} <span className={`text-xs font-normal ${
-                        totalCitiesAtuacao > 0 ? "text-neutral-700" : "text-gray-400"
-                      }`}>/ 295</span></div>
+                  <div className="space-y-3 mb-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                      <div className={`border rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all ${
+                        totalCitiesAtuacao > 0 
+                          ? "bg-emerald-400 border-emerald-500 text-black" 
+                          : "bg-[#f8f9fa] border-[#bbbbbb]"
+                      }`}>
+                        <div className={`text-[10px] uppercase font-extrabold tracking-wider ${
+                          totalCitiesAtuacao > 0 ? "text-neutral-800" : "text-gray-500"
+                        }`}>Cidades Ativas</div>
+                        <div className={`text-lg font-black font-mono mt-0.5 ${
+                          totalCitiesAtuacao > 0 ? "text-black" : "text-[#004488]"
+                        }`}>{totalCitiesAtuacao} <span className={`text-xs font-normal ${
+                          totalCitiesAtuacao > 0 ? "text-neutral-700" : "text-gray-400"
+                        }`}>/ 295</span></div>
+                      </div>
+                      <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
+                        <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Habitantes Cobertos</div>
+                        <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumHabitantes)}</div>
+                      </div>
+                      <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
+                        <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Eleitores Cobertos</div>
+                        <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumEleitores)}</div>
+                      </div>
+                      <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
+                        <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Filiados Cobertos</div>
+                        <div className="text-lg font-black text-amber-600 font-mono mt-0.5">{formatNumber(sumFiliados)}</div>
+                      </div>
+                      <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
+                        <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Votos Históricos Total</div>
+                        <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumHistoricoVotos)}</div>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
+                        <div className="text-[10px] text-blue-700 uppercase font-extrabold tracking-wider">Meta Total 2026 (Ideal)</div>
+                        <div className="text-lg font-black text-[#004488] font-mono mt-0.5">{formatNumber(sumMeta2026)}</div>
+                      </div>
                     </div>
-                    <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Habitantes Cobertos</div>
-                      <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumHabitantes)}</div>
-                    </div>
-                    <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Eleitores Cobertos</div>
-                      <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumEleitores)}</div>
-                    </div>
-                    <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Filiados Cobertos</div>
-                      <div className="text-lg font-black text-amber-600 font-mono mt-0.5">{formatNumber(sumFiliados)}</div>
-                    </div>
-                    <div className="bg-[#f8f9fa] border border-[#bbbbbb] rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-gray-500 uppercase font-extrabold tracking-wider">Votos Históricos</div>
-                      <div className="text-lg font-black text-gray-800 font-mono mt-0.5">{formatNumber(sumHistoricoVotos)}</div>
-                    </div>
-                    <div className="bg-emerald-50/50 border border-emerald-200 rounded-lg p-3 shadow-2xs hover:shadow-xs transition-all">
-                      <div className="text-[10px] text-emerald-600 uppercase font-extrabold tracking-wider">Meta Total 2026</div>
-                      <div className="text-lg font-black text-emerald-700 font-mono mt-0.5">{formatNumber(sumMeta2026)}</div>
-                    </div>
+
+                    {/* REGIONAL PERSPECTIVE TOTALS BAR */}
+                    {(sumBomTotal > 0 || sumIdealTotal > 0 || sumOtimoTotal > 0) && (
+                      <div className="bg-slate-900 text-white border border-slate-800 rounded-lg p-3 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <span className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                          Totais de Perspectivas de Votação (Santa Catarina)
+                        </span>
+                        <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+                          <div className="bg-slate-800 px-3 py-1.5 rounded-md border border-slate-700">
+                            <span className="text-slate-400 text-[10px] uppercase block font-sans font-semibold">Cenário Bom:</span>
+                            <span className="text-gray-100 font-extrabold">{formatNumber(sumBomTotal)}</span>
+                          </div>
+                          <div className="bg-blue-950/80 border border-blue-700 px-3 py-1.5 rounded-md">
+                            <span className="text-blue-300 text-[10px] uppercase block font-sans font-semibold">Cenário Ideal (Meta):</span>
+                            <span className="text-blue-200 font-black text-sm">{formatNumber(sumIdealTotal || sumMeta2026)}</span>
+                          </div>
+                          <div className="bg-emerald-950/80 border border-emerald-700 px-3 py-1.5 rounded-md">
+                            <span className="text-emerald-300 text-[10px] uppercase block font-sans font-semibold">Cenário Ótimo:</span>
+                            <span className="text-emerald-200 font-black text-sm">{formatNumber(sumOtimoTotal)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })()}
@@ -1409,15 +1459,15 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                         
                         const sumBom = reg.cities.reduce((acc, c) => {
                           const m = getCityMapping(c.name, reg.region);
-                          return acc + (parseInt(m.perspectivaBom || "", 10) || 0);
+                          return acc + parseNumericString(m.perspectivaBom);
                         }, 0);
                         const sumIdeal = reg.cities.reduce((acc, c) => {
                           const m = getCityMapping(c.name, reg.region);
-                          return acc + (parseInt(m.perspectivaIdeal || "", 10) || 0);
+                          return acc + parseNumericString(m.perspectivaIdeal);
                         }, 0);
                         const sumOtimo = reg.cities.reduce((acc, c) => {
                           const m = getCityMapping(c.name, reg.region);
-                          return acc + (parseInt(m.perspectivaOtimo || "", 10) || 0);
+                          return acc + parseNumericString(m.perspectivaOtimo);
                         }, 0);
 
                         return (
@@ -1533,26 +1583,39 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                   }).filter(Boolean) as { region: string; cities: typeof SANTA_CATARINA_REGIONS[0]["cities"] }[];
 
                   const activeCityMappingsList = isEditingMappings ? mappingDrafts : (formData.mappings || []);
-                  const activeMappingsListForTotal = activeCityMappingsList.filter(m => m.atuacao);
+                  const activeMappingsListForTotal = activeCityMappingsList.filter(m => {
+                    if (m.atuacao) return true;
+                    return (
+                      parseNumericString(m.historicoVotos) > 0 ||
+                      parseNumericString(m.meta2026) > 0 ||
+                      parseNumericString(m.perspectivaBom) > 0 ||
+                      parseNumericString(m.perspectivaIdeal) > 0 ||
+                      parseNumericString(m.perspectivaOtimo) > 0
+                    );
+                  });
                   
                   let totalHabitantes = 0;
                   let totalEleitores = 0;
                   let totalFiliados = 0;
                   
                   activeMappingsListForTotal.forEach(mapping => {
+                    const normName = normalizeCityKey(mapping.cityName);
                     for (const reg of SANTA_CATARINA_REGIONS) {
-                      const foundCity = reg.cities.find(c => c.name === mapping.cityName);
+                      const foundCity = reg.cities.find(c => normalizeCityKey(c.name) === normName);
                       if (foundCity) {
-                        totalHabitantes += foundCity.habitantes;
-                        totalEleitores += foundCity.eleitores;
-                        totalFiliados += foundCity.filiados;
+                        totalHabitantes += foundCity.habitantes || 0;
+                        totalEleitores += foundCity.eleitores || 0;
+                        totalFiliados += foundCity.filiados || 0;
                         break;
                       }
                     }
                   });
 
-                  const totalHistoricoVotos = activeMappingsListForTotal.reduce((acc, m) => acc + (parseInt(m.historicoVotos, 10) || 0), 0);
-                  const totalMeta2026 = activeMappingsListForTotal.reduce((acc, m) => acc + (parseInt(m.meta2026, 10) || 0), 0);
+                  const totalHistoricoVotos = activeMappingsListForTotal.reduce((acc, m) => acc + parseNumericString(m.historicoVotos), 0);
+                  const totalMeta2026 = activeMappingsListForTotal.reduce((acc, m) => acc + parseNumericString(m.meta2026), 0);
+                  const totalBom = activeMappingsListForTotal.reduce((acc, m) => acc + parseNumericString(m.perspectivaBom), 0);
+                  const totalIdeal = activeMappingsListForTotal.reduce((acc, m) => acc + parseNumericString(m.perspectivaIdeal), 0);
+                  const totalOtimo = activeMappingsListForTotal.reduce((acc, m) => acc + parseNumericString(m.perspectivaOtimo), 0);
 
                   return (
                     <div className="overflow-x-auto border border-[#bbbbbb] rounded-md max-h-[600px] overflow-y-auto">
@@ -1783,8 +1846,18 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                               <td className="border border-[#bbbbbb] p-2 text-center font-black text-[#004488] bg-blue-50/50">
                                 {formatNumber(totalMeta2026)}
                               </td>
-                              <td className="border border-[#bbbbbb] p-2">
-                                {/* Perspectives empty */}
+                              <td className="border border-[#bbbbbb] p-1.5 text-center">
+                                <div className="flex rounded-xs overflow-hidden border border-gray-300 font-mono text-[9px] shadow-2xs">
+                                  <span className="px-1 py-0.5 bg-gray-50 text-gray-700 border-r border-gray-200" title="Total Cenário Bom">
+                                    B: <strong>{formatNumber(totalBom)}</strong>
+                                  </span>
+                                  <span className="px-1 py-0.5 bg-blue-50 text-blue-800 border-r border-gray-200 font-bold" title="Total Cenário Ideal">
+                                    I: <strong>{formatNumber(totalIdeal)}</strong>
+                                  </span>
+                                  <span className="px-1 py-0.5 bg-emerald-50 text-emerald-800 font-bold" title="Total Cenário Ótimo">
+                                    Ó: <strong>{formatNumber(totalOtimo)}</strong>
+                                  </span>
+                                </div>
                               </td>
                               <td className="border border-[#bbbbbb] p-2">
                                 {/* Situation empty */}
@@ -3055,8 +3128,8 @@ export default function FichaAcompanhamento({ candidate, onBack, onSaveCandidate
                 grouped[regName].push(m);
               });
 
-              const totalHistoricoPrint = activeCities.reduce((acc, m) => acc + (parseInt(m.historicoVotos, 10) || 0), 0);
-              const totalMetaPrint = activeCities.reduce((acc, m) => acc + (parseInt(m.meta2026, 10) || 0), 0);
+              const totalHistoricoPrint = activeCities.reduce((acc, m) => acc + parseNumericString(m.historicoVotos), 0);
+              const totalMetaPrint = activeCities.reduce((acc, m) => acc + parseNumericString(m.meta2026), 0);
 
               return (
                 <>

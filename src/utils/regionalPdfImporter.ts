@@ -290,19 +290,26 @@ export function applyMappingDataToCandidate(
 
     if (incomingData) {
       updatedCount++;
-      const bomVal = incomingData.bom || existing.perspectivaBom || "";
-      const idealVal = incomingData.ideal || existing.perspectivaIdeal || "";
-      const otimoVal = incomingData.otimo || existing.perspectivaOtimo || "";
-      const histVal = incomingData.historicoVotos || existing.historicoVotos || "";
+      const bomVal = incomingData.bom !== undefined ? incomingData.bom : (existing.perspectivaBom || "");
+      const idealVal = incomingData.ideal !== undefined ? incomingData.ideal : (existing.perspectivaIdeal || "");
+      const otimoVal = incomingData.otimo !== undefined ? incomingData.otimo : (existing.perspectivaOtimo || "");
+      const histVal = incomingData.historicoVotos !== undefined ? incomingData.historicoVotos : (existing.historicoVotos || "");
 
       // Rule: Meta 2026 is filled with "Ideal" value
       const metaVal = idealVal || existing.meta2026 || "";
 
+      const parseNum = (v: any) => {
+        if (!v) return 0;
+        const cleaned = String(v).replace(/\D/g, "");
+        return parseInt(cleaned, 10) || 0;
+      };
+
       const hasActivity = !!(
-        (idealVal && parseInt(idealVal, 10) > 0) ||
-        (bomVal && parseInt(bomVal, 10) > 0) ||
-        (otimoVal && parseInt(otimoVal, 10) > 0) ||
-        (histVal && parseInt(histVal, 10) > 0)
+        parseNum(idealVal) > 0 ||
+        parseNum(bomVal) > 0 ||
+        parseNum(otimoVal) > 0 ||
+        parseNum(histVal) > 0 ||
+        parseNum(metaVal) > 0
       );
 
       return {
