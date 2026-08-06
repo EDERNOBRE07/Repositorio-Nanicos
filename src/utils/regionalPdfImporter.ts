@@ -405,14 +405,15 @@ export function parseRegionalTextData(text: string): Record<string, ParsedCityRe
  * Reads a PDF file using pdfjs-dist and extracts its text
  */
 export async function readTextFromPdfFile(file: File): Promise<string> {
-  try {
-    const pdfjsLib = await import("pdfjs-dist");
-    
-    // Use stable pinned worker script from unpkg/jsdelivr to avoid version mismatch dynamic import errors
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
-    }
+  const pdfjsLib = await import("pdfjs-dist");
+  const version = pdfjsLib.version || "6.2.108";
+  
+  // Try setting workerSrc with matching version
+  if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+  }
 
+  const parsePdf = async () => {
     const arrayBuffer = await file.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ 
       data: arrayBuffer,
@@ -432,26 +433,24 @@ export async function readTextFromPdfFile(file: File): Promise<string> {
     }
 
     return fullText;
-  } catch (err) {
-    console.warn("PDF.js worker failed, trying fallback worker setup...", err);
-    try {
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
-      const arrayBuffer = await file.arrayBuffer();
-      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-      const pdf = await loadingTask.promise;
+  };
 
-      let fullText = "";
-      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        const page = await pdf.getPage(pageNum);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items.map((item: any) => item.str).join(" ");
-        fullText += pageText + "\n";
+  try {
+    return await parsePdf();
+  } catch (err) {
+    console.warn("Primary worker failed, trying .min.js fallback worker...", err);
+    try {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.js`;
+      return await parsePdf();
+    } catch (fallbackErr1) {
+      console.warn("Secondary worker failed, trying unpkg fallback...", fallbackErr1);
+      try {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+        return await parsePdf();
+      } catch (fallbackErr2) {
+        console.error("Failed to parse PDF with all worker setups:", fallbackErr2);
+        throw fallbackErr2;
       }
-      return fullText;
-    } catch (fallbackErr) {
-      console.error("Failed to parse PDF with fallback:", fallbackErr);
-      throw fallbackErr;
     }
   }
 }

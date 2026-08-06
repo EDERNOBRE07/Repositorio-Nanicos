@@ -12,7 +12,8 @@ import {
   MARCOS_VIEIRA_PDF_DATA, 
   parseRegionalTextData, 
   readTextFromPdfFile, 
-  ParsedCityRegionalData 
+  ParsedCityRegionalData,
+  normalizeCityKey
 } from "../utils/regionalPdfImporter";
 
 const MONTHS_PT = [
